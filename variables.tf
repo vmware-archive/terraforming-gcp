@@ -20,9 +20,8 @@ variable "sql_region" {
   default = "us-central"
 }
 
-variable "zone" {
-  type    = "string"
-  default = "us-central1-c"
+variable "zones" {
+  default = ["us-central1-a", "us-central1-b", "us-central1-c"]
 }
 
 variable "opsman_image_name" {
@@ -67,7 +66,7 @@ variable "google_sql_db_password" {
 }
 
 variable "opsman_storage_bucket_count" {
-  type = "string"
-  default = "0"
+  type        = "string"
+  default     = "0"
   description = "Optional configuration of a Google Storage Bucket for BOSH's blobstore"
 }
