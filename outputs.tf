@@ -30,8 +30,8 @@ output "region" {
   value = "${var.region}"
 }
 
-output "az" {
-  value = "${var.zone}"
+output "azs" {
+  value = "${var.zones}"
 }
 
 output "service_account_key" {
