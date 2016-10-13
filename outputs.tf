@@ -42,10 +42,6 @@ output "vm_tag" {
   value = "${var.env_name}-vms"
 }
 
-output "zones" {
-  value = "[${var.zone}]"
-}
-
 output "network_name" {
   value = "${google_compute_network.pcf-network.name}"
 }
