@@ -20,7 +20,7 @@ resource "google_compute_instance" "ops-manager" {
   name         = "${var.env_name}-ops-manager"
   depends_on   = ["google_compute_subnetwork.ops-manager-subnet"]
   machine_type = "n1-standard-2"
-  zone         = "element(var.zone, 1)"
+  zone         = "${element(var.zones, 1)}"
 
   tags = ["${var.env_name}-ops-manager-external"]
 
