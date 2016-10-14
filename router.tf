@@ -66,8 +66,8 @@ resource "google_compute_target_https_proxy" "https_lb_proxy" {
 resource "google_compute_ssl_certificate" "cert" {
   name        = "${var.env_name}-lbcert"
   description = "user provided ssl private key / ssl certificate pair"
-  private_key = "${file("${var.ssl_cert_private_key_file}")}"
-  certificate = "${file("${var.ssl_cert_file}")}"
+  private_key = "${var.ssl_cert_private_key}"
+  certificate = "${var.ssl_cert}"
 }
 
 resource "google_compute_http_health_check" "cf-public" {

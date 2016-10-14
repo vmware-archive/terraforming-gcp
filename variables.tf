@@ -71,12 +71,12 @@ variable "opsman_storage_bucket_count" {
   description = "Optional configuration of a Google Storage Bucket for BOSH's blobstore"
 }
 
-variable "ssl_cert_file" {
+variable "ssl_cert" {
   type        = "string"
-  description = "Location of ssl certificate file (not the content)"
+  description = "ssl certificate content"
 }
 
-variable "ssl_cert_private_key_file" {
+variable "ssl_cert_private_key" {
   type        = "string"
-  description = "Location of ssl certificate private key file (not the content)"
+  description = "ssl certificate private key content"
 }
