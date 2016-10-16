@@ -40,6 +40,7 @@ You will also need a key file for your [service account](https://cloud.google.co
 ```bash
 gcloud iam service-accounts create some-account-name
 gcloud iam service-accounts keys create "terraform.key.json" --iam-account "some-account-name@yourproject.iam.gserviceaccount.com"
+gcloud projects add-iam-policy-binding PROJECT_ID --member 'serviceAccount:some-account-name@PROJECT_ID.iam.gserviceaccount.com' --role 'roles/editor'
 ```
 
 You will need to enable the [Google Cloud Resource Manager API] (https://console.developers.google.com/apis/api/cloudresourcemanager.googleapis.com/) on your GCP account.  The Google Cloud Resource Manager API provides methods for creating, reading, and updating project metadata.
