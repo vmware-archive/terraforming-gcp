@@ -17,7 +17,7 @@ resource "google_compute_global_address" "cf" {
 
 resource "google_compute_instance_group" "httplb" {
   count       = 3
-  name        = "${var.env_name}-httpslb"
+  name        = "${var.env_name}-httpslb-${element(var.zones, count.index)}"
   description = "terraform generated instance group that is multi-zone for https loadbalancing"
   zone        = "${element(var.zones, count.index)}"
 }
