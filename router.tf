@@ -15,6 +15,11 @@ resource "google_compute_global_address" "cf" {
   name = "${var.env_name}-cf"
 }
 
+resource "google_compute_address" "cf-ws" {
+  name = "${var.env_name}-cf-ws"
+}
+
+// HTTP/S LB
 resource "google_compute_instance_group" "httplb" {
   count       = 3
   name        = "${var.env_name}-httpslb-${element(var.zones, count.index)}"
@@ -93,4 +98,33 @@ resource "google_compute_global_forwarding_rule" "cf-https" {
   ip_address = "${google_compute_global_address.cf.address}"
   target     = "${google_compute_target_https_proxy.https_lb_proxy.self_link}"
   port_range = "443"
+}
+
+// TCP LB for websockets
+
+resource "google_compute_http_health_check" "cf-ws" {
+  name                = "${var.env_name}-cf-ws"
+  host                = "api.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  port                = 8080
+  request_path        = "/health"
+  check_interval_sec  = 30
+  timeout_sec         = 5
+  healthy_threshold   = 10
+  unhealthy_threshold = 2
+}
+
+resource "google_compute_target_pool" "cf-ws" {
+  name = "${var.env_name}-cf-ws"
+
+  health_checks = [
+    "${google_compute_http_health_check.cf-ws.name}",
+  ]
+}
+
+resource "google_compute_forwarding_rule" "cf-ws" {
+  name        = "${var.env_name}-cf-ws"
+  target      = "${google_compute_target_pool.cf-ws.self_link}"
+  port_range  = "443"
+  ip_protocol = "TCP"
+  ip_address  = "${google_compute_address.cf-ws.address}"
 }
