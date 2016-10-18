@@ -15,10 +15,6 @@ resource "google_compute_global_address" "cf" {
   name = "${var.env_name}-cf"
 }
 
-resource "google_compute_address" "cf-ws" {
-  name = "${var.env_name}-cf-ws"
-}
-
 // HTTP/S LB
 resource "google_compute_instance_group" "httplb" {
   count       = 3
@@ -75,6 +71,20 @@ resource "google_compute_ssl_certificate" "cert" {
   certificate = "${var.ssl_cert}"
 }
 
+resource "google_compute_firewall" "cf-health_check" {
+  name       = "${var.env_name}-cf-health-check"
+  depends_on = ["google_compute_network.pcf-network"]
+  network    = "${google_compute_network.pcf-network.name}"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["8080"]
+  }
+
+  source_ranges = ["130.211.0.0/22"]
+  target_tags   = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws"]
+}
+
 resource "google_compute_http_health_check" "cf-public" {
   name                = "${var.env_name}-cf-public"
   host                = "api.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
@@ -102,22 +112,15 @@ resource "google_compute_global_forwarding_rule" "cf-https" {
 
 // TCP LB for websockets
 
-resource "google_compute_http_health_check" "cf-ws" {
-  name                = "${var.env_name}-cf-ws"
-  host                = "api.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  port                = 8080
-  request_path        = "/health"
-  check_interval_sec  = 30
-  timeout_sec         = 5
-  healthy_threshold   = 10
-  unhealthy_threshold = 2
+resource "google_compute_address" "cf-ws" {
+  name = "${var.env_name}-cf-ws"
 }
 
 resource "google_compute_target_pool" "cf-ws" {
   name = "${var.env_name}-cf-ws"
 
   health_checks = [
-    "${google_compute_http_health_check.cf-ws.name}",
+    "${google_compute_http_health_check.cf-public.name}",
   ]
 }
 
