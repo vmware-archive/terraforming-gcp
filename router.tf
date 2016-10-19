@@ -1,3 +1,4 @@
+// HTTP/S LB
 resource "google_compute_firewall" "cf-public" {
   name       = "${var.env_name}-cf-public"
   depends_on = ["google_compute_network.pcf-network"]
@@ -8,19 +9,29 @@ resource "google_compute_firewall" "cf-public" {
     ports    = ["80", "443"]
   }
 
-  target_tags = ["${var.env_name}-cf-public"]
+  target_tags = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws"]
 }
 
 resource "google_compute_global_address" "cf" {
   name = "${var.env_name}-cf"
 }
 
-// HTTP/S LB
 resource "google_compute_instance_group" "httplb" {
   count       = 3
   name        = "${var.env_name}-httpslb-${element(var.zones, count.index)}"
   description = "terraform generated instance group that is multi-zone for https loadbalancing"
   zone        = "${element(var.zones, count.index)}"
+}
+
+resource "google_compute_http_health_check" "cf-public" {
+  name                = "${var.env_name}-cf-public"
+  host                = "api.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  port                = 8080
+  request_path        = "/health"
+  check_interval_sec  = 30
+  timeout_sec         = 5
+  healthy_threshold   = 10
+  unhealthy_threshold = 2
 }
 
 resource "google_compute_backend_service" "http_lb_backend_service" {
@@ -85,17 +96,6 @@ resource "google_compute_firewall" "cf-health_check" {
   target_tags   = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws"]
 }
 
-resource "google_compute_http_health_check" "cf-public" {
-  name                = "${var.env_name}-cf-public"
-  host                = "api.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  port                = 8080
-  request_path        = "/health"
-  check_interval_sec  = 30
-  timeout_sec         = 5
-  healthy_threshold   = 10
-  unhealthy_threshold = 2
-}
-
 resource "google_compute_global_forwarding_rule" "cf-http" {
   name       = "${var.env_name}-cf-lb-http"
   ip_address = "${google_compute_global_address.cf.address}"
@@ -111,7 +111,6 @@ resource "google_compute_global_forwarding_rule" "cf-https" {
 }
 
 // TCP LB for websockets
-
 resource "google_compute_address" "cf-ws" {
   name = "${var.env_name}-cf-ws"
 }
@@ -133,7 +132,6 @@ resource "google_compute_forwarding_rule" "cf-ws" {
 }
 
 // TCP LB for Diego SSH
-
 resource "google_compute_firewall" "cf-ssh" {
   name       = "${var.env_name}-cf-ssh"
   depends_on = ["google_compute_network.pcf-network"]
