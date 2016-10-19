@@ -86,6 +86,10 @@ output "ws_router_pool" {
   value = "${google_compute_target_pool.cf-ws.name}"
 }
 
+output "ssh_router_pool" {
+  value = "${google_compute_target_pool.cf-ssh.name}"
+}
+
 output "tcp_router_pool" {
   value = "${google_compute_target_pool.cf-tcp.name}"
 }
