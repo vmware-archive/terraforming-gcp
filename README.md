@@ -1,5 +1,8 @@
 # How Does One Use This?
 
+Please note that the master branch is generally *unstable*. If you are looking for something
+"tested", please consume one of our [releases](https://github.com/pivotal-cf/terraforming-gcp/releases).
+
 ## What Does This Do?
 
 You will get a booted ops-manager VM plus some networking, just the bare bones basically.
