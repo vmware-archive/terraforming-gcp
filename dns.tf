@@ -61,13 +61,13 @@ resource "google_dns_record_set" "wildcard-apps-dns" {
 
 resource "google_dns_record_set" "app-ssh-dns" {
   name       = "ssh.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  depends_on = ["google_compute_global_address.cf"]
+  depends_on = ["google_compute_global_address.cf-ssh"]
   type       = "A"
   ttl        = 300
 
   managed_zone = "${google_dns_managed_zone.env_dns_zone.name}"
 
-  rrdatas = ["${google_compute_global_address.cf.address}"]
+  rrdatas = ["${google_compute_global_address.cf-ssh.address}"]
 }
 
 resource "google_dns_record_set" "tcp-dns" {
