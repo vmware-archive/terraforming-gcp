@@ -27,6 +27,8 @@ You can follow the directions [here](https://cloud.google.com/compute/docs/insta
 
 ## Notes
 
+This repository requires at least v0.7.7 of terraform
+
 You will need to have copied the ops-manager image to your GCS.
 
 The command will look something like this:
@@ -52,10 +54,12 @@ You will also need to enable the [Google Cloud DNS API] (https://console.develop
 - project: **(required)** ID for your GCP project
 - env_name: **(required)** An arbitrary unique name for namespacing resources
 - region: **(default: us-central1)** Region in which to create resources
-- zone: **(default: us-central1-c)** Zone in which to create resources. Must be within the given region.
+- zones: **(default: [us-central1-a, us-central1-b, us-central1-c])** Zones in which to create resources. Must be within the given region.
 - opsman_image_name: **(required)** Name of image created by `gcloud compute images create`.
-- services_account_key: **(required)** Location on your local machine of your service account key, use the full path to the file.
+- service_account_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - dns_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com)
+- ssl_cert: **(required)** SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
+- ssl_cert_private_key:  **(required)** Private key for above SSL certificate.
 
 ### Cloud SQL Configuration (optional)
 
@@ -76,10 +80,12 @@ terraform apply \
   -var "project=your-gcp-project-name" \
   -var "env_name=banana" \
   -var "region=us-west1" \
-  -var "zone=us-west1-a" \
+  -var 'zones=["us-west1-a", "us-west1-b"]' \
   -var "opsman_image_name=gcp-opsman-image-name" \
-  -var "service_account_key=/full/path/to/terraform.key.json" \
-  -var "dns_suffix=foo.example.com"
+  -var "service_account_key=$(cat /full/path/to/terraform.key.json)" \
+  -var "dns_suffix=foo.example.com" \
+  -var 'ssl_cert=$(cat /path/to/ssl/cert.pem)' \
+  -var 'ssl_cert_private_key=$(cat /path/to/ssl/key.pem)'
 ```
 
 ### Tearing down environment
@@ -89,8 +95,10 @@ terraform destroy \
   -var "project=your-gcp-project-name" \
   -var "env_name=banana" \
   -var "region=us-west1" \
-  -var "zone=us-west1-a" \
+  -var 'zones=["us-west1-a", "us-west1-b"]' \
   -var "opsman_image_name=gcp-opsman-image-name" \
-  -var "service_account_key=/full/path/to/terraform.key.json" \
-  -var "dns_suffix=foo.example.com"
+  -var "service_account_key=$(cat /full/path/to/terraform.key.json)" \
+  -var "dns_suffix=foo.example.com" \
+  -var 'ssl_cert=$(cat /path/to/ssl/cert.pem)' \
+  -var 'ssl_cert_private_key=$(cat /path/to/ssl/key.pem)'
 ```
