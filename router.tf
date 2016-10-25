@@ -25,7 +25,6 @@ resource "google_compute_instance_group" "httplb" {
 
 resource "google_compute_http_health_check" "cf-public" {
   name                = "${var.env_name}-cf-public"
-  host                = "api.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
   port                = 8080
   request_path        = "/health"
   check_interval_sec  = 30
