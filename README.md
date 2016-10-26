@@ -56,8 +56,8 @@ You will also need to enable the [Google Cloud DNS API] (https://console.develop
 
 - project: **(required)** ID for your GCP project
 - env_name: **(required)** An arbitrary unique name for namespacing resources
-- region: **(default: us-central1)** Region in which to create resources
-- zones: **(default: [us-central1-a, us-central1-b, us-central1-c])** Zones in which to create resources. Must be within the given region.
+- region: **(required)** Region in which to create resources (e.g. us-central1)
+- zones: **(required)** Zones in which to create resources. Must be within the given region. (e.g. [us-central1-a, us-central1-b, us-central1-c])
 - opsman_image_name: **(required)** Name of image created by `gcloud compute images create`.
 - service_account_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - dns_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com)
