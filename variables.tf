@@ -35,15 +35,6 @@ variable "google_sql_instance_count" {
   description = "Optional configuration of a Google SQL Database Instance, Database, and User."
 }
 
-/* There is a bug in Google Cloud SQL which takes `us-east1`, `asia-west1`, `europe-west1`
-or `us-central`, instead of the `us-central1` used by Google Compute. When the bug is
-fixed, we could revert to using the same region for both.
-*/
-variable "sql_region" {
-  type    = "string"
-  default = "us-central"
-}
-
 variable "google_sql_db_tier" {
   type    = "string"
   default = "db-f1-micro"

@@ -39,7 +39,8 @@ resource "google_compute_instance" "ops-manager" {
 }
 
 resource "google_sql_database_instance" "master" {
-  region = "${var.sql_region}"
+  region = "${var.region}"
+  database_version = "MYSQL_5_6"
 
   settings {
     tier = "${var.google_sql_db_tier}"
