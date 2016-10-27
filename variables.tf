@@ -7,10 +7,11 @@ variable "env_name" {
 }
 
 variable "region" {
-  type    = "string"
+  type = "string"
 }
 
 variable "zones" {
+  type = "list"
 }
 
 variable "opsman_image_name" {
