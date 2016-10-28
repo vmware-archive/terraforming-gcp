@@ -63,7 +63,7 @@ output "opsman_sql_db_ip" {
 }
 
 output "opsman_sql_db_name" {
-  value = "${google_sql_database.users.name}"
+  value = "${google_sql_database.opsman.name}"
 }
 
 output "cf_gateway" {
