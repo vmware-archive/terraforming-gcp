@@ -38,44 +38,6 @@ resource "google_compute_instance" "ops-manager" {
   }
 }
 
-resource "google_sql_database_instance" "master" {
-  region = "${var.region}"
-  database_version = "MYSQL_5_6"
-
-  settings {
-    tier = "${var.google_sql_db_tier}"
-
-    ip_configuration = {
-      ipv4_enabled = true
-
-      authorized_networks = [
-        {
-          name  = "all"
-          value = "0.0.0.0/0"
-        },
-      ]
-    }
-  }
-
-  count = "${var.google_sql_instance_count}"
-}
-
-resource "google_sql_database" "users" {
-  name     = "${var.env_name}-db"
-  instance = "${google_sql_database_instance.master.name}"
-
-  count = "${var.google_sql_instance_count}"
-}
-
-resource "google_sql_user" "users" {
-  name     = "${var.google_sql_db_username}"
-  password = "${var.google_sql_db_password}"
-  instance = "${google_sql_database_instance.master.name}"
-  host     = "${var.google_sql_db_host}"
-
-  count = "${var.google_sql_instance_count}"
-}
-
 resource "google_storage_bucket" "director" {
   name          = "${var.env_name}-director"
   force_destroy = true
