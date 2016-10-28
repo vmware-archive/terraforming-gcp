@@ -41,6 +41,34 @@ variable "sql_db_tier" {
   default = "db-f1-micro"
 }
 
+/***********************
+ * Optional ERT Config *
+ ***********************/
+
+/* You can opt in to create a Google SQL Database Instance, Database, and User for ERT.
+By default we have `opsman_sql_instance_count` set to `0` but setting it to `1` will create them. */
+
+variable "ert_sql_instance_count" {
+  type        = "string"
+  default     = "0"
+  description = "Optional configuration of a Google SQL Database Instance, Database, and User."
+}
+
+variable "ert_sql_db_host" {
+  type    = "string"
+  default = ""
+}
+
+variable "ert_sql_db_username" {
+  type    = "string"
+  default = ""
+}
+
+variable "ert_sql_db_password" {
+  type    = "string"
+  default = ""
+}
+
 /******************
  * OpsMan Options *
  ******************/
