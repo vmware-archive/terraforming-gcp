@@ -46,6 +46,10 @@ output "network_name" {
   value = "${google_compute_network.pcf-network.name}"
 }
 
+output "sql_db_ip" {
+  value = "${google_sql_database_instance.master.ip_address.0.ip_address}"
+}
+
 output "ops_manager_gateway" {
   value = "${google_compute_subnetwork.ops-manager-subnet.gateway_address}"
 }
@@ -56,10 +60,6 @@ output "ops_manager_cidr" {
 
 output "ops_manager_subnet" {
   value = "${google_compute_subnetwork.ops-manager-subnet.name}"
-}
-
-output "opsman_sql_db_ip" {
-  value = "${google_sql_database_instance.master.ip_address.0.ip_address}"
 }
 
 output "opsman_sql_db_name" {
