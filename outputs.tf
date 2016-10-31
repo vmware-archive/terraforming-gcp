@@ -113,3 +113,11 @@ output "resources_bucket" {
 output "director_blobstore_bucket" {
   value = "${google_storage_bucket.director.name}"
 }
+
+output "ert_sql_username" {
+  value = "${var.ert_sql_db_username}"
+}
+
+output "ert_sql_password" {
+  value = "${var.ert_sql_db_password}"
+}
