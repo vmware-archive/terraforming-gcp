@@ -46,7 +46,7 @@ variable "sql_db_tier" {
  ***********************/
 
 /* You can opt in to create a Google SQL Database Instance, Database, and User for ERT.
-By default we have `opsman_sql_instance_count` set to `0` but setting it to `1` will create them. */
+By default we have `ert_sql_instance_count` set to `0` but setting it to `1` will create them. */
 
 variable "ert_sql_instance_count" {
   type        = "string"
