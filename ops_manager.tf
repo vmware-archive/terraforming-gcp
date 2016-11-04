@@ -17,7 +17,7 @@ resource "google_compute_firewall" "ops-manager-external" {
 }
 
 resource "google_compute_image" "ops-manager-image" {
-  name = "${var.env_name-ops-manager-image}"
+  name = "${var.env_name}-ops-manager-image}"
 
   raw_disk {
     source = "${var.opsman_image_url}"
