@@ -16,6 +16,14 @@ resource "google_compute_firewall" "ops-manager-external" {
   target_tags = ["${var.env_name}-ops-manager-external"]
 }
 
+resource "google_compute_image" "ops-manager-image" {
+  name = "${var.env_name-ops-manager-image}"
+
+  raw_disk {
+    source = "${var.opsman_image_url}"
+  }
+}
+
 resource "google_compute_instance" "ops-manager" {
   name         = "${var.env_name}-ops-manager"
   depends_on   = ["google_compute_subnetwork.ops-manager-subnet"]
@@ -25,8 +33,7 @@ resource "google_compute_instance" "ops-manager" {
   tags = ["${var.env_name}-ops-manager-external"]
 
   disk {
-    image = "${var.opsman_image_name}"
-    size  = 50
+    image = "${google_compute_image.ops-manager-image.self_link}"
   }
 
   network_interface {

@@ -14,8 +14,9 @@ variable "zones" {
   type = "list"
 }
 
-variable "opsman_image_name" {
-  type = "string"
+variable "opsman_image_url" {
+  type        = "string"
+  description = "location of ops manager image on google cloud storage"
 }
 
 variable "service_account_key" {
