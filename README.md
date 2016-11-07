@@ -52,56 +52,74 @@ You will need to enable the [Google Cloud Resource Manager API] (https://console
 
 You will also need to enable the [Google Cloud DNS API] (https://console.developers.google.com/apis/api/dns/overview) on your GCP account.  The Google Cloud DNS API provides methods for creating, reading, and updating project DNS entries.
 
-## Variables
+### Var File
+
+Copy the stub content below into a file called `terraform.tfvars` and put it in the root of this project. These vars will be used when you run `terraform  apply`. You should fill in the stub values witht he correct content.
+
+```hcl
+env_name = "some-envrionment-name"
+region = "us-central1"
+opsman_image_url = "https://storage.googleapis.com/your-opsmanager.tgz"
+zones = ["us-central1-a", "us-central1-b", "us-central1-c"]
+project = "your-gcp-project"
+dns_suffix = "gcp.some-project.cf-app.com"
+ssl_cert = "-----BEGIN CERTIFICATE-----some cert-----END CERTIFICATE-----\n"
+ssl_cert_private_key = "-----BEGIN RSA PRIVATE KEY-----some cert private key-----END RSA PRIVATE KEY-----\n"
+service_account_key = <<SERVICE_ACCOUNT_KEY
+{
+  "type": "service_account",
+  "project_id": "your-gcp-project",
+  "private_key_id": "another-gcp-private-key",
+  "private_key": "-----BEGIN PRIVATE KEY-----another gcp private key-----END PRIVATE KEY-----\n",
+  "client_email": "something@example.com",
+  "client_id": "11111111111111",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/"
+} SERVICE_ACCOUNT_KEY
+```
+
+### Var Details
 
 - project: **(required)** ID for your GCP project
 - env_name: **(required)** An arbitrary unique name for namespacing resources
 - region: **(required)** Region in which to create resources (e.g. us-central1)
 - zones: **(required)** Zones in which to create resources. Must be within the given region. (e.g. [us-central1-a, us-central1-b, us-central1-c])
-- opsman_image_name: **(required)** Name of image created by `gcloud compute images create`.
+- opsman_image_url **(required)** Source URL of the Ops Manager image you want to boot.
 - service_account_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - dns_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com)
 - ssl_cert: **(required)** SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
 - ssl_cert_private_key:  **(required)** Private key for above SSL certificate.
+- opsman_storage_bucket_count: *(optional)* Google Storage Bucket for BOSH's Blobstore
+- sql_db_tier: *(optional)* DB tier
 
-### Cloud SQL Configuration (optional)
+### Cloud SQL Configuration
 
-- sql_region: Region to place your Cloud SQL instance in
-- google_sql_db_tier: DB tier
-- google_sql_db_host: The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created 
-- google_sql_db_username: Username for database
-- google_sql_db_password: Password for database
-- google_sql_instance_count: Number of instances
+#### Ops Manager
+- opsman_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created 
+- opsman_sql_db_username: *(optional)* Username for database
+- opsman_sql_db_password: *(optional)* Password for database
+- opsman_sql_instance_count: *(optional)* Number of instances, defaults to 0.
 
+#### ERT
+- ert_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created 
+- ert_sql_db_username: *(optional)* Username for database
+- ert_sql_db_password: *(optional)* Password for database
+- ert_sql_instance_count: *(optional)* Number of instances, defaults to 0.
 
 ## Running
+
+Note: please make sure you have created the `terraform.tfvars` file above as mentioned.
 
 ### Standing up environment
 
 ```bash
-terraform apply \
-  -var "project=your-gcp-project-name" \
-  -var "env_name=banana" \
-  -var "region=us-west1" \
-  -var 'zones=["us-west1-a", "us-west1-b"]' \
-  -var "opsman_image_name=gcp-opsman-image-name" \
-  -var "service_account_key=$(cat /full/path/to/terraform.key.json)" \
-  -var "dns_suffix=foo.example.com" \
-  -var 'ssl_cert=$(cat /path/to/ssl/cert.pem)' \
-  -var 'ssl_cert_private_key=$(cat /path/to/ssl/key.pem)'
+terraform apply
 ```
 
 ### Tearing down environment
 
 ```bash
-terraform destroy \
-  -var "project=your-gcp-project-name" \
-  -var "env_name=banana" \
-  -var "region=us-west1" \
-  -var 'zones=["us-west1-a", "us-west1-b"]' \
-  -var "opsman_image_name=gcp-opsman-image-name" \
-  -var "service_account_key=$(cat /full/path/to/terraform.key.json)" \
-  -var "dns_suffix=foo.example.com" \
-  -var 'ssl_cert=$(cat /path/to/ssl/cert.pem)' \
-  -var 'ssl_cert_private_key=$(cat /path/to/ssl/key.pem)'
+terraform destroy
 ```
