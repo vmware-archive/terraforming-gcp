@@ -3,15 +3,15 @@ output "ops_manager_dns" {
 }
 
 output "sys_domain" {
-  value = "sys.${var.dns_name}"
+  value = "sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
 }
 
 output "apps_domain" {
-  value = "apps.${var.dns_name}"
+  value = "apps.${google_dns_managed_zone.env_dns_zone.dns_name}"
 }
 
 output "tcp_domain" {
-  value = "tcp.${var.dns_name}"
+  value = "tcp.${google_dns_managed_zone.env_dns_zone.dns_name}"
 }
 
 output "ops_manager_public_ip" {
