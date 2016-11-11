@@ -39,7 +39,7 @@ output "service_account_key" {
 }
 
 output "vm_tag" {
-  value = "${var.env_name}-vms"
+  value = "${var.vm_tag}"
 }
 
 output "network_name" {

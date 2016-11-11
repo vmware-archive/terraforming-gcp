@@ -6,6 +6,12 @@ variable "env_name" {
   type = "string"
 }
 
+variable "vm_tag" {
+  type        = "string"
+  description = "tag used allow internal network access"
+  default     = "${var.env_name}-vms"
+}
+
 variable "region" {
   type = "string"
 }
