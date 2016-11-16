@@ -3,15 +3,15 @@ output "ops_manager_dns" {
 }
 
 output "sys_domain" {
-  value = "sys.${var.dns_name}"
+  value = "sys.${var.env_name}.${var.dns_suffix}"
 }
 
 output "apps_domain" {
-  value = "apps.${var.dns_name}"
+  value = "apps.${var.env_name}.${var.dns_suffix}"
 }
 
 output "tcp_domain" {
-  value = "tcp.${var.dns_name}"
+  value = "tcp.${var.env_name}.${var.dns_suffix}"
 }
 
 output "ops_manager_public_ip" {
