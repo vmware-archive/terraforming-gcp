@@ -21,6 +21,7 @@ variable "opsman_image_url" {
 
 variable "optional_opsman_image_count" {
   type = "string"
+  default= "0"
 }
 
 variable "optional_opsman_image_name" {
