@@ -59,6 +59,17 @@ resource "google_dns_record_set" "wildcard-apps-dns" {
   rrdatas = ["${google_compute_global_address.cf.address}"]
 }
 
+resource "google_dns_record_set" "wildcard-ws-dns" {
+  name       = "*.ws.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  depends_on = ["google_compute_global_address.cf-ws"]
+  type       = "A"
+  ttl        = 300
+
+  managed_zone = "${google_dns_managed_zone.env_dns_zone.name}"
+
+  rrdatas = ["${google_compute_global_address.cf-ws.address}"]
+}
+
 resource "google_dns_record_set" "app-ssh-dns" {
   name       = "ssh.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
   depends_on = ["google_compute_address.cf-ssh"]
