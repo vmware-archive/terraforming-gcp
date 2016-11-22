@@ -123,7 +123,7 @@ resource "google_compute_target_pool" "cf-ws" {
 }
 
 resource "google_compute_forwarding_rule" "cf-ws-https" {
-  name        = "${var.env_name}-cf-ws"
+  name        = "${var.env_name}-cf-ws-https"
   target      = "${google_compute_target_pool.cf-ws.self_link}"
   port_range  = "443"
   ip_protocol = "TCP"
@@ -131,7 +131,7 @@ resource "google_compute_forwarding_rule" "cf-ws-https" {
 }
 
 resource "google_compute_forwarding_rule" "cf-ws-http" {
-  name        = "${var.env_name}-cf-ws"
+  name        = "${var.env_name}-cf-ws-http"
   target      = "${google_compute_target_pool.cf-ws.self_link}"
   port_range  = "80"
   ip_protocol = "TCP"
