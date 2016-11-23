@@ -40,7 +40,8 @@ The command will look something like this:
 gcloud compute images create my-ops-manager-image-name --source-uri https://remote.location.of.ops-manager
 ```
 
-You will also need a key file for your [service account](https://cloud.google.com/iam/docs/service-accounts) to allow terraform to deploy resources. If you don't have one, you can create a service account and a key for it:
+You will also need a key file for your [service account](https://cloud.google.com/iam/docs/service-accounts)
+to allow terraform to deploy resources. If you don't have one, you can create a service account and a key for it:
 
 ```bash
 gcloud iam service-accounts create some-account-name
@@ -48,13 +49,16 @@ gcloud iam service-accounts keys create "terraform.key.json" --iam-account "some
 gcloud projects add-iam-policy-binding PROJECT_ID --member 'serviceAccount:some-account-name@PROJECT_ID.iam.gserviceaccount.com' --role 'roles/editor'
 ```
 
-You will need to enable the [Google Cloud Resource Manager API] (https://console.developers.google.com/apis/api/cloudresourcemanager.googleapis.com/) on your GCP account.  The Google Cloud Resource Manager API provides methods for creating, reading, and updating project metadata.
+You will need to enable the [Google Cloud Resource Manager API](https://console.developers.google.com/apis/api/cloudresourcemanager.googleapis.com/)
+on your GCP account.  The Google Cloud Resource Manager API provides methods for creating, reading, and updating project metadata.
 
-You will also need to enable the [Google Cloud DNS API] (https://console.developers.google.com/apis/api/dns/overview) on your GCP account.  The Google Cloud DNS API provides methods for creating, reading, and updating project DNS entries.
+You will also need to enable the [Google Cloud DNS API](https://console.developers.google.com/apis/api/dns/overview)
+on your GCP account.  The Google Cloud DNS API provides methods for creating, reading, and updating project DNS entries.
 
 ### Var File
 
-Copy the stub content below into a file called `terraform.tfvars` and put it in the root of this project. These vars will be used when you run `terraform  apply`. You should fill in the stub values witht he correct content.
+Copy the stub content below into a file called `terraform.tfvars` and put it in the root of this project.
+These vars will be used when you run `terraform  apply`. You should fill in the stub values witht he correct content.
 
 ```hcl
 env_name = "some-envrionment-name"
@@ -82,8 +86,8 @@ service_account_key = <<SERVICE_ACCOUNT_KEY
 
 ### Var Details
 
-- project: **(required)** ID for your GCP project
-- env_name: **(required)** An arbitrary unique name for namespacing resources
+- project: **(required)** ID for your GCP project.
+- env_name: **(required)** An arbitrary unique name for namespacing resources.
 - region: **(required)** Region in which to create resources (e.g. us-central1)
 - zones: **(required)** Zones in which to create resources. Must be within the given region. (e.g. [us-central1-a, us-central1-b, us-central1-c])
 - opsman_image_url **(required)** Source URL of the Ops Manager image you want to boot.
@@ -91,21 +95,32 @@ service_account_key = <<SERVICE_ACCOUNT_KEY
 - dns_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com)
 - ssl_cert: **(required)** SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
 - ssl_cert_private_key:  **(required)** Private key for above SSL certificate.
-- opsman_storage_bucket_count: *(optional)* Google Storage Bucket for BOSH's Blobstore
+- opsman_storage_bucket_count: *(optional)* Google Storage Bucket for BOSH's Blobstore.
 - sql_db_tier: *(optional)* DB tier
+
+## DNS Records
+
+- pcf.*$env_name*.*$dns_suffix*: Points at the Ops Manager VM's public IP address.
+- \*.sys.*$env_name*.*$dns_suffix*: Points at the HTTP/S load balancer in front of the Router.
+- doppler.sys.*$env_name*.*$dns_suffix*: Points at the TCP load balancer in front of the Router. This address is used to send websocket traffic to the Doppler server.
+- loggregator.sys.*$env_name*.*$dns_suffix*: Points at the TCP load balancer in front of the Router. This address is used to send websocket traffic to the Loggregator Trafficcontroller.
+- \*.apps.*$env_name*.*$dns_suffix*: Points at the HTTP/S load balancer in front of the Router.
+- \*.ws.*$env_name*.*$dns_suffix*: Points at the TCP load balancer in front of the Router. This address can be used for application websocket traffic.
+- ssh.sys.*$env_name*.*$dns_suffix*: Points at the TCP load balancer in front of the Diego brean.
+- tcp.*$env_name*.*$dns_suffix*: Points at the TCP load balancer in front of the TCP router.
 
 ### Cloud SQL Configuration
 
 #### Ops Manager
-- opsman_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created 
-- opsman_sql_db_username: *(optional)* Username for database
-- opsman_sql_db_password: *(optional)* Password for database
+- opsman_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
+- opsman_sql_db_username: *(optional)* Username for database.
+- opsman_sql_db_password: *(optional)* Password for database.
 - opsman_sql_instance_count: *(optional)* Number of instances, defaults to 0.
 
 #### ERT
-- ert_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created 
-- ert_sql_db_username: *(optional)* Username for database
-- ert_sql_db_password: *(optional)* Password for database
+- ert_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
+- ert_sql_db_username: *(optional)* Username for database.
+- ert_sql_db_password: *(optional)* Password for database.
 - ert_sql_instance_count: *(optional)* Number of instances, defaults to 0.
 
 ## Running
