@@ -48,3 +48,17 @@ resource "google_sql_database" "console" {
 
   count = "${var.ert_sql_instance_count}"
 }
+
+resource "google_sql_database" "diego" {
+  name     = "diego"
+  instance = "${google_sql_database_instance.master.name}"
+
+  count = "${var.ert_sql_instance_count}"
+}
+
+resource "google_sql_database" "routing" {
+  name     = "routing"
+  instance = "${google_sql_database_instance.master.name}"
+
+  count = "${var.ert_sql_instance_count}"
+}
