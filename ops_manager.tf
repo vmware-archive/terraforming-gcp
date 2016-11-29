@@ -22,6 +22,8 @@ resource "google_compute_image" "ops-manager-image" {
   raw_disk {
     source = "${var.opsman_image_url}"
   }
+
+  create_timeout = 10
 }
 
 resource "google_compute_instance" "ops-manager" {
