@@ -58,10 +58,10 @@ on your GCP account.  The Google Cloud DNS API provides methods for creating, re
 ### Var File
 
 Copy the stub content below into a file called `terraform.tfvars` and put it in the root of this project.
-These vars will be used when you run `terraform  apply`. You should fill in the stub values witht he correct content.
+These vars will be used when you run `terraform  apply`. You should fill in the stub values with the correct content.
 
 ```hcl
-env_name = "some-envrionment-name"
+env_name = "some-environment-name"
 region = "us-central1"
 opsman_image_url = "https://storage.googleapis.com/your-opsmanager.tgz"
 zones = ["us-central1-a", "us-central1-b", "us-central1-c"]
@@ -81,7 +81,8 @@ service_account_key = <<SERVICE_ACCOUNT_KEY
   "token_uri": "https://accounts.google.com/o/oauth2/token",
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/"
-} SERVICE_ACCOUNT_KEY
+}
+SERVICE_ACCOUNT_KEY
 ```
 
 ### Var Details
