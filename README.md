@@ -21,8 +21,9 @@ This list will be updated when more infrastructures come along.
 Your system needs the `gcloud` cli, as well as `terraform`:
 
 ```bash
+brew update
 brew install Caskroom/cask/google-cloud-sdk
-go get -u github.com/hashicorp/terraform
+brew install terraform
 ```
 
 You will also want to setup a "project-wide" SSH key to allow SSH access to the VMs in your deployment.
