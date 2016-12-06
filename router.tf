@@ -118,7 +118,7 @@ resource "google_compute_target_pool" "cf-ws" {
   name = "${var.env_name}-cf-ws"
 
   health_checks = [
-    "${google_compute_http_health_check.cf-public.name}",
+    "${google_compute_http_health_check.cf-tcp.name}",
   ]
 }
 
