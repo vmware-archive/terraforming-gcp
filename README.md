@@ -31,7 +31,7 @@ You can follow the directions [here](https://cloud.google.com/compute/docs/insta
 
 ## Notes
 
-This repository requires at least v0.7.7 of terraform
+This repository currently requires at least v0.8.0-rc2 of terraform. You will need to build this from source (directions in terraform [README] (https://github.com/hashicorp/terraform/blob/v0.8.0-rc2/README.md)) and put it on your $GOPATH/bin
 
 You will need to have copied the ops-manager image to your GCS.
 
