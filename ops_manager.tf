@@ -47,6 +47,29 @@ resource "google_compute_instance" "ops-manager" {
   }
 }
 
+resource "google_compute_instance" "optional-ops-manager" {
+  name         = "${var.env_name}-optional-ops-manager"
+  depends_on   = ["google_compute_subnetwork.ops-manager-subnet"]
+  machine_type = "n1-standard-2"
+  zone         = "${element(var.zones, 1)}"
+  count        = "${var.optional_opsman_image_count}"
+
+  tags = ["${var.env_name}-ops-manager-external"]
+
+  disk {
+    image = "${var.optional_opsman_image_name}"
+    size  = 50
+  }
+
+  network_interface {
+    subnetwork = "${google_compute_subnetwork.ops-manager-subnet.name}"
+
+    access_config {
+      # Empty for ephemeral external IP allocation
+    }
+  }
+}
+
 resource "google_storage_bucket" "director" {
   name          = "${var.env_name}-director"
   force_destroy = true
