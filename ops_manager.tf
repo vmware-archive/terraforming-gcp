@@ -52,7 +52,7 @@ resource "google_compute_instance" "optional-ops-manager" {
   depends_on   = ["google_compute_subnetwork.ops-manager-subnet"]
   machine_type = "n1-standard-2"
   zone         = "${element(var.zones, 1)}"
-  count        = "${var.optional_opsman_image_count}"
+  count        = "${min(length(split("", var.optional_opsman_image_name)),1)}"
 
   tags = ["${var.env_name}-ops-manager-external"]
 
