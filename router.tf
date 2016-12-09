@@ -27,10 +27,10 @@ resource "google_compute_http_health_check" "cf-public" {
   name                = "${var.env_name}-cf-public"
   port                = 8080
   request_path        = "/health"
-  check_interval_sec  = 30
-  timeout_sec         = 5
-  healthy_threshold   = 10
-  unhealthy_threshold = 2
+  check_interval_sec  = 5
+  timeout_sec         = 3
+  healthy_threshold   = 6
+  unhealthy_threshold = 3
 }
 
 resource "google_compute_backend_service" "http_lb_backend_service" {
