@@ -1,8 +1,7 @@
 // HTTP/S LB
 resource "google_compute_firewall" "cf-public" {
-  name       = "${var.env_name}-cf-public"
-  depends_on = ["google_compute_network.pcf-network"]
-  network    = "${google_compute_network.pcf-network.name}"
+  name    = "${var.env_name}-cf-public"
+  network = "${google_compute_network.pcf-network.name}"
 
   allow {
     protocol = "tcp"
@@ -82,9 +81,8 @@ resource "google_compute_ssl_certificate" "cert" {
 }
 
 resource "google_compute_firewall" "cf-health_check" {
-  name       = "${var.env_name}-cf-health-check"
-  depends_on = ["google_compute_network.pcf-network"]
-  network    = "${google_compute_network.pcf-network.name}"
+  name    = "${var.env_name}-cf-health-check"
+  network = "${google_compute_network.pcf-network.name}"
 
   allow {
     protocol = "tcp"
@@ -140,9 +138,8 @@ resource "google_compute_forwarding_rule" "cf-ws-http" {
 
 // TCP LB for Diego SSH
 resource "google_compute_firewall" "cf-ssh" {
-  name       = "${var.env_name}-cf-ssh"
-  depends_on = ["google_compute_network.pcf-network"]
-  network    = "${google_compute_network.pcf-network.name}"
+  name    = "${var.env_name}-cf-ssh"
+  network = "${google_compute_network.pcf-network.name}"
 
   allow {
     protocol = "tcp"

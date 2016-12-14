@@ -5,10 +5,9 @@ resource "google_dns_managed_zone" "env_dns_zone" {
 }
 
 resource "google_dns_record_set" "ops-manager-dns" {
-  name       = "pcf.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  depends_on = ["google_compute_instance.ops-manager"]
-  type       = "A"
-  ttl        = 300
+  name = "pcf.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  type = "A"
+  ttl  = 300
 
   managed_zone = "${google_dns_managed_zone.env_dns_zone.name}"
 
@@ -16,10 +15,9 @@ resource "google_dns_record_set" "ops-manager-dns" {
 }
 
 resource "google_dns_record_set" "wildcard-sys-dns" {
-  name       = "*.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  depends_on = ["google_compute_global_address.cf"]
-  type       = "A"
-  ttl        = 300
+  name = "*.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  type = "A"
+  ttl  = 300
 
   managed_zone = "${google_dns_managed_zone.env_dns_zone.name}"
 
@@ -27,10 +25,9 @@ resource "google_dns_record_set" "wildcard-sys-dns" {
 }
 
 resource "google_dns_record_set" "doppler-sys-dns" {
-  name       = "doppler.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  depends_on = ["google_compute_address.cf-ws"]
-  type       = "A"
-  ttl        = 300
+  name = "doppler.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  type = "A"
+  ttl  = 300
 
   managed_zone = "${google_dns_managed_zone.env_dns_zone.name}"
 
@@ -38,10 +35,9 @@ resource "google_dns_record_set" "doppler-sys-dns" {
 }
 
 resource "google_dns_record_set" "loggregator-sys-dns" {
-  name       = "loggregator.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  depends_on = ["google_compute_address.cf-ws"]
-  type       = "A"
-  ttl        = 300
+  name = "loggregator.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  type = "A"
+  ttl  = 300
 
   managed_zone = "${google_dns_managed_zone.env_dns_zone.name}"
 
@@ -49,10 +45,9 @@ resource "google_dns_record_set" "loggregator-sys-dns" {
 }
 
 resource "google_dns_record_set" "wildcard-apps-dns" {
-  name       = "*.apps.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  depends_on = ["google_compute_global_address.cf"]
-  type       = "A"
-  ttl        = 300
+  name = "*.apps.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  type = "A"
+  ttl  = 300
 
   managed_zone = "${google_dns_managed_zone.env_dns_zone.name}"
 
@@ -60,10 +55,9 @@ resource "google_dns_record_set" "wildcard-apps-dns" {
 }
 
 resource "google_dns_record_set" "wildcard-ws-dns" {
-  name       = "*.ws.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  depends_on = ["google_compute_address.cf-ws"]
-  type       = "A"
-  ttl        = 300
+  name = "*.ws.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  type = "A"
+  ttl  = 300
 
   managed_zone = "${google_dns_managed_zone.env_dns_zone.name}"
 
@@ -71,10 +65,9 @@ resource "google_dns_record_set" "wildcard-ws-dns" {
 }
 
 resource "google_dns_record_set" "app-ssh-dns" {
-  name       = "ssh.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  depends_on = ["google_compute_address.cf-ssh"]
-  type       = "A"
-  ttl        = 300
+  name = "ssh.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  type = "A"
+  ttl  = 300
 
   managed_zone = "${google_dns_managed_zone.env_dns_zone.name}"
 
@@ -82,10 +75,9 @@ resource "google_dns_record_set" "app-ssh-dns" {
 }
 
 resource "google_dns_record_set" "tcp-dns" {
-  name       = "tcp.${google_dns_managed_zone.env_dns_zone.dns_name}"
-  depends_on = ["google_compute_address.cf-tcp"]
-  type       = "A"
-  ttl        = 300
+  name = "tcp.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  type = "A"
+  ttl  = 300
 
   managed_zone = "${google_dns_managed_zone.env_dns_zone.name}"
 

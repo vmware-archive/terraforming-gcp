@@ -1,8 +1,7 @@
 // Allow open access between internal VMs for a PCF deployment
 resource "google_compute_firewall" "cf-internal" {
-  name       = "${var.env_name}-cf-internal"
-  depends_on = ["google_compute_network.pcf-network"]
-  network    = "${google_compute_network.pcf-network.name}"
+  name    = "${var.env_name}-cf-internal"
+  network = "${google_compute_network.pcf-network.name}"
 
   allow {
     protocol = "icmp"

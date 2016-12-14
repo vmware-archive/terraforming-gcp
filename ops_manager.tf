@@ -1,8 +1,7 @@
 # Allow HTTP/S access to Ops Manager from the outside world
 resource "google_compute_firewall" "ops-manager-external" {
-  name       = "${var.env_name}-ops-manager-external"
-  depends_on = ["google_compute_network.pcf-network"]
-  network    = "${google_compute_network.pcf-network.name}"
+  name    = "${var.env_name}-ops-manager-external"
+  network = "${google_compute_network.pcf-network.name}"
 
   allow {
     protocol = "icmp"
@@ -28,7 +27,6 @@ resource "google_compute_image" "ops-manager-image" {
 
 resource "google_compute_instance" "ops-manager" {
   name         = "${var.env_name}-ops-manager"
-  depends_on   = ["google_compute_subnetwork.ops-manager-and-director-subnet"]
   machine_type = "n1-standard-2"
   zone         = "${element(var.zones, 1)}"
 
@@ -49,7 +47,6 @@ resource "google_compute_instance" "ops-manager" {
 
 resource "google_compute_instance" "optional-ops-manager" {
   name         = "${var.env_name}-optional-ops-manager"
-  depends_on   = ["google_compute_subnetwork.ops-manager-and-director-subnet"]
   machine_type = "n1-standard-2"
   zone         = "${element(var.zones, 1)}"
   count        = "${min(length(split("", var.optional_opsman_image_name)),1)}"

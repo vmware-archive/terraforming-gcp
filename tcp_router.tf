@@ -1,8 +1,7 @@
 // Allow access to TCP router
 resource "google_compute_firewall" "cf-tcp" {
-  name       = "${var.env_name}-cf-tcp"
-  depends_on = ["google_compute_network.pcf-network"]
-  network    = "${google_compute_network.pcf-network.name}"
+  name    = "${var.env_name}-cf-tcp"
+  network = "${google_compute_network.pcf-network.name}"
 
   allow {
     protocol = "tcp"
