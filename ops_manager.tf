@@ -62,7 +62,7 @@ resource "google_compute_instance" "optional-ops-manager" {
   zone         = "${element(var.zones, 1)}"
   count        = "${min(length(split("", var.optional_opsman_image_url)),1)}"
 
-  tags = ["${var.env_name}-optional-ops-manager-external"]
+  tags = ["${var.env_name}-ops-manager-external"]
 
   disk {
     image = "${google_compute_image.optional-ops-manager-image.self_link}"
