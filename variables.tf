@@ -19,9 +19,10 @@ variable "opsman_image_url" {
   description = "location of ops manager image on google cloud storage"
 }
 
-variable "optional_opsman_image_name" {
-  type    = "string"
-  default = ""
+variable "optional_opsman_image_url" {
+  type        = "string"
+  description = "location of ops manager image (to be used for optional extra instance) on google cloud storage"
+  default     = ""
 }
 
 variable "service_account_key" {

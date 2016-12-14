@@ -25,6 +25,17 @@ resource "google_compute_image" "ops-manager-image" {
   create_timeout = 10
 }
 
+resource "google_compute_image" "optional-ops-manager-image" {
+  name  = "${var.env_name}-optional-ops-manager-image"
+  count = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+
+  raw_disk {
+    source = "${var.optional_opsman_image_url}"
+  }
+
+  create_timeout = 10
+}
+
 resource "google_compute_instance" "ops-manager" {
   name         = "${var.env_name}-ops-manager"
   machine_type = "n1-standard-2"
@@ -49,13 +60,12 @@ resource "google_compute_instance" "optional-ops-manager" {
   name         = "${var.env_name}-optional-ops-manager"
   machine_type = "n1-standard-2"
   zone         = "${element(var.zones, 1)}"
-  count        = "${min(length(split("", var.optional_opsman_image_name)),1)}"
+  count        = "${min(length(split("", var.optional_opsman_image_url)),1)}"
 
-  tags = ["${var.env_name}-ops-manager-external"]
+  tags = ["${var.env_name}-optional-ops-manager-external"]
 
   disk {
-    image = "${var.optional_opsman_image_name}"
-    size  = 50
+    image = "${google_compute_image.optional-ops-manager-image.self_link}"
   }
 
   network_interface {
