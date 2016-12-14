@@ -2,6 +2,10 @@ output "ops_manager_dns" {
   value = "${google_dns_record_set.ops-manager-dns.name}"
 }
 
+output "optional_ops_manager_dns" {
+  value = "${google_dns_record_set.optional-ops-manager-dns.name}"
+}
+
 output "sys_domain" {
   value = "sys.${var.env_name}.${var.dns_suffix}"
 }
