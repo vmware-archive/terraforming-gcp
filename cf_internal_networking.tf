@@ -15,10 +15,9 @@ resource "google_compute_firewall" "cf-internal" {
     protocol = "udp"
   }
 
-  target_tags = ["${var.env_name}-vms"]
-
-  source_tags = [
-    "${var.env_name}-vms",                  // Allows VMs deployed by OpsMan to talk to one another
-    "${var.env_name}-ops-manager-external",
-  ] // Allows bosh-init running on the OpsMan VM to SSH to the deployed BOSH Director
+  source_ranges = [
+    "${google_compute_subnetwork.ops-manager-and-director-subnet.ip_cidr_range}",
+    "${google_compute_subnetwork.ert-subnet.ip_cidr_range}",
+    "${google_compute_subnetwork.services-subnet.ip_cidr_range}",
+  ]
 }
