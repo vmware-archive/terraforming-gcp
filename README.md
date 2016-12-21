@@ -91,7 +91,7 @@ SERVICE_ACCOUNT_KEY
 - project: **(required)** ID for your GCP project.
 - env_name: **(required)** An arbitrary unique name for namespacing resources.
 - region: **(required)** Region in which to create resources (e.g. us-central1)
-- zones: **(required)** Zones in which to create resources. Must be within the given region. Currently you must specify exactly 3 Zones for this configuration to work. (e.g. [us-central1-a, us-central1-b, us-central1-c])
+- zones: **(required)** Zones in which to create resources. Must be within the given region. Currently you must specify exactly 3 Zones for this terraform configuration to work. (e.g. [us-central1-a, us-central1-b, us-central1-c])
 - opsman_image_url **(required)** Source URL of the Ops Manager image you want to boot.
 - service_account_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - dns_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com)
