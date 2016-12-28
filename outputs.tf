@@ -42,10 +42,6 @@ output "azs" {
   value = "${var.zones}"
 }
 
-output "service_account_key" {
-  value = "${var.service_account_key}"
-}
-
 output "vm_tag" {
   value = "${var.env_name}-vms"
 }
