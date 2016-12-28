@@ -54,6 +54,11 @@ resource "google_compute_instance" "ops-manager" {
       # Empty for ephemeral external IP allocation
     }
   }
+
+  service_account {
+    email  = "${google_service_account.opsman_service_account.email}"
+    scopes = ["cloud-platform"]
+  }
 }
 
 resource "google_compute_instance" "optional-ops-manager" {
@@ -74,6 +79,11 @@ resource "google_compute_instance" "optional-ops-manager" {
     access_config {
       # Empty for ephemeral external IP allocation
     }
+  }
+
+  service_account {
+    email  = "${google_service_account.opsman_service_account.email}"
+    scopes = ["cloud-platform"]
   }
 }
 
