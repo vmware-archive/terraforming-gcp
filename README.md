@@ -26,8 +26,10 @@ brew install Caskroom/cask/google-cloud-sdk
 brew install terraform
 ```
 
-You will also want to setup a "project-wide" SSH key to allow SSH access to the VMs in your deployment.
-You can follow the directions [here](https://cloud.google.com/compute/docs/instances/adding-removing-ssh-keys#sshkeys) to set up a key.
+The quickest way to enable SSH onto ops-manager (and therefore your bosh deployments, via bosh ssh), you can simply use `gcloud compute ssh ubuntu@<env-name>-ops-manager`. gcloud will generate an SSH key for your particular machine, and add it to the account.
+
+You may also want to set up your own "project-wide" SSH key to control SSH access to the VMs in your deployment.
+You can follow the directions [here](https://cloud.google.com/compute/docs/instances/adding-removing-ssh-keys#sshkeys) to set up a key yourself.
 
 ## Notes
 
