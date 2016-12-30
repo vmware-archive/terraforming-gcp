@@ -114,3 +114,9 @@ variable "opsman_storage_bucket_count" {
   default     = "0"
   description = "Optional configuration of a Google Storage Bucket for BOSH's blobstore"
 }
+
+variable "opsman_ssh_public_key" {
+  type        = "string"
+  default     = ""
+  description = "Optional. If left empty, the project-level keys will all have access. If specified, the given key will have access but using 'gcloud compute ssh' will also work as the key used will be set in the instance metadata before connecting. Format: username:ssh-rsa ..."
+}
