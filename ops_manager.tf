@@ -60,6 +60,8 @@ resource "google_compute_instance" "ops-manager" {
     email  = "${google_service_account.opsman_service_account.email}"
     scopes = ["cloud-platform"]
   }
+
+  create_timeout = 10
 }
 
 resource "google_compute_instance" "optional-ops-manager" {
@@ -86,6 +88,8 @@ resource "google_compute_instance" "optional-ops-manager" {
     email  = "${google_service_account.opsman_service_account.email}"
     scopes = ["cloud-platform"]
   }
+
+  create_timeout = 10
 }
 
 resource "google_storage_bucket" "director" {
