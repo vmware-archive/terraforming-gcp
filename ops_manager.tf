@@ -60,6 +60,11 @@ resource "google_compute_instance" "ops-manager" {
     email  = "${google_service_account.opsman_service_account.email}"
     scopes = ["cloud-platform"]
   }
+
+  metadata {
+    ssh-keys = "${var.opsman_ssh_public_key}"
+    block-project-ssh-keys = "${var.opsman_ssh_public_key == "" ? "FALSE" : "TRUE"}"
+  }
 }
 
 resource "google_compute_instance" "optional-ops-manager" {
@@ -85,6 +90,11 @@ resource "google_compute_instance" "optional-ops-manager" {
   service_account {
     email  = "${google_service_account.opsman_service_account.email}"
     scopes = ["cloud-platform"]
+  }
+
+  metadata {
+    ssh-keys = "${var.opsman_ssh_public_key}"
+    block-project-ssh-keys = "${var.opsman_ssh_public_key == "" ? "FALSE" : "TRUE"}"
   }
 }
 
