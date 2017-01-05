@@ -45,7 +45,7 @@ resource "google_compute_instance" "ops-manager" {
 
   disk {
     image = "${google_compute_image.ops-manager-image.self_link}"
-    size = 50
+    size  = 50
   }
 
   network_interface {
@@ -59,6 +59,11 @@ resource "google_compute_instance" "ops-manager" {
   service_account {
     email  = "${google_service_account.opsman_service_account.email}"
     scopes = ["cloud-platform"]
+  }
+
+  metadata = {
+    ssh-keys               = "${format("ubuntu:%s", tls_private_key.ops-manager.public_key_openssh)}"
+    block-project-ssh-keys = "TRUE"
   }
 
   create_timeout = 10
@@ -89,6 +94,11 @@ resource "google_compute_instance" "optional-ops-manager" {
     scopes = ["cloud-platform"]
   }
 
+  metadata = {
+    ssh-keys               = "${format("ubuntu:%s", tls_private_key.ops-manager.public_key_openssh)}"
+    block-project-ssh-keys = "TRUE"
+  }
+
   create_timeout = 10
 }
 
@@ -97,4 +107,9 @@ resource "google_storage_bucket" "director" {
   force_destroy = true
 
   count = "${var.opsman_storage_bucket_count}"
+}
+
+resource "tls_private_key" "ops-manager" {
+  algorithm = "RSA"
+  rsa_bits  = "4096"
 }
