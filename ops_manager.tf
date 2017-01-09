@@ -54,6 +54,8 @@ resource "google_compute_instance" "ops-manager" {
     access_config {
       # Empty for ephemeral external IP allocation
     }
+
+  create_timeout = 10
   }
 
   service_account {
