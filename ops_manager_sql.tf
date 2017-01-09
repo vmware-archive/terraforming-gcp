@@ -8,7 +8,7 @@ resource "google_sql_user" "opsman-user" {
 }
 
 resource "google_sql_database" "opsman" {
-  name     = "${var.env_name}-db"
+  name     = "${var.env_name}-${timestamp()}"
   instance = "${google_sql_database_instance.master.name}"
 
   count = "${var.opsman_sql_instance_count}"
