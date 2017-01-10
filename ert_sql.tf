@@ -8,7 +8,7 @@ resource "google_sql_user" "ert" {
 }
 
 resource "google_sql_database" "uaa" {
-  name       = "uaa"
+  name       = "uaa-${timestamp()}"
   instance   = "${google_sql_database_instance.master.name}"
   depends_on = ["google_sql_user.ert"]
 
@@ -16,7 +16,7 @@ resource "google_sql_database" "uaa" {
 }
 
 resource "google_sql_database" "ccdb" {
-  name       = "ccdb"
+  name       = "ccdb-${timestamp()}"
   instance   = "${google_sql_database_instance.master.name}"
   depends_on = ["google_sql_database.uaa"]
 
@@ -24,7 +24,7 @@ resource "google_sql_database" "ccdb" {
 }
 
 resource "google_sql_database" "notifications" {
-  name       = "notifications"
+  name       = "notifications-${timestamp()}"
   instance   = "${google_sql_database_instance.master.name}"
   depends_on = ["google_sql_database.ccdb"]
 
@@ -32,7 +32,7 @@ resource "google_sql_database" "notifications" {
 }
 
 resource "google_sql_database" "autoscale" {
-  name       = "autoscale"
+  name       = "autoscale-${timestamp()}"
   instance   = "${google_sql_database_instance.master.name}"
   depends_on = ["google_sql_database.notifications"]
 
@@ -40,7 +40,7 @@ resource "google_sql_database" "autoscale" {
 }
 
 resource "google_sql_database" "app_usage_service" {
-  name       = "app_usage_service"
+  name       = "app_usage_service-${timestamp()}"
   instance   = "${google_sql_database_instance.master.name}"
   depends_on = ["google_sql_database.autoscale"]
 
@@ -48,7 +48,7 @@ resource "google_sql_database" "app_usage_service" {
 }
 
 resource "google_sql_database" "console" {
-  name       = "console"
+  name       = "console-${timestamp()}"
   instance   = "${google_sql_database_instance.master.name}"
   depends_on = ["google_sql_database.app_usage_service"]
 
@@ -56,7 +56,7 @@ resource "google_sql_database" "console" {
 }
 
 resource "google_sql_database" "diego" {
-  name       = "diego"
+  name       = "diego-${timestamp()}"
   instance   = "${google_sql_database_instance.master.name}"
   depends_on = ["google_sql_database.console"]
 
@@ -64,7 +64,7 @@ resource "google_sql_database" "diego" {
 }
 
 resource "google_sql_database" "routing" {
-  name       = "routing"
+  name       = "routing-${timestamp()}"
   instance   = "${google_sql_database_instance.master.name}"
   depends_on = ["google_sql_database.diego"]
 
