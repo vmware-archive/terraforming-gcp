@@ -7,10 +7,6 @@ variable "env_name" {
   description = "Used for creating service accounts. No longer than 5 characters, a-z only."
 }
 
-variable "env_short_name" {
-  type = "string"
-}
-
 variable "region" {
   type = "string"
 }
