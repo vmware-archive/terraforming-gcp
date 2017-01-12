@@ -22,7 +22,7 @@ resource "google_compute_image" "ops-manager-image" {
     source = "${var.opsman_image_url}"
   }
 
-  create_timeout = 10
+  create_timeout = 20
 }
 
 resource "google_compute_image" "optional-ops-manager-image" {
@@ -33,7 +33,7 @@ resource "google_compute_image" "optional-ops-manager-image" {
     source = "${var.optional_opsman_image_url}"
   }
 
-  create_timeout = 10
+  create_timeout = 20
 }
 
 resource "google_compute_instance" "ops-manager" {
