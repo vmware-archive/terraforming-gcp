@@ -1,7 +1,9 @@
 # Allow HTTP/S access to Ops Manager from the outside world
 resource "google_compute_firewall" "ops-manager-external" {
-  name    = "${var.env_name}-ops-manager-external"
-  network = "${google_compute_network.pcf-network.name}"
+  name           = "${var.env_name}-ops-manager-external"
+  network        = "${google_compute_network.pcf-network.name}"
+  create_timeout = 20
+  target_tags    = ["${var.env_name}-ops-manager-external"]
 
   allow {
     protocol = "icmp"
@@ -11,8 +13,6 @@ resource "google_compute_firewall" "ops-manager-external" {
     protocol = "tcp"
     ports    = ["22", "80", "443"]
   }
-
-  target_tags = ["${var.env_name}-ops-manager-external"]
 }
 
 resource "google_compute_image" "ops-manager-image" {
@@ -21,27 +21,24 @@ resource "google_compute_image" "ops-manager-image" {
   raw_disk {
     source = "${var.opsman_image_url}"
   }
-
-  create_timeout = 20
 }
 
 resource "google_compute_image" "optional-ops-manager-image" {
-  name  = "${var.env_name}-optional-ops-manager-image"
-  count = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+  name           = "${var.env_name}-optional-ops-manager-image"
+  count          = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+  create_timeout = 20
 
   raw_disk {
     source = "${var.optional_opsman_image_url}"
   }
-
-  create_timeout = 20
 }
 
 resource "google_compute_instance" "ops-manager" {
-  name         = "${var.env_name}-ops-manager"
-  machine_type = "n1-standard-2"
-  zone         = "${element(var.zones, 1)}"
-
-  tags = ["${var.env_name}-ops-manager-external"]
+  name           = "${var.env_name}-ops-manager"
+  machine_type   = "n1-standard-2"
+  zone           = "${element(var.zones, 1)}"
+  create_timeout = 10
+  tags           = ["${var.env_name}-ops-manager-external"]
 
   disk {
     image = "${google_compute_image.ops-manager-image.self_link}"
@@ -54,8 +51,6 @@ resource "google_compute_instance" "ops-manager" {
     access_config {
       # Empty for ephemeral external IP allocation
     }
-
-  create_timeout = 10
   }
 
   service_account {
@@ -67,17 +62,15 @@ resource "google_compute_instance" "ops-manager" {
     ssh-keys               = "${format("ubuntu:%s", tls_private_key.ops-manager.public_key_openssh)}"
     block-project-ssh-keys = "TRUE"
   }
-
-  create_timeout = 10
 }
 
 resource "google_compute_instance" "optional-ops-manager" {
-  name         = "${var.env_name}-optional-ops-manager"
-  machine_type = "n1-standard-2"
-  zone         = "${element(var.zones, 1)}"
-  count        = "${min(length(split("", var.optional_opsman_image_url)),1)}"
-
-  tags = ["${var.env_name}-ops-manager-external"]
+  name           = "${var.env_name}-optional-ops-manager"
+  machine_type   = "n1-standard-2"
+  zone           = "${element(var.zones, 1)}"
+  count          = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+  create_timeout = 10
+  tags           = ["${var.env_name}-ops-manager-external"]
 
   disk {
     image = "${google_compute_image.optional-ops-manager-image.self_link}"
@@ -100,8 +93,6 @@ resource "google_compute_instance" "optional-ops-manager" {
     ssh-keys               = "${format("ubuntu:%s", tls_private_key.ops-manager.public_key_openssh)}"
     block-project-ssh-keys = "TRUE"
   }
-
-  create_timeout = 10
 }
 
 resource "google_storage_bucket" "director" {
