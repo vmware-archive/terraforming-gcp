@@ -1,9 +1,8 @@
 # Allow HTTP/S access to Ops Manager from the outside world
 resource "google_compute_firewall" "ops-manager-external" {
-  name           = "${var.env_name}-ops-manager-external"
-  network        = "${google_compute_network.pcf-network.name}"
-  create_timeout = 20
-  target_tags    = ["${var.env_name}-ops-manager-external"]
+  name        = "${var.env_name}-ops-manager-external"
+  network     = "${google_compute_network.pcf-network.name}"
+  target_tags = ["${var.env_name}-ops-manager-external"]
 
   allow {
     protocol = "icmp"
@@ -16,7 +15,8 @@ resource "google_compute_firewall" "ops-manager-external" {
 }
 
 resource "google_compute_image" "ops-manager-image" {
-  name = "${var.env_name}-ops-manager-image"
+  name           = "${var.env_name}-ops-manager-image"
+  create_timeout = 20
 
   raw_disk {
     source = "${var.opsman_image_url}"
