@@ -3,8 +3,7 @@ variable "project" {
 }
 
 variable "env_name" {
-  type        = "string"
-  description = "Used for creating service accounts. No longer than 5 characters, a-z only."
+  type = "string"
 }
 
 variable "region" {
