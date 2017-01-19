@@ -29,7 +29,7 @@ resource "google_compute_http_health_check" "cf-public" {
   check_interval_sec  = 5
   timeout_sec         = 3
   healthy_threshold   = 3
-  unhealthy_threshold = 12
+  unhealthy_threshold = 10
 }
 
 resource "google_compute_backend_service" "http_lb_backend_service" {
