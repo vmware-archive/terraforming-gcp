@@ -2,8 +2,8 @@ resource "google_compute_network" "pcf-network" {
   name = "${var.env_name}-pcf-network"
 }
 
-resource "google_compute_subnetwork" "ops-manager-and-director-subnet" {
-  name          = "${var.env_name}-ops-manager-subnet"
+resource "google_compute_subnetwork" "management-subnet" {
+  name          = "${var.env_name}-management-subnet"
   ip_cidr_range = "10.0.0.0/24"
   network       = "${google_compute_network.pcf-network.self_link}"
   region        = "${var.region}"

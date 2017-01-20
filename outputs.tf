@@ -54,43 +54,43 @@ output "sql_db_ip" {
   value = "${google_sql_database_instance.master.ip_address.0.ip_address}"
 }
 
-output "ops_manager_gateway" {
-  value = "${google_compute_subnetwork.ops-manager-and-director-subnet.gateway_address}"
+output "management_subnet_gateway" {
+  value = "${google_compute_subnetwork.management-subnet.gateway_address}"
 }
 
-output "ops_manager_cidr" {
-  value = "${google_compute_subnetwork.ops-manager-and-director-subnet.ip_cidr_range}"
+output "management_subnet_cidr" {
+  value = "${google_compute_subnetwork.management-subnet.ip_cidr_range}"
 }
 
-output "ops_manager_subnet" {
-  value = "${google_compute_subnetwork.ops-manager-and-director-subnet.name}"
+output "management_subnet_name" {
+  value = "${google_compute_subnetwork.management-subnet.name}"
 }
 
 output "opsman_sql_db_name" {
   value = "${google_sql_database.opsman.name}"
 }
 
-output "ert_gateway" {
+output "ert_subnet_gateway" {
   value = "${google_compute_subnetwork.ert-subnet.gateway_address}"
 }
 
-output "ert_cidr" {
+output "ert_subnet_cidr" {
   value = "${google_compute_subnetwork.ert-subnet.ip_cidr_range}"
 }
 
-output "ert_subnet" {
+output "ert_subnet_name" {
   value = "${google_compute_subnetwork.ert-subnet.name}"
 }
 
-output "services_gateway" {
+output "services_subnet_gateway" {
   value = "${google_compute_subnetwork.services-subnet.gateway_address}"
 }
 
-output "services_cidr" {
+output "services_subnet_cidr" {
   value = "${google_compute_subnetwork.services-subnet.ip_cidr_range}"
 }
 
-output "services_subnet" {
+output "services_subnet_name" {
   value = "${google_compute_subnetwork.services-subnet.name}"
 }
 
