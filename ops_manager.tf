@@ -46,7 +46,7 @@ resource "google_compute_instance" "ops-manager" {
   }
 
   network_interface {
-    subnetwork = "${google_compute_subnetwork.ops-manager-and-director-subnet.name}"
+    subnetwork = "${google_compute_subnetwork.management-subnet.name}"
 
     access_config {
       # Empty for ephemeral external IP allocation
@@ -77,7 +77,7 @@ resource "google_compute_instance" "optional-ops-manager" {
   }
 
   network_interface {
-    subnetwork = "${google_compute_subnetwork.ops-manager-and-director-subnet.name}"
+    subnetwork = "${google_compute_subnetwork.management-subnet.name}"
 
     access_config {
       # Empty for ephemeral external IP allocation
