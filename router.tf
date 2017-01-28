@@ -74,10 +74,14 @@ resource "google_compute_target_https_proxy" "https_lb_proxy" {
 }
 
 resource "google_compute_ssl_certificate" "cert" {
-  name        = "${var.env_name}-lbcert"
+  name_prefix = "${var.env_name}-lbcert"
   description = "user provided ssl private key / ssl certificate pair"
   private_key = "${var.ssl_cert_private_key}"
   certificate = "${var.ssl_cert}"
+  
+  lifecycle = {
+    create_before_destroy = true
+  }
 }
 
 resource "google_compute_firewall" "cf-health_check" {
