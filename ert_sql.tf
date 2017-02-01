@@ -4,6 +4,8 @@ resource "google_sql_user" "ert" {
   instance = "${google_sql_database_instance.master.name}"
   host     = "${var.ert_sql_db_host}"
 
+  depends_on = ["google_sql_user.root"]
+
   count = "${var.ert_sql_instance_count}"
 }
 
