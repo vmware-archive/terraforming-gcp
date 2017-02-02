@@ -26,22 +26,9 @@ brew install Caskroom/cask/google-cloud-sdk
 brew install terraform
 ```
 
-The quickest way to enable SSH onto ops-manager (and therefore your bosh deployments, via bosh ssh), you can simply use `gcloud compute ssh ubuntu@<env-name>-ops-manager`. gcloud will generate an SSH key for your particular machine, and add it to the account.
-
-You may also want to set up your own "project-wide" SSH key to control SSH access to the VMs in your deployment.
-You can follow the directions [here](https://cloud.google.com/compute/docs/instances/adding-removing-ssh-keys#sshkeys) to set up a key yourself.
-
 ## Notes
 
-This repository currently requires at least v0.8.0-rc2 of terraform. You will need to build this from source (directions in terraform [README] (https://github.com/hashicorp/terraform/blob/v0.8.0-rc2/README.md)) and put it on your $GOPATH/bin
-
-You will need to have copied the ops-manager image to your GCS.
-
-The command will look something like this:
-
-```bash
-gcloud compute images create my-ops-manager-image-name --source-uri https://remote.location.of.ops-manager
-```
+This repository currently supports terraform **v0.8.0-rc2** - **v0.8.4**. The latest version of terraform has a bug that could result in the loss of your entire GCP Project.
 
 You will also need a key file for your [service account](https://cloud.google.com/iam/docs/service-accounts)
 to allow terraform to deploy resources. If you don't have one, you can create a service account and a key for it:
@@ -52,11 +39,10 @@ gcloud iam service-accounts keys create "terraform.key.json" --iam-account "some
 gcloud projects add-iam-policy-binding PROJECT_ID --member 'serviceAccount:some-account-name@PROJECT_ID.iam.gserviceaccount.com' --role 'roles/editor'
 ```
 
-You will need to enable the [Google Cloud Resource Manager API](https://console.developers.google.com/apis/api/cloudresourcemanager.googleapis.com/)
-on your GCP account.  The Google Cloud Resource Manager API provides methods for creating, reading, and updating project metadata.
-
-You will also need to enable the [Google Cloud DNS API](https://console.developers.google.com/apis/api/dns/overview)
-on your GCP account.  The Google Cloud DNS API provides methods for creating, reading, and updating project DNS entries.
+You will need to enable the following Google Cloud APIs:
+- [Identity and Access Management](https://console.developers.google.com/apis/api/iam.googleapis.com)
+- [Cloud Resource Manager](https://console.developers.google.com/apis/api/cloudresourcemanager.googleapis.com/)
+- [Cloud DNS](https://console.developers.google.com/apis/api/dns/overview)
 
 ### Var File
 
