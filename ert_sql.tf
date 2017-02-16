@@ -72,3 +72,27 @@ resource "google_sql_database" "routing" {
 
   count = "${var.ert_sql_instance_count}"
 }
+
+resource "google_sql_database" "account" {
+  name       = "account"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.routing"]
+
+  count = "${var.ert_sql_instance_count}"
+}
+
+resource "google_sql_database" "networkpolicyserver" {
+  name       = "networkpolicyserver"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.account"]
+
+  count = "${var.ert_sql_instance_count}"
+}
+
+resource "google_sql_database" "nfsvolume" {
+  name       = "nfsvolume"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.networkpolicyserver"]
+
+  count = "${var.ert_sql_instance_count}"
+}
