@@ -1,3 +1,7 @@
+output "service_account_name" {
+  value = "${google_service_account.opsman_service_account.name}"
+}
+
 output "ops_manager_dns" {
   value = "${google_dns_record_set.ops-manager-dns.name}"
 }
