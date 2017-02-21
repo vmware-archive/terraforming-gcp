@@ -1,5 +1,5 @@
-output "service_account_name" {
-  value = "${google_service_account.opsman_service_account.name}"
+output "service_account_email" {
+  value = "${google_service_account.opsman_service_account.email}"
 }
 
 output "ops_manager_dns" {
