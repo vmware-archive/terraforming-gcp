@@ -66,8 +66,8 @@ output "management_subnet_gateway" {
   value = "${google_compute_subnetwork.management-subnet.gateway_address}"
 }
 
-output "management_subnet_cidr" {
-  value = "${google_compute_subnetwork.management-subnet.ip_cidr_range}"
+output "management_subnet_cidrs" {
+  value = ["${google_compute_subnetwork.management-subnet.ip_cidr_range}"]
 }
 
 output "management_subnet_name" {
@@ -82,8 +82,8 @@ output "ert_subnet_gateway" {
   value = "${google_compute_subnetwork.ert-subnet.gateway_address}"
 }
 
-output "ert_subnet_cidr" {
-  value = "${google_compute_subnetwork.ert-subnet.ip_cidr_range}"
+output "ert_subnet_cidrs" {
+  value = ["${google_compute_subnetwork.ert-subnet.ip_cidr_range}"]
 }
 
 output "ert_subnet_name" {
@@ -94,8 +94,8 @@ output "services_subnet_gateway" {
   value = "${google_compute_subnetwork.services-subnet.gateway_address}"
 }
 
-output "services_subnet_cidr" {
-  value = "${google_compute_subnetwork.services-subnet.ip_cidr_range}"
+output "services_subnet_cidrs" {
+  value = ["${google_compute_subnetwork.services-subnet.ip_cidr_range}"]
 }
 
 output "services_subnet_name" {
