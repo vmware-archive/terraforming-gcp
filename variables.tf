@@ -109,3 +109,23 @@ variable "opsman_storage_bucket_count" {
   default     = "0"
   description = "Optional configuration of a Google Storage Bucket for BOSH's blobstore"
 }
+
+/*****************************
+ * Isolation Segment Options *
+ *****************************/
+
+variable "isoseg_ssl_cert" {
+  type        = "string"
+  description = "ssl certificate content"
+}
+
+variable "isoseg_ssl_cert_private_key" {
+  type        = "string"
+  description = "ssl certificate private key content"
+}
+
+variable "create_isoseg_resources" {
+  type        = "string"
+  default     = "0"
+  description = "Optionally create a LB and DNS entries for a single isolation segment. Valid values are 0 or 1."
+}

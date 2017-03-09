@@ -1,4 +1,7 @@
-// HTTP/S LB
+/**********
+ * ERT LB *
+ **********/
+
 resource "google_compute_firewall" "cf-public" {
   name    = "${var.env_name}-cf-public"
   network = "${google_compute_network.pcf-network.name}"
@@ -8,7 +11,7 @@ resource "google_compute_firewall" "cf-public" {
     ports    = ["80", "443"]
   }
 
-  target_tags = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws"]
+  target_tags = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws", "${var.env_name}-isoseglb"]
 }
 
 resource "google_compute_global_address" "cf" {
@@ -16,6 +19,7 @@ resource "google_compute_global_address" "cf" {
 }
 
 resource "google_compute_instance_group" "httplb" {
+  // Count based on number of AZs
   count       = 3
   name        = "${var.env_name}-httpslb-${element(var.zones, count.index)}"
   description = "terraform generated instance group that is multi-zone for https loadbalancing"
@@ -78,7 +82,7 @@ resource "google_compute_ssl_certificate" "cert" {
   description = "user provided ssl private key / ssl certificate pair"
   private_key = "${var.ssl_cert_private_key}"
   certificate = "${var.ssl_cert}"
-  
+
   lifecycle = {
     create_before_destroy = true
   }
@@ -94,7 +98,7 @@ resource "google_compute_firewall" "cf-health_check" {
   }
 
   source_ranges = ["130.211.0.0/22"]
-  target_tags   = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws"]
+  target_tags   = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws", "${var.env_name}-isoseglb"]
 }
 
 resource "google_compute_global_forwarding_rule" "cf-http" {
@@ -111,7 +115,10 @@ resource "google_compute_global_forwarding_rule" "cf-https" {
   port_range = "443"
 }
 
-// TCP LB for websockets
+/**********
+ * TCP LB *
+ **********/
+
 resource "google_compute_address" "cf-ws" {
   name = "${var.env_name}-cf-ws"
 }
@@ -140,7 +147,10 @@ resource "google_compute_forwarding_rule" "cf-ws-http" {
   ip_address  = "${google_compute_address.cf-ws.address}"
 }
 
-// TCP LB for Diego SSH
+/****************
+ * Diego SSH LB *
+ ****************/
+
 resource "google_compute_firewall" "cf-ssh" {
   name    = "${var.env_name}-cf-ssh"
   network = "${google_compute_network.pcf-network.name}"
@@ -167,4 +177,102 @@ resource "google_compute_forwarding_rule" "cf-ssh" {
   port_range  = "2222"
   ip_protocol = "TCP"
   ip_address  = "${google_compute_address.cf-ssh.address}"
+}
+
+/************************
+ * Isolation Segment LB *
+ ************************/
+
+resource "google_compute_instance_group" "isoseglb" {
+  // Count based on number of AZs
+  count       = 3
+  name        = "${var.env_name}-isoseglb-${element(var.zones, count.index)}"
+  description = "terraform generated instance group that is multi-zone for isolation segment load-balancing"
+  zone        = "${element(var.zones, count.index)}"
+}
+
+resource "google_compute_backend_service" "isoseg_lb_backend_service" {
+  name        = "${var.env_name}-isoseglb"
+  port_name   = "http"
+  protocol    = "HTTP"
+  timeout_sec = 900
+  enable_cdn  = false
+
+  // Sharing healthcheck with CF because it has the same configuration
+  health_checks = ["${google_compute_http_health_check.cf-public.self_link}"]
+
+  count = "${min(var.create_isoseg_resources,1)}"
+
+  backend {
+    group = "${google_compute_instance_group.isoseglb.0.self_link}"
+  }
+
+  backend {
+    group = "${google_compute_instance_group.isoseglb.1.self_link}"
+  }
+
+  backend {
+    group = "${google_compute_instance_group.isoseglb.2.self_link}"
+  }
+}
+
+resource "google_compute_url_map" "isoseg_lb_url_map" {
+  name            = "${var.env_name}-isoseg"
+  default_service = "${google_compute_backend_service.isoseg_lb_backend_service.self_link}"
+
+  count = "${min(var.create_isoseg_resources,1)}"
+}
+
+resource "google_compute_target_http_proxy" "isoseg_http_lb_proxy" {
+  name        = "${var.env_name}-isoseg-http-proxy"
+  description = "really a load balancer but listed as an http proxy"
+  url_map     = "${google_compute_url_map.isoseg_lb_url_map.self_link}"
+
+  count = "${min(var.create_isoseg_resources,1)}"
+}
+
+resource "google_compute_target_https_proxy" "isoseg_https_lb_proxy" {
+  name             = "${var.env_name}-isoseg-https-proxy"
+  description      = "really a load balancer but listed as an https proxy"
+  url_map          = "${google_compute_url_map.isoseg_lb_url_map.self_link}"
+  ssl_certificates = ["${google_compute_ssl_certificate.isoseg_cert.self_link}"]
+
+  count = "${min(var.create_isoseg_resources,1)}"
+}
+
+resource "google_compute_ssl_certificate" "isoseg_cert" {
+  name_prefix = "${var.env_name}-isoseg-lbcert"
+  description = "user provided ssl private key / ssl certificate pair"
+  private_key = "${var.isoseg_ssl_cert_private_key}"
+  certificate = "${var.isoseg_ssl_cert}"
+
+  lifecycle = {
+    create_before_destroy = true
+  }
+
+  count = "${min(var.create_isoseg_resources,1)}"
+}
+
+resource "google_compute_global_address" "isoseg" {
+  name = "${var.env_name}-isoseg"
+
+  count = "${min(var.create_isoseg_resources,1)}"
+}
+
+resource "google_compute_global_forwarding_rule" "isoseg-http" {
+  name       = "${var.env_name}-isoseg-lb-http"
+  ip_address = "${google_compute_global_address.isoseg.address}"
+  target     = "${google_compute_target_http_proxy.isoseg_http_lb_proxy.self_link}"
+  port_range = "80"
+
+  count = "${min(var.create_isoseg_resources,1)}"
+}
+
+resource "google_compute_global_forwarding_rule" "isoseg-https" {
+  name       = "${var.env_name}-isoseg-lb-https"
+  ip_address = "${google_compute_global_address.isoseg.address}"
+  target     = "${google_compute_target_https_proxy.isoseg_https_lb_proxy.self_link}"
+  port_range = "443"
+
+  count = "${min(var.create_isoseg_resources,1)}"
 }
