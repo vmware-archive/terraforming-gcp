@@ -117,11 +117,13 @@ variable "opsman_storage_bucket_count" {
 variable "isoseg_ssl_cert" {
   type        = "string"
   description = "ssl certificate content"
+  default     = ""
 }
 
 variable "isoseg_ssl_cert_private_key" {
   type        = "string"
   description = "ssl certificate private key content"
+  default     = ""
 }
 
 variable "create_isoseg_resources" {
