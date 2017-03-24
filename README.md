@@ -56,20 +56,19 @@ opsman_image_url = "https://storage.googleapis.com/your-opsmanager.tgz"
 zones = ["us-central1-a", "us-central1-b", "us-central1-c"]
 project = "your-gcp-project"
 dns_suffix = "gcp.some-project.cf-app.com"
+
 ssl_cert = <<SSL_CERT
-"
 -----BEGIN CERTIFICATE-----
 some cert
 -----END CERTIFICATE-----
-"
 SSL_CERT
+
 ssl_cert_private_key = <<SSL_KEY
-"
 -----BEGIN RSA PRIVATE KEY-----
 some cert private key
 -----END RSA PRIVATE KEY-----
-"
 SSL_KEY
+
 service_account_key = <<SERVICE_ACCOUNT_KEY
 {
   "type": "service_account",
