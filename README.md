@@ -36,7 +36,7 @@ to allow terraform to deploy resources. If you don't have one, you can create a 
 ```bash
 gcloud iam service-accounts create some-account-name
 gcloud iam service-accounts keys create "terraform.key.json" --iam-account "some-account-name@yourproject.iam.gserviceaccount.com"
-gcloud projects add-iam-policy-binding PROJECT_ID --member 'serviceAccount:some-account-name@PROJECT_ID.iam.gserviceaccount.com' --role 'roles/editor'
+gcloud projects add-iam-policy-binding PROJECT_ID --member 'serviceAccount:some-account-name@PROJECT_ID.iam.gserviceaccount.com' --role 'roles/owner'
 ```
 
 You will need to enable the following Google Cloud APIs:
