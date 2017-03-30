@@ -150,10 +150,10 @@ output "ert_sql_password" {
   value = "${var.ert_sql_db_password}"
 }
 
-output "ops_manager_private_key" {
+output "ops_manager_ssh_private_key" {
   value = "${tls_private_key.ops-manager.private_key_pem}"
 }
 
-output "ops_manager_public_key" {
+output "ops_manager_ssh_public_key" {
   value = "${format("ubuntu:%s", tls_private_key.ops-manager.public_key_openssh)}"
 }
