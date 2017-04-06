@@ -3,8 +3,8 @@ resource "google_service_account" "opsman_service_account" {
   display_name = "${var.env_name} Ops Manager VM Service Account"
 }
 
-resource "google_project" "opsman_service_account_project" {
-  id          = "${var.project}"
+resource "google_project_iam_policy" "opsman_iam_policy" {
+  project     = "${var.project}"
   policy_data = "${data.google_iam_policy.opsman_policy.policy_data}"
 }
 
