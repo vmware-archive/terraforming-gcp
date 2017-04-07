@@ -28,7 +28,11 @@ brew install terraform
 
 ## Notes
 
-This repository currently supports terraform **v0.8.0-rc2** - **v0.8.4**. The latest version of terraform has a bug that could result in the loss of your entire GCP Project.
+**Master** is currently using a custom fork of **v0.9.2** located [here](https://github.com/zachgersh/terraform)
+
+Released stable versions use **v0.8.0-rc2** - **v0.8.4**.
+
+The latest version of terraform has a bug that could result in the loss of your entire GCP Project.
 
 You will also need a key file for your [service account](https://cloud.google.com/iam/docs/service-accounts)
 to allow terraform to deploy resources. If you don't have one, you can create a service account and a key for it:
