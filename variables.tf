@@ -43,22 +43,19 @@ variable "ssl_cert_private_key" {
   description = "ssl certificate private key content"
 }
 
-variable "sql_db_tier" {
-  type    = "string"
-  default = "db-f1-micro"
+variable "external_database" {
+  description = "standups up a cloud sql database instance for the ops manager and ERT"
+  default     = false
 }
 
-/***********************
- * Optional ERT Config *
- ***********************/
+/******************
+ * OpsMan Options *
+ ******************/
 
-/* You can opt in to create a Google SQL Database Instance, Database, and User for ERT.
-By default we have `ert_sql_instance_count` set to `0` but setting it to `1` will create them. */
-
-variable "ert_sql_instance_count" {
+variable "opsman_storage_bucket_count" {
   type        = "string"
   default     = "0"
-  description = "Optional configuration of a Google SQL Database Instance, Database, and User."
+  description = "Optional configuration of a Google Storage Bucket for BOSH's blobstore"
 }
 
 variable "ert_sql_db_host" {
@@ -76,19 +73,6 @@ variable "ert_sql_db_password" {
   default = ""
 }
 
-/******************
- * OpsMan Options *
- ******************/
-
-/* You can opt in to create a Google SQL Database Instance, Database, and User for OpsMan.
-By default we have `opsman_sql_instance_count` set to `0` but setting it to `1` will create them. */
-
-variable "opsman_sql_instance_count" {
-  type        = "string"
-  default     = "0"
-  description = "Optional configuration of a Google SQL Database Instance, Database, and User."
-}
-
 variable "opsman_sql_db_host" {
   type    = "string"
   default = ""
@@ -102,12 +86,6 @@ variable "opsman_sql_db_username" {
 variable "opsman_sql_db_password" {
   type    = "string"
   default = ""
-}
-
-variable "opsman_storage_bucket_count" {
-  type        = "string"
-  default     = "0"
-  description = "Optional configuration of a Google Storage Bucket for BOSH's blobstore"
 }
 
 /*****************************

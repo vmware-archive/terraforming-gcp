@@ -1,12 +1,12 @@
 resource "google_sql_user" "opsman-user" {
-  name     = "${var.opsman_sql_db_username}"
-  password = "${var.opsman_sql_db_password}"
+  name     = "${var.external_database_opsman_sql_db_username}"
+  password = "${var.external_database_opsman_sql_db_password}"
   instance = "${google_sql_database_instance.master.name}"
-  host     = "${var.opsman_sql_db_host}"
+  host     = "${var.external_database_opsman_sql_db_host}"
 
   depends_on = ["google_sql_user.root"]
 
-  count = "${var.opsman_sql_instance_count}"
+  count = "${var.count}"
 }
 
 resource "google_sql_database" "opsman" {
@@ -14,5 +14,5 @@ resource "google_sql_database" "opsman" {
   instance   = "${google_sql_database_instance.master.name}"
   depends_on = ["google_sql_user.opsman-user"]
 
-  count = "${var.opsman_sql_instance_count}"
+  count = "${var.count}"
 }

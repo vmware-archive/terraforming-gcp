@@ -55,11 +55,11 @@ output "network_name" {
 }
 
 output "sql_db_ip" {
-  value = "${google_sql_database_instance.master.ip_address.0.ip_address}"
+  value = "${module.external_database.ip}"
 }
 
 output "sql_db_root_password" {
-  value = "${google_sql_user.root.password}"
+  value = "${module.external_database.root_password}"
 }
 
 output "management_subnet_gateway" {
@@ -75,7 +75,7 @@ output "management_subnet_name" {
 }
 
 output "opsman_sql_db_name" {
-  value = "${google_sql_database.opsman.name}"
+  value = "${module.external_database.opsman_sql_db_name}"
 }
 
 output "ert_subnet_gateway" {
