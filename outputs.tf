@@ -58,10 +58,6 @@ output "sql_db_ip" {
   value = "${module.external_database.ip}"
 }
 
-output "sql_db_root_password" {
-  value = "${module.external_database.root_password}"
-}
-
 output "management_subnet_gateway" {
   value = "${google_compute_subnetwork.management-subnet.gateway_address}"
 }
@@ -143,11 +139,19 @@ output "director_blobstore_bucket" {
 }
 
 output "ert_sql_username" {
-  value = "${var.ert_sql_db_username}"
+  value = "${module.external_database.ert_sql_username}"
 }
 
 output "ert_sql_password" {
-  value = "${var.ert_sql_db_password}"
+  value = "${module.external_database.ert_sql_password}"
+}
+
+output "opsman_sql_username" {
+  value = "${module.external_database.opsman_sql_username}"
+}
+
+output "opsman_sql_password" {
+  value = "${module.external_database.opsman_sql_password}"
 }
 
 output "ops_manager_ssh_private_key" {

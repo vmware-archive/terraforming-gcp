@@ -63,27 +63,7 @@ variable "ert_sql_db_host" {
   default = ""
 }
 
-variable "ert_sql_db_username" {
-  type    = "string"
-  default = ""
-}
-
-variable "ert_sql_db_password" {
-  type    = "string"
-  default = ""
-}
-
 variable "opsman_sql_db_host" {
-  type    = "string"
-  default = ""
-}
-
-variable "opsman_sql_db_username" {
-  type    = "string"
-  default = ""
-}
-
-variable "opsman_sql_db_password" {
   type    = "string"
   default = ""
 }

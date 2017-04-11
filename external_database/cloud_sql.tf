@@ -1,18 +1,5 @@
-resource "random_id" "password" {
-  byte_length = 32
-}
-
 resource "random_id" "db-name" {
   byte_length = 8
-}
-
-resource "google_sql_user" "root" {
-  name     = "root"
-  password = "${random_id.password.b64}"
-  instance = "${google_sql_database_instance.master.name}"
-  host     = "%"
-
-  count = "${var.count}"
 }
 
 resource "google_sql_database_instance" "master" {

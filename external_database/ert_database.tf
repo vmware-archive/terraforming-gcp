@@ -1,18 +1,7 @@
-resource "google_sql_user" "ert" {
-  name     = "${var.external_database_ert_sql_db_username}"
-  password = "${var.external_database_ert_sql_db_password}"
-  instance = "${google_sql_database_instance.master.name}"
-  host     = "${var.external_database_ert_sql_db_host}"
-
-  depends_on = ["google_sql_user.root"]
-
-  count = "${var.count}"
-}
-
 resource "google_sql_database" "uaa" {
   name       = "uaa"
   instance   = "${google_sql_database_instance.master.name}"
-  depends_on = ["google_sql_user.ert"]
+  depends_on = ["google_sql_user.ert", "google_sql_user.opsman"]
 
   count = "${var.count}"
 }
