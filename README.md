@@ -101,7 +101,6 @@ SERVICE_ACCOUNT_KEY
 - ssl_cert: **(required)** SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
 - ssl_cert_private_key:  **(required)** Private key for above SSL certificate.
 - opsman_storage_bucket_count: *(optional)* Google Storage Bucket for BOSH's Blobstore.
-- sql_db_tier: *(optional)* DB tier
 
 ## DNS Records
 
@@ -121,17 +120,13 @@ SERVICE_ACCOUNT_KEY
 
 ### Cloud SQL Configuration (optional)
 
+- external_database: *(optional)* When set to "true", a cloud SQL instance will be deployed for the Ops Manager and ERT.
+
 #### Ops Manager
 - opsman_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
-- opsman_sql_db_username: *(optional)* Username for database.
-- opsman_sql_db_password: *(optional)* Password for database.
-- opsman_sql_instance_count: *(optional)* Number of instances, defaults to 0.
 
 #### ERT
 - ert_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
-- ert_sql_db_username: *(optional)* Username for database.
-- ert_sql_db_password: *(optional)* Password for database.
-- ert_sql_instance_count: *(optional)* Number of instances, defaults to 0.
 
 ## Running
 
