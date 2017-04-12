@@ -28,7 +28,7 @@ brew install terraform
 
 ## Notes
 
-**Master** is currently using a custom fork of **v0.9.2** located [here](https://github.com/zachgersh/terraform)
+**Master** is currently using a custom fork of **v0.9.2** located [here](https://github.com/zachgersh/terraform/tree/v0.9.2-iam-fix)
 
 Released stable versions use **v0.8.0-rc2** - **v0.8.4**.
 
@@ -116,7 +116,7 @@ SERVICE_ACCOUNT_KEY
 - isoseg_ssl_cert: *(optional)* SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
 - isoseg_ssl_cert_private_key:  *(optional)* Private key for above SSL certificate.
 
-### Cloud SQL Configuration (optional)
+## Cloud SQL Configuration (optional)
 - external_database: *(optional)* When set to "true", a cloud SQL instance will be deployed for the Ops Manager and ERT.
 
 #### Ops Manager
