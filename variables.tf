@@ -72,20 +72,19 @@ variable "opsman_sql_db_host" {
  * Isolation Segment Options *
  *****************************/
 
-variable "isoseg_ssl_cert" {
+variable "isolation_segment" {
+  description = "create the required infrastructure to deploy isolation segment"
+  default     = false
+}
+
+variable "iso_seg_ssl_cert" {
   type        = "string"
   description = "ssl certificate content"
   default     = ""
 }
 
-variable "isoseg_ssl_cert_private_key" {
+variable "iso_seg_ssl_cert_private_key" {
   type        = "string"
   description = "ssl certificate private key content"
   default     = ""
-}
-
-variable "create_isoseg_resources" {
-  type        = "string"
-  default     = "0"
-  description = "Optionally create a LB and DNS entries for a single isolation segment. Valid values are 0 or 1."
 }

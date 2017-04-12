@@ -90,7 +90,6 @@ SERVICE_ACCOUNT_KEY
 ```
 
 ### Var Details
-
 - project: **(required)** ID for your GCP project.
 - env_name: **(required)** An arbitrary unique name for namespacing resources.
 - region: **(required)** Region in which to create resources (e.g. us-central1)
@@ -103,7 +102,6 @@ SERVICE_ACCOUNT_KEY
 - opsman_storage_bucket_count: *(optional)* Google Storage Bucket for BOSH's Blobstore.
 
 ## DNS Records
-
 - pcf.*$env_name*.*$dns_suffix*: Points at the Ops Manager VM's public IP address.
 - \*.sys.*$env_name*.*$dns_suffix*: Points at the HTTP/S load balancer in front of the Router.
 - doppler.sys.*$env_name*.*$dns_suffix*: Points at the TCP load balancer in front of the Router. This address is used to send websocket traffic to the Doppler server.
@@ -114,12 +112,11 @@ SERVICE_ACCOUNT_KEY
 - tcp.*$env_name*.*$dns_suffix*: Points at the TCP load balancer in front of the TCP router.
 
 ## Isolation Segments (optional)
-- create_isoseg_resources *(optional)* Set to 1 to create HTTP load-balancer across 3 zones for isolation segments. If set, the following 2 isoseg variables are also required.
+- istolation_segment *(optional)* When set to "true" creates HTTP load-balancer across 3 zones for isolation segments.
 - isoseg_ssl_cert: *(optional)* SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
 - isoseg_ssl_cert_private_key:  *(optional)* Private key for above SSL certificate.
 
 ### Cloud SQL Configuration (optional)
-
 - external_database: *(optional)* When set to "true", a cloud SQL instance will be deployed for the Ops Manager and ERT.
 
 #### Ops Manager

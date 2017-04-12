@@ -103,7 +103,7 @@ output "http_lb_backend_name" {
 }
 
 output "isoseg_lb_backend_name" {
-  value = "${google_compute_backend_service.isoseg_lb_backend_service.name}"
+  value = "${module.isolation_segment.load_balancer_name}"
 }
 
 output "ws_router_pool" {
