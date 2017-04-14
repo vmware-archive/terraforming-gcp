@@ -47,6 +47,7 @@ You will need to enable the following Google Cloud APIs:
 - [Identity and Access Management](https://console.developers.google.com/apis/api/iam.googleapis.com)
 - [Cloud Resource Manager](https://console.developers.google.com/apis/api/cloudresourcemanager.googleapis.com/)
 - [Cloud DNS](https://console.developers.google.com/apis/api/dns/overview)
+- [Cloud SQL API](https://console.developers.google.com/apis/api/sqladmin/overview)
 
 ### Var File
 
