@@ -161,3 +161,11 @@ output "ops_manager_ssh_private_key" {
 output "ops_manager_ssh_public_key" {
   value = "${format("ubuntu:%s", tls_private_key.ops-manager.public_key_openssh)}"
 }
+
+output "cf_ws_address" {
+  value = "${google_compute_address.cf-ws.address}"
+}
+
+output "dns_managed_zone" {
+  value = "${google_dns_managed_zone.env_dns_zone.name}"
+}
