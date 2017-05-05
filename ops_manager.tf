@@ -74,6 +74,7 @@ resource "google_compute_instance" "optional-ops-manager" {
 
   disk {
     image = "${google_compute_image.optional-ops-manager-image.self_link}"
+    size  = 150
   }
 
   network_interface {
