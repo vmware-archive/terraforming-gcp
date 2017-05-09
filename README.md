@@ -11,7 +11,7 @@ You will get a booted ops-manager VM plus some networking, just the bare bones b
 
 We have have other terraform templates to help you!
 
-- [aws](https://github.com/pivotal-cf/terraforming-aws)
+- [aws](https://github.com/pivotal-cf/pcf-bosh-terraforming-aws)
 - [azure](https://github.com/pivotal-cf/terraforming-azure)
 
 This list will be updated when more infrastructures come along.
