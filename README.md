@@ -113,7 +113,7 @@ SERVICE_ACCOUNT_KEY
 - tcp.*$env_name*.*$dns_suffix*: Points at the TCP load balancer in front of the TCP router.
 
 ## Isolation Segments (optional)
-- istolation_segment *(optional)* When set to "true" creates HTTP load-balancer across 3 zones for isolation segments.
+- isolation_segment *(optional)* When set to "true" creates HTTP load-balancer across 3 zones for isolation segments.
 - isoseg_ssl_cert: *(optional)* SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
 - isoseg_ssl_cert_private_key:  *(optional)* Private key for above SSL certificate.
 
