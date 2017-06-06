@@ -114,8 +114,8 @@ SERVICE_ACCOUNT_KEY
 
 ## Isolation Segments (optional)
 - isolation_segment *(optional)* When set to "true" creates HTTP load-balancer across 3 zones for isolation segments.
-- isoseg_ssl_cert: *(optional)* SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
-- isoseg_ssl_cert_private_key:  *(optional)* Private key for above SSL certificate.
+- iso_seg_ssl_cert: *(optional)* SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
+- iso_seg_ssl_cert_private_key:  *(optional)* Private key for above SSL certificate.
 
 ## Cloud SQL Configuration (optional)
 - external_database: *(optional)* When set to "true", a cloud SQL instance will be deployed for the Ops Manager and ERT.
