@@ -35,7 +35,7 @@ resource "google_compute_image" "optional-ops-manager-image" {
 
 resource "google_compute_instance" "ops-manager" {
   name           = "${var.env_name}-ops-manager"
-  machine_type   = "n1-standard-2"
+  machine_type   = "${var.opsman_machine_type}"
   zone           = "${element(var.zones, 1)}"
   create_timeout = 10
   tags           = ["${var.env_name}-ops-manager-external"]
@@ -66,7 +66,7 @@ resource "google_compute_instance" "ops-manager" {
 
 resource "google_compute_instance" "optional-ops-manager" {
   name           = "${var.env_name}-optional-ops-manager"
-  machine_type   = "n1-standard-2"
+  machine_type   = "${var.opsman_machine_type}"
   zone           = "${element(var.zones, 1)}"
   count          = "${min(length(split("", var.optional_opsman_image_url)),1)}"
   create_timeout = 10

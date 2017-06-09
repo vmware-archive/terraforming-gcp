@@ -25,6 +25,11 @@ variable "optional_opsman_image_url" {
   default     = ""
 }
 
+variable "opsman_machine_type" {
+  type    = "string"
+  default = "n1-standard-2"
+}
+
 variable "service_account_key" {
   type = "string"
 }
