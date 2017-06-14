@@ -1,17 +1,21 @@
 resource "random_id" "opsman_db_username" {
   byte_length = 8
+  count       = "${var.count}"
 }
 
 resource "random_id" "opsman_db_password" {
   byte_length = 32
+  count       = "${var.count}"
 }
 
 resource "random_id" "ert_db_username" {
   byte_length = 8
+  count       = "${var.count}"
 }
 
 resource "random_id" "ert_db_password" {
   byte_length = 32
+  count       = "${var.count}"
 }
 
 resource "google_sql_user" "ert" {

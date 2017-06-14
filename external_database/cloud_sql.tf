@@ -1,5 +1,6 @@
 resource "random_id" "db-name" {
   byte_length = 8
+  count       = "${var.count}"
 }
 
 resource "google_sql_database_instance" "master" {
