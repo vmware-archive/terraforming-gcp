@@ -126,6 +126,9 @@ SERVICE_ACCOUNT_KEY
 #### ERT
 - ert_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
 
+## Elastic Runtime Cloud Controller's Google Cloud Storage Buckets (optional)
+- create_gcs_buckets: *(optional)* When set to "false", buckets will not be created for Elastic Runtime Cloud Controller. Defaults to "true".
+
 ## Running
 
 Note: please make sure you have created the `terraform.tfvars` file above as mentioned.
