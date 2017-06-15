@@ -93,3 +93,12 @@ variable "iso_seg_ssl_cert_private_key" {
   description = "ssl certificate private key content"
   default     = ""
 }
+
+/********************************
+ * Google Cloud Storage Options *
+ ********************************/
+
+variable "create_gcs_buckets" {
+  description = "create Google Storage Buckets for Elastic Runtime Cloud Controller's file storage"
+  default     = true
+}
