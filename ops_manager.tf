@@ -40,9 +40,11 @@ resource "google_compute_instance" "ops-manager" {
   create_timeout = 10
   tags           = ["${var.env_name}-ops-manager-external"]
 
-  disk {
-    image = "${google_compute_image.ops-manager-image.self_link}"
-    size  = 150
+  boot_disk {
+    initialize_params {
+      image = "${google_compute_image.ops-manager-image.self_link}"
+      size  = 150
+    }
   }
 
   network_interface {
