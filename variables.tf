@@ -10,6 +10,24 @@ variable "region" {
   type = "string"
 }
 
+variable "management_cidr" {
+  type = "string"
+  description = "cidr for management subnet"
+  default     = "10.0.0.0/24"
+}
+
+variable "ert_cidr" {
+  type = "string"
+  description = "cidr for ert subnet"
+  default     = "10.0.4.0/24"
+}
+
+variable "services_cidr" {
+  type = "string"
+  description = "cidr for services subnet"
+  default     = "10.0.8.0/24"
+}
+
 variable "zones" {
   type = "list"
 }
