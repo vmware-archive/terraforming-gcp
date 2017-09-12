@@ -97,7 +97,7 @@ resource "google_compute_firewall" "cf-health_check" {
     ports    = ["8080"]
   }
 
-  source_ranges = ["130.211.0.0/22"]
+  source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
   target_tags   = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws", "${var.env_name}-isoseglb"]
 }
 
