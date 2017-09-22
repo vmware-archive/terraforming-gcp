@@ -52,15 +52,16 @@ You will need to enable the following Google Cloud APIs:
 ### Var File
 
 Copy the stub content below into a file called `terraform.tfvars` and put it in the root of this project.
-These vars will be used when you run `terraform  apply`. You should fill in the stub values with the correct content.
+These vars will be used when you run `terraform  apply`.
+You should fill in the stub values with the correct content.
 
 ```hcl
-env_name = "some-environment-name"
-region = "us-central1"
-opsman_image_url = "https://storage.googleapis.com/your-opsmanager.tgz"
-zones = ["us-central1-a", "us-central1-b", "us-central1-c"]
-project = "your-gcp-project"
-dns_suffix = "gcp.some-project.cf-app.com"
+env_name         = "some-environment-name"
+region           = "us-central1"
+opsman_image_url = "https://storage.googleapis.com/ops-manager-us/pcf-gcp-1.12.0.tar.gz"
+zones            = ["us-central1-a", "us-central1-b", "us-central1-c"]
+project          = "your-gcp-project"
+dns_suffix       = "gcp.some-project.cf-app.com"
 
 ssl_cert = <<SSL_CERT
 -----BEGIN CERTIFICATE-----
@@ -136,6 +137,7 @@ Note: please make sure you have created the `terraform.tfvars` file above as men
 ### Standing up environment
 
 ```bash
+terraform init
 terraform apply
 ```
 
