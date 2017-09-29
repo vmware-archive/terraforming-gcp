@@ -1,7 +1,7 @@
 module "external_database" {
   source = "./external_database"
 
-  count = "${var.external_database ? 1 : 0}"
+  count = "${var.external_database ? local.pcf_count : 0}"
 
   env_name    = "${var.env_name}"
   region      = "${var.region}"
@@ -14,7 +14,7 @@ module "external_database" {
 module "isolation_segment" {
   source = "./isolation_segment"
 
-  count = "${var.isolation_segment ? 1 : 0}"
+  count = "${var.isolation_segment ? local.pcf_count : 0}"
 
   env_name = "${var.env_name}"
   zones    = "${var.zones}"
@@ -25,4 +25,22 @@ module "isolation_segment" {
   dns_zone_name           = "${google_dns_managed_zone.env_dns_zone.name}"
   dns_zone_dns_name       = "${google_dns_managed_zone.env_dns_zone.dns_name}"
   public_healthcheck_link = "${google_compute_http_health_check.cf-public.self_link}"
+}
+
+module "bbl" {
+  source = "./bbl"
+  count = "${var.bbl_config ? 1 : 0}"
+
+  service_account_key = "${var.service_account_key}"
+  env_id = "${var.env_name}"
+  region = "${var.region}"
+  zone = "${var.zones[0]}"
+  project_id = "${var.project}"
+
+  system_domain = "${var.dns_suffix}"
+  ssl_certificate = "${var.ssl_cert}"
+  ssl_certificate_private_key = "${var.ssl_cert_private_key}"
+
+  cf_lb_count = "${var.bbl_cf_lb ? var.bbl_config : 0}"
+  concourse_lb_count = "${var.bbl_concourse_lb ? var.bbl_config : 0}"
 }

@@ -1,5 +1,6 @@
 # Allow HTTP/S access to Ops Manager from the outside world
 resource "google_compute_firewall" "ops-manager-external" {
+  count = "${local.pcf_count}"
   name        = "${var.env_name}-ops-manager-external"
   network     = "${google_compute_network.pcf-network.name}"
   target_tags = ["${var.env_name}-ops-manager-external"]
@@ -15,6 +16,7 @@ resource "google_compute_firewall" "ops-manager-external" {
 }
 
 resource "google_compute_image" "ops-manager-image" {
+  count = "${local.pcf_count}"
   name           = "${var.env_name}-ops-manager-image"
   create_timeout = 20
 
@@ -25,7 +27,7 @@ resource "google_compute_image" "ops-manager-image" {
 
 resource "google_compute_image" "optional-ops-manager-image" {
   name           = "${var.env_name}-optional-ops-manager-image"
-  count          = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+  count          = "${local.pcf_count * min(length(split("", var.optional_opsman_image_url)),1)}"
   create_timeout = 20
 
   raw_disk {
@@ -34,6 +36,7 @@ resource "google_compute_image" "optional-ops-manager-image" {
 }
 
 resource "google_compute_instance" "ops-manager" {
+  count = "${local.pcf_count}"
   name           = "${var.env_name}-ops-manager"
   machine_type   = "${var.opsman_machine_type}"
   zone           = "${element(var.zones, 1)}"
@@ -70,7 +73,7 @@ resource "google_compute_instance" "optional-ops-manager" {
   name           = "${var.env_name}-optional-ops-manager"
   machine_type   = "${var.opsman_machine_type}"
   zone           = "${element(var.zones, 1)}"
-  count          = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+  count          = "${local.pcf_count * min(length(split("", var.optional_opsman_image_url)),1)}"
   create_timeout = 10
   tags           = ["${var.env_name}-ops-manager-external"]
 
@@ -102,10 +105,11 @@ resource "google_storage_bucket" "director" {
   name          = "${var.env_name}-director"
   force_destroy = true
 
-  count = "${var.opsman_storage_bucket_count}"
+  count = "${local.pcf_count * var.opsman_storage_bucket_count}"
 }
 
 resource "tls_private_key" "ops-manager" {
+  count = "${local.pcf_count}"
   algorithm = "RSA"
   rsa_bits  = "4096"
 }

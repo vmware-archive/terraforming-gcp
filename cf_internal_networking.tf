@@ -1,5 +1,6 @@
 // Allow open access between internal VMs for a PCF deployment
 resource "google_compute_firewall" "cf-internal" {
+  count = "${local.pcf_count}"
   name    = "${var.env_name}-cf-internal"
   network = "${google_compute_network.pcf-network.name}"
 

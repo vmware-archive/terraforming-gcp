@@ -1,5 +1,6 @@
 // Allow access to TCP router
 resource "google_compute_firewall" "cf-tcp" {
+  count = "${local.pcf_count}"
   name    = "${var.env_name}-cf-tcp"
   network = "${google_compute_network.pcf-network.name}"
 
@@ -13,11 +14,13 @@ resource "google_compute_firewall" "cf-tcp" {
 
 // Static IP address for forwarding rule
 resource "google_compute_address" "cf-tcp" {
+  count = "${local.pcf_count}"
   name = "${var.env_name}-cf-tcp"
 }
 
 // Health check
 resource "google_compute_http_health_check" "cf-tcp" {
+  count = "${local.pcf_count}"
   name                = "${var.env_name}-cf-tcp"
   port                = 80
   request_path        = "/health"
@@ -29,6 +32,7 @@ resource "google_compute_http_health_check" "cf-tcp" {
 
 // TCP target pool
 resource "google_compute_target_pool" "cf-tcp" {
+  count = "${local.pcf_count}"
   name = "${var.env_name}-cf-tcp"
 
   health_checks = [
@@ -38,6 +42,7 @@ resource "google_compute_target_pool" "cf-tcp" {
 
 // TCP forwarding rule
 resource "google_compute_forwarding_rule" "cf-tcp" {
+  count = "${local.pcf_count}"
   name        = "${var.env_name}-cf-tcp"
   target      = "${google_compute_target_pool.cf-tcp.self_link}"
   port_range  = "1024-65535"

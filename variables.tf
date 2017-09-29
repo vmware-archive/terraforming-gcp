@@ -120,3 +120,20 @@ variable "create_gcs_buckets" {
   description = "create Google Storage Buckets for Elastic Runtime Cloud Controller's file storage"
   default     = true
 }
+
+/***************
+ * BBL Options *
+ ***************/
+
+variable "bbl_config" {
+  description = "use BBL's preferred IAAS paving options"
+  default     = false
+}
+
+variable "bbl_concourse_lb" {
+  default = false
+}
+
+variable "bbl_cf_lb" {
+  default = false
+}

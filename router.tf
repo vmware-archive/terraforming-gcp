@@ -3,6 +3,7 @@
  **********/
 
 resource "google_compute_firewall" "cf-public" {
+  count = "${local.pcf_count}"
   name    = "${var.env_name}-cf-public"
   network = "${google_compute_network.pcf-network.name}"
 
@@ -15,18 +16,20 @@ resource "google_compute_firewall" "cf-public" {
 }
 
 resource "google_compute_global_address" "cf" {
+  count = "${local.pcf_count}"
   name = "${var.env_name}-cf"
 }
 
 resource "google_compute_instance_group" "httplb" {
   // Count based on number of AZs
-  count       = 3
+  count       = "${3 * local.pcf_count}"
   name        = "${var.env_name}-httpslb-${element(var.zones, count.index)}"
   description = "terraform generated instance group that is multi-zone for https loadbalancing"
   zone        = "${element(var.zones, count.index)}"
 }
 
 resource "google_compute_http_health_check" "cf-public" {
+  count = "${local.pcf_count}"
   name                = "${var.env_name}-cf-public"
   port                = 8080
   request_path        = "/health"
@@ -37,6 +40,7 @@ resource "google_compute_http_health_check" "cf-public" {
 }
 
 resource "google_compute_backend_service" "http_lb_backend_service" {
+  count = "${local.pcf_count}"
   name        = "${var.env_name}-httpslb"
   port_name   = "http"
   protocol    = "HTTP"
@@ -59,18 +63,21 @@ resource "google_compute_backend_service" "http_lb_backend_service" {
 }
 
 resource "google_compute_url_map" "https_lb_url_map" {
+  count = "${local.pcf_count}"
   name = "${var.env_name}-cf-http"
 
   default_service = "${google_compute_backend_service.http_lb_backend_service.self_link}"
 }
 
 resource "google_compute_target_http_proxy" "http_lb_proxy" {
+  count = "${local.pcf_count}"
   name        = "${var.env_name}-httpproxy"
   description = "really a load balancer but listed as an https proxy"
   url_map     = "${google_compute_url_map.https_lb_url_map.self_link}"
 }
 
 resource "google_compute_target_https_proxy" "https_lb_proxy" {
+  count = "${local.pcf_count}"
   name             = "${var.env_name}-httpsproxy"
   description      = "really a load balancer but listed as an https proxy"
   url_map          = "${google_compute_url_map.https_lb_url_map.self_link}"
@@ -78,6 +85,7 @@ resource "google_compute_target_https_proxy" "https_lb_proxy" {
 }
 
 resource "google_compute_ssl_certificate" "cert" {
+  count = "${local.pcf_count}"
   name_prefix = "${var.env_name}-lbcert"
   description = "user provided ssl private key / ssl certificate pair"
   private_key = "${var.ssl_cert_private_key}"
@@ -89,6 +97,7 @@ resource "google_compute_ssl_certificate" "cert" {
 }
 
 resource "google_compute_firewall" "cf-health_check" {
+  count = "${local.pcf_count}"
   name    = "${var.env_name}-cf-health-check"
   network = "${google_compute_network.pcf-network.name}"
 
@@ -102,6 +111,7 @@ resource "google_compute_firewall" "cf-health_check" {
 }
 
 resource "google_compute_global_forwarding_rule" "cf-http" {
+  count = "${local.pcf_count}"
   name       = "${var.env_name}-cf-lb-http"
   ip_address = "${google_compute_global_address.cf.address}"
   target     = "${google_compute_target_http_proxy.http_lb_proxy.self_link}"
@@ -109,6 +119,7 @@ resource "google_compute_global_forwarding_rule" "cf-http" {
 }
 
 resource "google_compute_global_forwarding_rule" "cf-https" {
+  count = "${local.pcf_count}"
   name       = "${var.env_name}-cf-lb-https"
   ip_address = "${google_compute_global_address.cf.address}"
   target     = "${google_compute_target_https_proxy.https_lb_proxy.self_link}"
@@ -120,10 +131,12 @@ resource "google_compute_global_forwarding_rule" "cf-https" {
  **********/
 
 resource "google_compute_address" "cf-ws" {
+  count = "${local.pcf_count}"
   name = "${var.env_name}-cf-ws"
 }
 
 resource "google_compute_target_pool" "cf-ws" {
+  count = "${local.pcf_count}"
   name = "${var.env_name}-cf-ws"
 
   health_checks = [
@@ -132,6 +145,7 @@ resource "google_compute_target_pool" "cf-ws" {
 }
 
 resource "google_compute_forwarding_rule" "cf-ws-https" {
+  count = "${local.pcf_count}"
   name        = "${var.env_name}-cf-ws-https"
   target      = "${google_compute_target_pool.cf-ws.self_link}"
   port_range  = "443"
@@ -140,6 +154,7 @@ resource "google_compute_forwarding_rule" "cf-ws-https" {
 }
 
 resource "google_compute_forwarding_rule" "cf-ws-http" {
+  count = "${local.pcf_count}"
   name        = "${var.env_name}-cf-ws-http"
   target      = "${google_compute_target_pool.cf-ws.self_link}"
   port_range  = "80"
@@ -152,6 +167,7 @@ resource "google_compute_forwarding_rule" "cf-ws-http" {
  ****************/
 
 resource "google_compute_firewall" "cf-ssh" {
+  count = "${local.pcf_count}"
   name    = "${var.env_name}-cf-ssh"
   network = "${google_compute_network.pcf-network.name}"
 
@@ -164,14 +180,17 @@ resource "google_compute_firewall" "cf-ssh" {
 }
 
 resource "google_compute_address" "cf-ssh" {
+  count = "${local.pcf_count}"
   name = "${var.env_name}-cf-ssh"
 }
 
 resource "google_compute_target_pool" "cf-ssh" {
+  count = "${local.pcf_count}"
   name = "${var.env_name}-cf-ssh"
 }
 
 resource "google_compute_forwarding_rule" "cf-ssh" {
+  count = "${local.pcf_count}"
   name        = "${var.env_name}-cf-ssh"
   target      = "${google_compute_target_pool.cf-ssh.self_link}"
   port_range  = "2222"
