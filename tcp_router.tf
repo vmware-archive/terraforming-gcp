@@ -40,7 +40,7 @@ resource "google_compute_target_pool" "cf-tcp" {
 resource "google_compute_forwarding_rule" "cf-tcp" {
   name        = "${var.env_name}-cf-tcp"
   target      = "${google_compute_target_pool.cf-tcp.self_link}"
-  port_range  = "1024-65535"
+  port_range  = "1024-1123"
   ip_protocol = "TCP"
   ip_address  = "${google_compute_address.cf-tcp.address}"
 }
