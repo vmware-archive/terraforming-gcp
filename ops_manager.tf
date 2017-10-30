@@ -33,6 +33,10 @@ resource "google_compute_image" "optional-ops-manager-image" {
   }
 }
 
+resource "google_compute_address" "ops-manager-ip" {
+  name = "${var.env_name}-ops-manager-ip"
+}
+
 resource "google_compute_instance" "ops-manager" {
   name           = "${var.env_name}-ops-manager"
   machine_type   = "${var.opsman_machine_type}"
@@ -51,7 +55,7 @@ resource "google_compute_instance" "ops-manager" {
     subnetwork = "${google_compute_subnetwork.management-subnet.name}"
 
     access_config {
-      # Empty for ephemeral external IP allocation
+      nat_ip = "${google_compute_address.ops-manager-ip.address}"
     }
   }
 
@@ -66,6 +70,11 @@ resource "google_compute_instance" "ops-manager" {
   }
 }
 
+resource "google_compute_address" "optional-ops-manager-ip" {
+  name  = "${var.env_name}-optional-ops-manager-ip"
+  count = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+}
+
 resource "google_compute_instance" "optional-ops-manager" {
   name           = "${var.env_name}-optional-ops-manager"
   machine_type   = "${var.opsman_machine_type}"
@@ -74,16 +83,18 @@ resource "google_compute_instance" "optional-ops-manager" {
   create_timeout = 10
   tags           = ["${var.env_name}-ops-manager-external"]
 
-  disk {
-    image = "${google_compute_image.optional-ops-manager-image.self_link}"
-    size  = 150
+  boot_disk {
+    initialize_params {
+      image = "${google_compute_image.optional-ops-manager-image.self_link}"
+      size  = 150
+    }
   }
 
   network_interface {
     subnetwork = "${google_compute_subnetwork.management-subnet.name}"
 
     access_config {
-      # Empty for ephemeral external IP allocation
+      nat_ip = "${google_compute_address.optional-ops-manager-ip.address}"
     }
   }
 
