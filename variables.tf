@@ -16,9 +16,9 @@ variable "management_cidr" {
   default     = "10.0.0.0/24"
 }
 
-variable "ert_cidr" {
+variable "pas_cidr" {
   type = "string"
-  description = "cidr for ert subnet"
+  description = "cidr for pas subnet"
   default     = "10.0.4.0/24"
 }
 
@@ -67,7 +67,7 @@ variable "ssl_cert_private_key" {
 }
 
 variable "external_database" {
-  description = "standups up a cloud sql database instance for the ops manager and ERT"
+  description = "standups up a cloud sql database instance for the ops manager and PAS"
   default     = false
 }
 
@@ -81,7 +81,7 @@ variable "opsman_storage_bucket_count" {
   description = "Optional configuration of a Google Storage Bucket for BOSH's blobstore"
 }
 
-variable "ert_sql_db_host" {
+variable "pas_sql_db_host" {
   type    = "string"
   default = ""
 }

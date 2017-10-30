@@ -113,16 +113,16 @@ SERVICE_ACCOUNT_KEY
 - iso_seg_ssl_cert_private_key:  *(optional)* Private key for above SSL certificate.
 
 ## Cloud SQL Configuration (optional)
-- external_database: *(optional)* When set to "true", a cloud SQL instance will be deployed for the Ops Manager and ERT.
+- external_database: *(optional)* When set to "true", a cloud SQL instance will be deployed for the Ops Manager and PAS.
 
 #### Ops Manager
 - opsman_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
 
-#### ERT
-- ert_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
+#### PAS
+- pas_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
 
-## Elastic Runtime Cloud Controller's Google Cloud Storage Buckets (optional)
-- create_gcs_buckets: *(optional)* When set to "false", buckets will not be created for Elastic Runtime Cloud Controller. Defaults to "true".
+## PAS Cloud Controller's Google Cloud Storage Buckets (optional)
+- create_gcs_buckets: *(optional)* When set to "false", buckets will not be created for PAS Cloud Controller. Defaults to "true".
 
 ## Running
 

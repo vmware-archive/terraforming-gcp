@@ -8,21 +8,21 @@ resource "random_id" "opsman_db_password" {
   count       = "${var.count}"
 }
 
-resource "random_id" "ert_db_username" {
+resource "random_id" "pas_db_username" {
   byte_length = 8
   count       = "${var.count}"
 }
 
-resource "random_id" "ert_db_password" {
+resource "random_id" "pas_db_password" {
   byte_length = 32
   count       = "${var.count}"
 }
 
-resource "google_sql_user" "ert" {
-  name     = "${random_id.ert_db_username.b64}"
-  password = "${random_id.ert_db_password.b64}"
+resource "google_sql_user" "pas" {
+  name     = "${random_id.pas_db_username.b64}"
+  password = "${random_id.pas_db_password.b64}"
   instance = "${google_sql_database_instance.master.name}"
-  host     = "${var.ert_sql_db_host}"
+  host     = "${var.pas_sql_db_host}"
 
   count = "${var.count}"
 }
@@ -32,7 +32,7 @@ resource "google_sql_user" "opsman" {
   password   = "${random_id.opsman_db_password.b64}"
   instance   = "${google_sql_database_instance.master.name}"
   host       = "${var.opsman_sql_db_host}"
-  depends_on = ["google_sql_user.ert"]
+  depends_on = ["google_sql_user.pas"]
 
   count = "${var.count}"
 }

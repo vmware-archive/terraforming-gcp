@@ -74,16 +74,16 @@ output "opsman_sql_db_name" {
   value = "${module.external_database.opsman_sql_db_name}"
 }
 
-output "ert_subnet_gateway" {
-  value = "${google_compute_subnetwork.ert-subnet.gateway_address}"
+output "pas_subnet_gateway" {
+  value = "${google_compute_subnetwork.pas-subnet.gateway_address}"
 }
 
-output "ert_subnet_cidrs" {
-  value = ["${google_compute_subnetwork.ert-subnet.ip_cidr_range}"]
+output "pas_subnet_cidrs" {
+  value = ["${google_compute_subnetwork.pas-subnet.ip_cidr_range}"]
 }
 
-output "ert_subnet_name" {
-  value = "${google_compute_subnetwork.ert-subnet.name}"
+output "pas_subnet_name" {
+  value = "${google_compute_subnetwork.pas-subnet.name}"
 }
 
 output "services_subnet_gateway" {
@@ -138,12 +138,12 @@ output "director_blobstore_bucket" {
   value = "${google_storage_bucket.director.name}"
 }
 
-output "ert_sql_username" {
-  value = "${module.external_database.ert_sql_username}"
+output "pas_sql_username" {
+  value = "${module.external_database.pas_sql_username}"
 }
 
-output "ert_sql_password" {
-  value = "${module.external_database.ert_sql_password}"
+output "pas_sql_password" {
+  value = "${module.external_database.pas_sql_password}"
 }
 
 output "opsman_sql_username" {

@@ -10,9 +10,9 @@ resource "google_compute_subnetwork" "management-subnet" {
   region        = "${var.region}"
 }
 
-resource "google_compute_subnetwork" "ert-subnet" {
-  name          = "${var.env_name}-ert-subnet"
-  ip_cidr_range = "${var.ert_cidr}"
+resource "google_compute_subnetwork" "pas-subnet" {
+  name          = "${var.env_name}-pas-subnet"
+  ip_cidr_range = "${var.pas_cidr}"
   network       = "${google_compute_network.pcf-network.self_link}"
   region        = "${var.region}"
 }

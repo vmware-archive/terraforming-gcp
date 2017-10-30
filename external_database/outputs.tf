@@ -14,12 +14,12 @@ output "opsman_sql_password" {
   value = "${random_id.opsman_db_password.b64}"
 }
 
-output "ert_sql_username" {
-  value = "${random_id.ert_db_username.b64}"
+output "pas_sql_username" {
+  value = "${random_id.pas_db_username.b64}"
 }
 
-output "ert_sql_password" {
-  value = "${random_id.ert_db_password.b64}"
+output "pas_sql_password" {
+  value = "${random_id.pas_db_password.b64}"
 }
 
 output "ip" {

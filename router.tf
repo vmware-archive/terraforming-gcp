@@ -1,5 +1,5 @@
 /**********
- * ERT LB *
+ * PAS LB *
  **********/
 
 resource "google_compute_firewall" "cf-public" {

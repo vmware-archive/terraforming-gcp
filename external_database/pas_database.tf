@@ -1,7 +1,7 @@
 resource "google_sql_database" "uaa" {
   name       = "uaa"
   instance   = "${google_sql_database_instance.master.name}"
-  depends_on = ["google_sql_user.ert", "google_sql_user.opsman"]
+  depends_on = ["google_sql_user.pas", "google_sql_user.opsman"]
 
   count = "${var.count}"
 }
