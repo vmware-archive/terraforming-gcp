@@ -32,9 +32,9 @@ You will need a key file for your [service account](https://cloud.google.com/iam
 to allow terraform to deploy resources. If you don't have one, you can create a service account and a key for it:
 
 ```bash
-gcloud iam service-accounts create some-account-name --display-name "Some Account Name"
-gcloud iam service-accounts keys create "terraform.key.json" --iam-account "some-account-name@yourproject.iam.gserviceaccount.com"
-gcloud projects add-iam-policy-binding PROJECT_ID --member 'serviceAccount:some-account-name@PROJECT_ID.iam.gserviceaccount.com' --role 'roles/owner'
+gcloud iam service-accounts create ACCOUNT_NAME --display-name "Some Account Name"
+gcloud iam service-accounts keys create "terraform.key.json" --iam-account "ACCOUNT_NAME@PROJECT_ID.iam.gserviceaccount.com"
+gcloud projects add-iam-policy-binding PROJECT_ID --member 'serviceAccount:ACCOUNT_NAME@PROJECT_ID.iam.gserviceaccount.com' --role 'roles/owner'
 ```
 
 You will need to enable the following Google Cloud APIs:
@@ -87,7 +87,7 @@ SERVICE_ACCOUNT_KEY
 
 ### Var Details
 - project: **(required)** ID for your GCP project.
-- env_name: **(required)** An arbitrary unique name for namespacing resources.
+- env_name: **(required)** An arbitrary unique name for namespacing resources. Max 23 characters.
 - region: **(required)** Region in which to create resources (e.g. us-central1)
 - zones: **(required)** Zones in which to create resources. Must be within the given region. Currently you must specify exactly 3 Zones for this terraform configuration to work. (e.g. [us-central1-a, us-central1-b, us-central1-c])
 - opsman_image_url **(required)** Source URL of the Ops Manager image you want to boot.
