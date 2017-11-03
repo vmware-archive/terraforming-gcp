@@ -101,3 +101,11 @@ resource "google_sql_database" "locket" {
 
   count = "${var.count}"
 }
+
+resource "google_sql_database" "credhub" {
+  name       = "credhub"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.locket"]
+
+  count = "${var.count}"
+}
