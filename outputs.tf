@@ -143,7 +143,8 @@ output "pas_sql_username" {
 }
 
 output "pas_sql_password" {
-  value = "${module.external_database.pas_sql_password}"
+  sensitive = true
+  value     = "${module.external_database.pas_sql_password}"
 }
 
 output "opsman_sql_username" {
@@ -151,15 +152,18 @@ output "opsman_sql_username" {
 }
 
 output "opsman_sql_password" {
-  value = "${module.external_database.opsman_sql_password}"
+  sensitive = true
+  value     = "${module.external_database.opsman_sql_password}"
 }
 
 output "ops_manager_ssh_private_key" {
-  value = "${tls_private_key.ops-manager.private_key_pem}"
+  sensitive = true
+  value     = "${tls_private_key.ops-manager.private_key_pem}"
 }
 
 output "ops_manager_ssh_public_key" {
-  value = "${format("ubuntu:%s", tls_private_key.ops-manager.public_key_openssh)}"
+  sensitive = true
+  value     = "${format("ubuntu:%s", tls_private_key.ops-manager.public_key_openssh)}"
 }
 
 output "cf_ws_address" {

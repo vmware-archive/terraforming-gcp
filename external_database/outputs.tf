@@ -11,7 +11,8 @@ output "opsman_sql_username" {
 }
 
 output "opsman_sql_password" {
-  value = "${random_id.opsman_db_password.b64}"
+  sensitive = true
+  value     = "${random_id.opsman_db_password.b64}"
 }
 
 output "pas_sql_username" {
@@ -19,7 +20,8 @@ output "pas_sql_username" {
 }
 
 output "pas_sql_password" {
-  value = "${random_id.pas_db_password.b64}"
+  sensitive = true
+  value     = "${random_id.pas_db_password.b64}"
 }
 
 output "ip" {
