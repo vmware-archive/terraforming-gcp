@@ -25,5 +25,5 @@ output "pas_sql_password" {
 }
 
 output "ip" {
-  value = "${element(concat(google_sql_database_instance.master.ip_address.*.ip_address, list("")), 0)}"
+  value = "${element(concat(google_sql_database_instance.master.*.ip_address.0.ip_address., list("")), 0)}"
 }
