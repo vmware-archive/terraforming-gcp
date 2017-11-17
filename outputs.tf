@@ -7,7 +7,7 @@ output "ops_manager_dns" {
 }
 
 output "optional_ops_manager_dns" {
-  value = "${google_dns_record_set.optional-ops-manager-dns.name}"
+  value = "${element(concat(google_dns_record_set.optional-ops-manager-dns.*.name, list("")), 0)}"
 }
 
 output "sys_domain" {
@@ -27,7 +27,7 @@ output "ops_manager_public_ip" {
 }
 
 output "optional_ops_manager_public_ip" {
-  value = "${google_compute_address.optional-ops-manager-ip.address}"
+  value = "${element(concat(google_compute_address.optional-ops-manager-ip.*.address, list("")), 0)}"
 }
 
 output "env_dns_zone_name_servers" {
