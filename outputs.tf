@@ -135,7 +135,7 @@ output "resources_bucket" {
 }
 
 output "director_blobstore_bucket" {
-  value = "${google_storage_bucket.director.name}"
+  value = "${element(concat(google_storage_bucket.director.*.name, list("")), 0)}"
 }
 
 output "pas_sql_username" {
