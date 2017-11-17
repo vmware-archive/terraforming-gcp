@@ -133,7 +133,7 @@ Note: please make sure you have created the `terraform.tfvars` file above as men
 ```bash
 terraform init
 terraform plan -out=plan
-terraform apply
+terraform apply plan
 ```
 
 ### Tearing down environment
