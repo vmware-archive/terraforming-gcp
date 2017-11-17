@@ -63,7 +63,7 @@ some cert
 -----END CERTIFICATE-----
 SSL_CERT
 
-ssl_cert_private_key = <<SSL_KEY
+ssl_private_key = <<SSL_KEY
 -----BEGIN RSA PRIVATE KEY-----
 some cert private key
 -----END RSA PRIVATE KEY-----
@@ -94,7 +94,7 @@ SERVICE_ACCOUNT_KEY
 - service_account_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - dns_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com)
 - ssl_cert: **(required)** SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
-- ssl_cert_private_key:  **(required)** Private key for above SSL certificate.
+- ssl_private_key:  **(required)** Private key for above SSL certificate.
 - opsman_storage_bucket_count: *(optional)* Google Storage Bucket for BOSH's Blobstore.
 
 ## DNS Records
@@ -110,7 +110,7 @@ SERVICE_ACCOUNT_KEY
 ## Isolation Segments (optional)
 - isolation_segment *(optional)* When set to "true" creates HTTP load-balancer across 3 zones for isolation segments.
 - iso_seg_ssl_cert: *(optional)* SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
-- iso_seg_ssl_cert_private_key:  *(optional)* Private key for above SSL certificate.
+- iso_seg_ssl_private_key:  *(optional)* Private key for above SSL certificate.
 
 ## Cloud SQL Configuration (optional)
 - external_database: *(optional)* When set to "true", a cloud SQL instance will be deployed for the Ops Manager and PAS.

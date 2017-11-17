@@ -8,7 +8,7 @@ variable "env_name" {}
 
 variable "ssl_cert" {}
 
-variable "ssl_cert_private_key" {}
+variable "ssl_private_key" {}
 
 variable "dns_zone_dns_name" {}
 
