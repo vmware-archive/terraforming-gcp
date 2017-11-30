@@ -25,8 +25,8 @@ resource "google_compute_target_https_proxy" "isoseg_https_lb_proxy" {
 resource "google_compute_ssl_certificate" "isoseg_cert" {
   name_prefix = "${var.env_name}-isoseg-lbcert"
   description = "user provided ssl private key / ssl certificate pair"
-  private_key = "${var.iso_seg_ssl_private_key}"
-  certificate = "${var.iso_seg_ssl_cert}"
+  private_key = "${var.ssl_private_key}"
+  certificate = "${var.ssl_cert}"
 
   lifecycle = {
     create_before_destroy = true
