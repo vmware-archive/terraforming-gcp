@@ -11,19 +11,19 @@ variable "region" {
 }
 
 variable "management_cidr" {
-  type = "string"
+  type        = "string"
   description = "cidr for management subnet"
   default     = "10.0.0.0/24"
 }
 
 variable "pas_cidr" {
-  type = "string"
+  type        = "string"
   description = "cidr for pas subnet"
   default     = "10.0.4.0/24"
 }
 
 variable "services_cidr" {
-  type = "string"
+  type        = "string"
   description = "cidr for services subnet"
   default     = "10.0.8.0/24"
 }
@@ -58,12 +58,26 @@ variable "dns_suffix" {
 
 variable "ssl_cert" {
   type        = "string"
-  description = "ssl certificate content"
+  description = "the contents of an SSL certificate to be used by the LB, optional if `ssl_ca_cert` is provided"
+  default     = ""
 }
 
 variable "ssl_private_key" {
   type        = "string"
-  description = "ssl certificate private key content"
+  description = "the contents of an SSL private key to be used by the LB, optional if `ssl_ca_cert` is provided"
+  default     = ""
+}
+
+variable "ssl_ca_cert" {
+  type        = "string"
+  description = "the contents of a CA public key to be used to sign the generated LB certificate, optional if `ssl_cert` is provided"
+  default     = ""
+}
+
+variable "ssl_ca_private_key" {
+  type        = "string"
+  description = "the contents of a CA private key to be used to sign the generated LB certificate, optional if `ssl_cert` is provided"
+  default     = ""
 }
 
 variable "external_database" {
@@ -102,13 +116,25 @@ variable "isolation_segment" {
 
 variable "iso_seg_ssl_cert" {
   type        = "string"
-  description = "ssl certificate content"
+  description = "the contents of an SSL certificate to be used by the LB, optional if `iso_seg_ssl_ca_cert` is provided"
   default     = ""
 }
 
 variable "iso_seg_ssl_private_key" {
   type        = "string"
-  description = "ssl certificate private key content"
+  description = "the contents of an SSL private key to be used by the LB, optional if `iso_seg_ssl_ca_cert` is provided"
+  default     = ""
+}
+
+variable "iso_seg_ssl_ca_cert" {
+  type        = "string"
+  description = "the contents of a CA public key to be used to sign the generated iso seg LB certificate, optional if `iso_seg_ssl_cert` is provided"
+  default     = ""
+}
+
+variable "iso_seg_ssl_ca_private_key" {
+  type        = "string"
+  description = "the contents of a CA private key to be used to sign the generated iso seg LB certificate, optional if `iso_seg_ssl_cert` is provided"
   default     = ""
 }
 

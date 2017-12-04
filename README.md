@@ -93,8 +93,10 @@ SERVICE_ACCOUNT_KEY
 - opsman_image_url **(required)** Source URL of the Ops Manager image you want to boot.
 - service_account_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - dns_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com)
-- ssl_cert: **(required)** SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
-- ssl_private_key:  **(required)** Private key for above SSL certificate.
+- ssl_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
+- ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
+- ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
+- ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
 - opsman_storage_bucket_count: *(optional)* Google Storage Bucket for BOSH's Blobstore.
 
 ## DNS Records
@@ -108,9 +110,11 @@ SERVICE_ACCOUNT_KEY
 - tcp.*$env_name*.*$dns_suffix*: Points at the TCP load balancer in front of the TCP router.
 
 ## Isolation Segments (optional)
-- isolation_segment *(optional)* When set to "true" creates HTTP load-balancer across 3 zones for isolation segments.
-- iso_seg_ssl_cert: *(optional)* SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
-- iso_seg_ssl_private_key:  *(optional)* Private key for above SSL certificate.
+- isolation_segment **(optional)** When set to "true" creates HTTP load-balancer across 3 zones for isolation segments.
+- iso_seg_ssl_cert: **(optional)** SSL certificate for Iso Seg HTTP load balancer configuration. Required unless `iso_seg_ssl_ca_cert` is specified.
+- iso_seg_ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `iso_seg_ssl_ca_cert` is specified.
+- iso_seg_ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed Iso Seg HTTP load balancer certificate. Required unless `iso_seg_ssl_cert` is specified.
+- iso_seg_ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `iso_seg_ssl_cert` is specified.
 
 ## Cloud SQL Configuration (optional)
 - external_database: *(optional)* When set to "true", a cloud SQL instance will be deployed for the Ops Manager and PAS.
