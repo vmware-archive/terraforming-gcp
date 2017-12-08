@@ -10,6 +10,11 @@ variable "region" {
   type = "string"
 }
 
+variable "buckets_location" {
+  type    = "string"
+  default = "US"
+}
+
 variable "management_cidr" {
   type        = "string"
   description = "cidr for management subnet"

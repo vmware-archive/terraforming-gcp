@@ -51,11 +51,13 @@ You should fill in the stub values with the correct content.
 
 ```hcl
 env_name         = "some-environment-name"
-region           = "us-central1"
-opsman_image_url = "https://storage.googleapis.com/ops-manager-us/pcf-gcp-1.12.0.tar.gz"
-zones            = ["us-central1-a", "us-central1-b", "us-central1-c"]
 project          = "your-gcp-project"
+region           = "us-central1"
+zones            = ["us-central1-a", "us-central1-b", "us-central1-c"]
 dns_suffix       = "gcp.some-project.cf-app.com"
+opsman_image_url = "https://storage.googleapis.com/ops-manager-us/pcf-gcp-1.12.0.tar.gz"
+
+buckets_location = "US"
 
 ssl_cert = <<SSL_CERT
 -----BEGIN CERTIFICATE-----
@@ -86,13 +88,14 @@ SERVICE_ACCOUNT_KEY
 ```
 
 ### Var Details
-- project: **(required)** ID for your GCP project.
 - env_name: **(required)** An arbitrary unique name for namespacing resources. Max 23 characters.
+- project: **(required)** ID for your GCP project.
 - region: **(required)** Region in which to create resources (e.g. us-central1)
 - zones: **(required)** Zones in which to create resources. Must be within the given region. Currently you must specify exactly 3 Zones for this terraform configuration to work. (e.g. [us-central1-a, us-central1-b, us-central1-c])
 - opsman_image_url **(required)** Source URL of the Ops Manager image you want to boot.
 - service_account_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - dns_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com)
+- buckets_location: **(optional)** Loction in which to create buckets. Defaults to US.
 - ssl_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
 - ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
 - ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
