@@ -139,19 +139,19 @@ output "tcp_router_pool" {
 }
 
 output "buildpacks_bucket" {
-  value = "${google_storage_bucket.buildpacks.name}"
+  value = "${element(concat(google_storage_bucket.buildpacks.*.name, list("")), 0)}"
 }
 
 output "droplets_bucket" {
-  value = "${google_storage_bucket.droplets.name}"
+  value = "${element(concat(google_storage_bucket.droplets.*.name, list("")), 0)}"
 }
 
 output "packages_bucket" {
-  value = "${google_storage_bucket.packages.name}"
+  value = "${element(concat(google_storage_bucket.packages.*.name, list("")), 0)}"
 }
 
 output "resources_bucket" {
-  value = "${google_storage_bucket.resources.name}"
+  value = "${element(concat(google_storage_bucket.resources.*.name, list("")), 0)}"
 }
 
 output "director_blobstore_bucket" {
