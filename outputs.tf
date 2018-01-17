@@ -11,15 +11,15 @@ output "optional_ops_manager_dns" {
 }
 
 output "sys_domain" {
-  value = "sys.${var.env_name}.${var.dns_suffix}"
+  value = "${replace(replace(google_dns_record_set.wildcard-sys-dns.name, "/^\\*\\./", ""), "/\\.$/", "")}"
 }
 
 output "apps_domain" {
-  value = "apps.${var.env_name}.${var.dns_suffix}"
+  value = "${replace(replace(google_dns_record_set.wildcard-apps-dns.name, "/^\\*\\./", ""), "/\\.$/", "")}"
 }
 
 output "tcp_domain" {
-  value = "tcp.${var.env_name}.${var.dns_suffix}"
+  value = "${replace(google_dns_record_set.tcp-dns.name, "/\\.$/", "")}"
 }
 
 output "ops_manager_public_ip" {
@@ -110,6 +110,10 @@ output "ssl_cert" {
 output "ssl_private_key" {
   sensitive = true
   value     = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_private_key.ssl_private_key.*.private_key_pem, list("")), 0) : var.ssl_private_key}"
+}
+
+output "isoseg_domain" {
+  value = "${module.isolation_segment.domain}"
 }
 
 output "isoseg_lb_backend_name" {
