@@ -13,5 +13,5 @@ output "ssl_private_key" {
 }
 
 output "domain" {
-  value = "${replace(replace(google_dns_record_set.wildcard-iso-dns.name, "/^\\*\\./", ""), "/\\.$/", "")}"
+  value = "${replace(replace(element(concat(google_dns_record_set.wildcard-iso-dns.*.name, list("")), 0), "/^\\*\\./", ""), "/\\.$/", "")}"
 }
