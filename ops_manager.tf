@@ -38,11 +38,14 @@ resource "google_compute_address" "ops-manager-ip" {
 }
 
 resource "google_compute_instance" "ops-manager" {
-  name           = "${var.env_name}-ops-manager"
-  machine_type   = "${var.opsman_machine_type}"
-  zone           = "${element(var.zones, 1)}"
-  create_timeout = 10
-  tags           = ["${var.env_name}-ops-manager-external"]
+  name         = "${var.env_name}-ops-manager"
+  machine_type = "${var.opsman_machine_type}"
+  zone         = "${element(var.zones, 1)}"
+  tags         = ["${var.env_name}-ops-manager-external"]
+
+  timeouts {
+    create = "10m"
+  }
 
   boot_disk {
     initialize_params {
@@ -76,12 +79,15 @@ resource "google_compute_address" "optional-ops-manager-ip" {
 }
 
 resource "google_compute_instance" "optional-ops-manager" {
-  name           = "${var.env_name}-optional-ops-manager"
-  machine_type   = "${var.opsman_machine_type}"
-  zone           = "${element(var.zones, 1)}"
-  count          = "${min(length(split("", var.optional_opsman_image_url)),1)}"
-  create_timeout = 10
-  tags           = ["${var.env_name}-ops-manager-external"]
+  name         = "${var.env_name}-optional-ops-manager"
+  machine_type = "${var.opsman_machine_type}"
+  zone         = "${element(var.zones, 1)}"
+  count        = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+  tags         = ["${var.env_name}-ops-manager-external"]
+
+  timeouts {
+    create = "10m"
+  }
 
   boot_disk {
     initialize_params {
