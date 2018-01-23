@@ -197,3 +197,11 @@ output "cf_ws_address" {
 output "dns_managed_zone" {
   value = "${google_dns_managed_zone.env_dns_zone.name}"
 }
+
+output "pks_domain" {
+  value = "${module.pks.domain}"
+}
+
+output "pks_lb_backend_name" {
+  value = "${module.pks.load_balancer_name}"
+}
