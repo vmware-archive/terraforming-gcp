@@ -3,11 +3,11 @@ output "service_account_email" {
 }
 
 output "ops_manager_dns" {
-  value = "${google_dns_record_set.ops-manager-dns.name}"
+  value = "${replace(google_dns_record_set.ops-manager-dns.name, "/\\.$/", "")}"
 }
 
 output "optional_ops_manager_dns" {
-  value = "${element(concat(google_dns_record_set.optional-ops-manager-dns.*.name, list("")), 0)}"
+  value = "${replace(element(concat(google_dns_record_set.optional-ops-manager-dns.*.name, list("")), 0), "/\\.$/", "")}"
 }
 
 output "sys_domain" {
