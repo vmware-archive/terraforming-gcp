@@ -151,3 +151,12 @@ variable "create_gcs_buckets" {
   description = "create Google Storage Buckets for Elastic Runtime Cloud Controller's file storage"
   default     = true
 }
+
+/*****************************
+ * PKS Options *
+ *****************************/
+
+variable "pks" {
+  description = "create the required infrastructure to deploy pks"
+  default     = false
+}

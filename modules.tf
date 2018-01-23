@@ -29,3 +29,17 @@ module "isolation_segment" {
   dns_zone_dns_name       = "${var.env_name}.${var.dns_suffix}"
   public_healthcheck_link = "${google_compute_http_health_check.cf-public.self_link}"
 }
+
+module "pks" {
+  source = "./pks"
+
+  count = "${var.pks ? 1 : 0}"
+
+  env_name = "${var.env_name}"
+  network_name = "${google_compute_network.pcf-network.name}"
+  zones    = "${var.zones}"
+
+  dns_zone_name           = "${google_dns_managed_zone.env_dns_zone.name}"
+  dns_zone_dns_name       = "${var.env_name}.${var.dns_suffix}"
+
+}
