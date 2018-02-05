@@ -5,6 +5,7 @@ variable "zones" {
 }
 
 variable "env_name" {}
+
 variable "network_name" {}
 
 variable "dns_zone_dns_name" {}
