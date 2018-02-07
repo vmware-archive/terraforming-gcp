@@ -198,10 +198,36 @@ output "dns_managed_zone" {
   value = "${google_dns_managed_zone.env_dns_zone.name}"
 }
 
+// PKS output
+
 output "pks_domain" {
   value = "${module.pks.domain}"
 }
 
 output "pks_lb_backend_name" {
   value = "${module.pks.load_balancer_name}"
+}
+
+output "pks_subnet_name" {
+  value = "${module.pks.pks_subnet_name}"
+}
+
+output "pks_subnet_gateway" {
+  value = "${module.pks.pks_subnet_gateway}"
+}
+
+output "pks_subnet_cidrs" {
+  value = ["${module.pks.pks_subnet_cidrs}"]
+}
+
+output "pks_services_subnet_name" {
+  value = "${module.pks.pks_services_subnet_name}"
+}
+
+output "pks_services_subnet_gateway" {
+  value = "${module.pks.pks_services_subnet_gateway}"
+}
+
+output "pks_services_subnet_cidrs" {
+  value = ["${module.pks.pks_services_subnet_cidrs}"]
 }

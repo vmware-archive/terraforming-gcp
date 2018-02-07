@@ -160,3 +160,15 @@ variable "pks" {
   description = "create the required infrastructure to deploy pks"
   default     = false
 }
+
+variable "pks_cidr" {
+  type        = "string"
+  description = "cidr for pks subnet"
+  default     = "10.0.10.0/24"
+}
+
+variable "pks_services_cidr" {
+  type        = "string"
+  description = "cidr for pks services subnet"
+  default     = "10.0.11.0/24"
+}

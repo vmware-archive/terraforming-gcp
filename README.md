@@ -113,7 +113,7 @@ SERVICE_ACCOUNT_KEY
 - tcp.*$env_name*.*$dns_suffix*: Points at the TCP load balancer in front of the TCP router.
 
 ## Isolation Segments (optional)
-- isolation_segment **(optional)** When set to "true" creates HTTP load-balancer across 3 zones for isolation segments.
+- isolation_segment: **(optional)** When set to "true" creates HTTP load-balancer across 3 zones for isolation segments.
 - iso_seg_ssl_cert: **(optional)** SSL certificate for Iso Seg HTTP load balancer configuration. Required unless `iso_seg_ssl_ca_cert` is specified.
 - iso_seg_ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `iso_seg_ssl_ca_cert` is specified.
 - iso_seg_ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed Iso Seg HTTP load balancer certificate. Required unless `iso_seg_ssl_cert` is specified.
@@ -130,6 +130,9 @@ SERVICE_ACCOUNT_KEY
 
 ## PAS Cloud Controller's Google Cloud Storage Buckets (optional)
 - create_gcs_buckets: *(optional)* When set to "false", buckets will not be created for PAS Cloud Controller. Defaults to "true".
+
+## PKS (optional)
+- pks: **(optional)** When set to "true" creates a tcp load-balancer for PKS api, dedicated subnets and allows access on Port `8443` to `masters` external IP address for `kubectl` access
 
 ## Running
 

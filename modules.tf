@@ -33,13 +33,17 @@ module "isolation_segment" {
 module "pks" {
   source = "./pks"
 
-  count = "${var.pks ? 1 : 0}"
+  count             = "${var.pks ? 1 : 0}"
 
-  env_name = "${var.env_name}"
-  network_name = "${google_compute_network.pcf-network.name}"
-  zones    = "${var.zones}"
+  pks_cidr          =  "${var.pks_cidr}"
+  pks_services_cidr =  "${var.pks_services_cidr}"
 
-  dns_zone_name           = "${google_dns_managed_zone.env_dns_zone.name}"
-  dns_zone_dns_name       = "${var.env_name}.${var.dns_suffix}"
+  env_name          = "${var.env_name}"
+  network_name      = "${google_compute_network.pcf-network.name}"
+  zones             = "${var.zones}"
+  region            = "${var.region}"
+
+  dns_zone_name     = "${google_dns_managed_zone.env_dns_zone.name}"
+  dns_zone_dns_name = "${var.env_name}.${var.dns_suffix}"
 
 }
