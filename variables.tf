@@ -39,12 +39,12 @@ variable "zones" {
 
 variable "opsman_image_url" {
   type        = "string"
-  description = "location of ops manager image on google cloud storage"
+  description = "Location of ops manager image on google cloud storage"
 }
 
 variable "optional_opsman_image_url" {
   type        = "string"
-  description = "location of ops manager image (to be used for optional extra instance) on google cloud storage"
+  description = "Location of ops manager image (to be used for optional extra instance) on google cloud storage"
   default     = ""
 }
 
@@ -63,19 +63,19 @@ variable "dns_suffix" {
 
 variable "ssl_cert" {
   type        = "string"
-  description = "the contents of an SSL certificate to be used by the LB, optional if `ssl_ca_cert` is provided"
+  description = "The contents of an SSL certificate to be used by the LB, optional if `ssl_ca_cert` is provided"
   default     = ""
 }
 
 variable "ssl_private_key" {
   type        = "string"
-  description = "the contents of an SSL private key to be used by the LB, optional if `ssl_ca_cert` is provided"
+  description = "The contents of an SSL private key to be used by the LB, optional if `ssl_ca_cert` is provided"
   default     = ""
 }
 
 variable "ssl_ca_cert" {
   type        = "string"
-  description = "the contents of a CA public key to be used to sign the generated LB certificate, optional if `ssl_cert` is provided"
+  description = "The contents of a CA public key to be used to sign the generated LB certificate, optional if `ssl_cert` is provided"
   default     = ""
 }
 
@@ -96,18 +96,20 @@ variable "external_database" {
 
 variable "opsman_storage_bucket_count" {
   type        = "string"
-  default     = "0"
   description = "Optional configuration of a Google Storage Bucket for BOSH's blobstore"
+  default     = "0"
 }
 
 variable "pas_sql_db_host" {
-  type    = "string"
-  default = ""
+  type        = "string"
+  description = "The host the user can connect from."
+  default     = ""
 }
 
 variable "opsman_sql_db_host" {
-  type    = "string"
-  default = ""
+  type        = "string"
+  description = "The host the user can connect from."
+  default     = ""
 }
 
 /*****************************
@@ -127,19 +129,19 @@ variable "iso_seg_ssl_cert" {
 
 variable "iso_seg_ssl_private_key" {
   type        = "string"
-  description = "the contents of an SSL private key to be used by the LB, optional if `iso_seg_ssl_ca_cert` is provided"
+  description = "The contents of an SSL private key to be used by the LB, optional if `iso_seg_ssl_ca_cert` is provided"
   default     = ""
 }
 
 variable "iso_seg_ssl_ca_cert" {
   type        = "string"
-  description = "the contents of a CA public key to be used to sign the generated iso seg LB certificate, optional if `iso_seg_ssl_cert` is provided"
+  description = "The contents of a CA public key to be used to sign the generated iso seg LB certificate, optional if `iso_seg_ssl_cert` is provided"
   default     = ""
 }
 
 variable "iso_seg_ssl_ca_private_key" {
   type        = "string"
-  description = "the contents of a CA private key to be used to sign the generated iso seg LB certificate, optional if `iso_seg_ssl_cert` is provided"
+  description = "The contents of a CA private key to be used to sign the generated iso seg LB certificate, optional if `iso_seg_ssl_cert` is provided"
   default     = ""
 }
 
@@ -148,7 +150,7 @@ variable "iso_seg_ssl_ca_private_key" {
  ********************************/
 
 variable "create_gcs_buckets" {
-  description = "create Google Storage Buckets for Elastic Runtime Cloud Controller's file storage"
+  description = "Create Google Storage Buckets for Elastic Runtime Cloud Controller's file storage"
   default     = true
 }
 
@@ -157,6 +159,6 @@ variable "create_gcs_buckets" {
  *****************************/
 
 variable "pks" {
-  description = "create the required infrastructure to deploy pks"
+  description = "Create the required infrastructure to deploy pks."
   default     = false
 }
