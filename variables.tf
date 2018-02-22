@@ -85,11 +85,6 @@ variable "ssl_ca_private_key" {
   default     = ""
 }
 
-variable "external_database" {
-  description = "standups up a cloud sql database instance for the ops manager and PAS"
-  default     = false
-}
-
 /******************
  * OpsMan Options *
  ******************/
