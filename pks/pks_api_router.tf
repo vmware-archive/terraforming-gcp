@@ -6,7 +6,7 @@ resource "google_compute_firewall" "pks-api" {
 
   allow {
     protocol = "tcp"
-    ports    = ["9021"]
+    ports    = ["8443", "9021"]
   }
 
   target_tags = ["${var.env_name}-pks-api"]
@@ -31,6 +31,16 @@ resource "google_compute_forwarding_rule" "pks-api" {
   name        = "${var.env_name}-pks-api"
   target      = "${google_compute_target_pool.pks-api.self_link}"
   port_range  = "9021"
+  ip_protocol = "TCP"
+  ip_address  = "${google_compute_address.pks-api.address}"
+  count       = "${var.count}"
+}
+
+// TCP forwarding rule
+resource "google_compute_forwarding_rule" "pks-uaa" {
+  name        = "${var.env_name}-pks-uaa"
+  target      = "${google_compute_target_pool.pks-api.self_link}"
+  port_range  = "8443"
   ip_protocol = "TCP"
   ip_address  = "${google_compute_address.pks-api.address}"
   count       = "${var.count}"
