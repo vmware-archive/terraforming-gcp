@@ -85,6 +85,11 @@ variable "ssl_ca_private_key" {
   default     = ""
 }
 
+variable "create_iam_service_account_members" {
+  description = "If set to true, create an IAM Service Account project roles"
+  default     = true
+}
+
 /******************
  * OpsMan Options *
  ******************/
