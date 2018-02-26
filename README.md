@@ -101,6 +101,7 @@ SERVICE_ACCOUNT_KEY
 - ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
 - ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
 - opsman_storage_bucket_count: *(optional)* Google Storage Bucket for BOSH's Blobstore.
+- create_iam_service_account_members: *(optional)* Create IAM Service Account project roles. Default to false.
 
 ## DNS Records
 - pcf.*$env_name*.*$dns_suffix*: Points at the Ops Manager VM's public IP address.
