@@ -172,14 +172,6 @@ output "dns_managed_zone" {
   value = "${google_dns_managed_zone.env_dns_zone.name}"
 }
 
-output "pks_domain" {
-  value = "${module.pks.domain}"
-}
-
-output "pks_lb_backend_name" {
-  value = "${module.pks.load_balancer_name}"
-}
-
 output "sql_db_ip" {
   value = "${google_sql_database_instance.master.ip_address.0.ip_address}"
 }
@@ -204,4 +196,38 @@ output "pas_sql_username" {
 output "pas_sql_password" {
   sensitive = true
   value     = "${random_id.pas_db_password.b64}"
+}
+
+// PKS output
+
+output "pks_domain" {
+  value = "${module.pks.domain}"
+}
+
+output "pks_lb_backend_name" {
+  value = "${module.pks.load_balancer_name}"
+}
+
+output "pks_subnet_name" {
+  value = "${module.pks.pks_subnet_name}"
+}
+
+output "pks_subnet_gateway" {
+  value = "${module.pks.pks_subnet_gateway}"
+}
+
+output "pks_subnet_cidrs" {
+  value = ["${module.pks.pks_subnet_cidrs}"]
+}
+
+output "pks_services_subnet_name" {
+  value = "${module.pks.pks_services_subnet_name}"
+}
+
+output "pks_services_subnet_gateway" {
+  value = "${module.pks.pks_services_subnet_gateway}"
+}
+
+output "pks_services_subnet_cidrs" {
+  value = ["${module.pks.pks_services_subnet_cidrs}"]
 }
