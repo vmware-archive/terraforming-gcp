@@ -2,6 +2,10 @@ output "service_account_email" {
   value = "${google_service_account.opsman_service_account.email}"
 }
 
+output "pas_blobstore_gcp_service_account_key" {
+  value = "${google_service_account_key.opsman_service_account_key.private_key}"
+}
+
 output "ops_manager_dns" {
   value = "${replace(google_dns_record_set.ops-manager-dns.name, "/\\.$/", "")}"
 }

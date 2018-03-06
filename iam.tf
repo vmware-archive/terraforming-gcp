@@ -3,6 +3,10 @@ resource "google_service_account" "opsman_service_account" {
   display_name = "${var.env_name} Ops Manager VM Service Account"
 }
 
+resource "google_service_account_key" "opsman_service_account_key" {
+  service_account_id = "${google_service_account.opsman_service_account.id}"
+}
+
 resource "google_project_iam_member" "opsman_iam_service_account_actor" {
   count = "${var.create_iam_service_account_members}"
   project = "${var.project}"
