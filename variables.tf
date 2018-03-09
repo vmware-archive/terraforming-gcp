@@ -155,6 +155,12 @@ variable "iso_seg_ssl_ca_private_key" {
   default     = ""
 }
 
+variable "iso_seg_cidr" {
+  type        = "string"
+  description = "cidr for isolation segment subnet"
+  default     = "10.0.12.0/24"
+}
+
 /********************************
  * Google Cloud Storage Options *
  ********************************/

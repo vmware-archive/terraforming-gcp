@@ -19,3 +19,11 @@ variable "dns_zone_dns_name" {}
 variable "dns_zone_name" {}
 
 variable "public_healthcheck_link" {}
+
+variable "subnet_cidr" {}
+
+variable "pas_subnet_cidr" {}
+
+variable "network_name" {}
+
+variable "region" {}

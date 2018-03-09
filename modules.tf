@@ -28,6 +28,11 @@ module "isolation_segment" {
   dns_zone_name           = "${google_dns_managed_zone.env_dns_zone.name}"
   dns_zone_dns_name       = "${var.env_name}.${var.dns_suffix}"
   public_healthcheck_link = "${google_compute_http_health_check.cf-public.self_link}"
+
+  network_name    = "${google_compute_network.pcf-network.name}"
+  subnet_cidr     = "${var.iso_seg_cidr}"
+  pas_subnet_cidr = "${var.pas_cidr}"
+  region          = "${var.region}"
 }
 
 module "pks" {
