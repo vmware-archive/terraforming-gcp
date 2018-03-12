@@ -3,7 +3,7 @@ output "service_account_email" {
 }
 
 output "pas_blobstore_gcp_service_account_key" {
-  value = "${google_service_account_key.opsman_service_account_key.private_key}"
+  value = "${base64decode(google_service_account_key.opsman_service_account_key.private_key)}"
 }
 
 output "ops_manager_dns" {
