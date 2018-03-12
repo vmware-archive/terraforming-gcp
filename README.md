@@ -55,7 +55,7 @@ project          = "your-gcp-project"
 region           = "us-central1"
 zones            = ["us-central1-a", "us-central1-b", "us-central1-c"]
 dns_suffix       = "gcp.some-project.cf-app.com"
-opsman_image_url = "https://storage.googleapis.com/ops-manager-us/pcf-gcp-1.12.0.tar.gz"
+opsman_image_url = "https://storage.googleapis.com/ops-manager-us/pcf-gcp-2.0-build.255.tar.gz"
 
 buckets_location = "US"
 
