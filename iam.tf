@@ -41,3 +41,21 @@ resource "google_project_iam_member" "opsman_storage_admin" {
   role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.opsman_service_account.email}",
 }
+
+resource "google_service_account" "blobstore_service_account" {
+  count = "${var.create_blobstore_service_account_key ? 1 : 0}"
+  account_id = "${var.env_name}-blobstore"
+  display_name = "${var.env_name} Blobstore Service Account"
+}
+
+resource "google_service_account_key" "blobstore_service_account_key" {
+  count = "${var.create_blobstore_service_account_key ? 1 : 0}"
+  service_account_id = "${google_service_account.blobstore_service_account.id}"
+}
+
+resource "google_project_iam_member" "blobstore_cloud_storage_admin" {
+  count = "${var.create_blobstore_service_account_key ? 1 : 0}"
+  project = "${var.project}"
+  role    = "roles/storage.objectAdmin"
+  member  = "serviceAccount:${google_service_account.blobstore_service_account.email}",
+}
