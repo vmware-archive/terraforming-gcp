@@ -18,7 +18,7 @@ variable "buckets_location" {
 variable "management_cidr" {
   type        = "string"
   description = "cidr for management subnet"
-  default     = "10.0.0.0/24"
+  default     = "10.0.0.0/26"
 }
 
 variable "pas_cidr" {
