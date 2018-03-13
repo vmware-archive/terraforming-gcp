@@ -4,10 +4,34 @@ resource "google_compute_firewall" "isoseg-cf-ingress" {
 
   direction     = "INGRESS"
   source_ranges = ["${var.pas_subnet_cidr}"]
+  target_tags   = ["isoseg-${var.env_name}"]
+  priority      = 998
 
   allow {
     protocol = "tcp"
     ports    = ["1801", "8853"]
+  }
+}
+
+resource "google_compute_firewall" "isoseg-block-everything-ingress" {
+  name    = "isoseg-block-cf-ingress"
+  network = "${var.network_name}"
+
+  direction     = "INGRESS"
+  source_ranges = ["${var.pas_subnet_cidr}"]
+  target_tags   = ["isoseg-${var.env_name}"]
+  priority      = 999
+
+  deny {
+    protocol = "icmp"
+  }
+
+  deny {
+    protocol = "tcp"
+  }
+
+  deny {
+    protocol = "udp"
   }
 }
 
@@ -17,6 +41,7 @@ resource "google_compute_firewall" "isoseg-cf-egress" {
 
   direction          = "EGRESS"
   destination_ranges = ["${var.pas_subnet_cidr}"]
+  target_tags        = ["isoseg-${var.env_name}"]
 
   allow {
     protocol = "tcp"
