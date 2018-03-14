@@ -7,6 +7,14 @@ output "pas_blobstore_gcp_service_account_key" {
   sensitive = true
 }
 
+output "pas_blobstore_service_account_email" {
+  value = "${element(concat(google_service_account.blobstore_service_account.*.email, list("")), 0)}"
+}
+
+output "pas_blobstore_service_account_project" {
+  value = "${element(concat(google_service_account.blobstore_service_account.*.project, list("")), 0)}"
+}
+
 output "ops_manager_dns" {
   value = "${replace(google_dns_record_set.ops-manager-dns.name, "/\\.$/", "")}"
 }
