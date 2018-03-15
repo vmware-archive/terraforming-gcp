@@ -1,6 +1,29 @@
+resource "google_compute_firewall" "isoseg-cf-internal" {
+  name     = "${var.env_name}-isoseg-cf-internal"
+  network  = "${var.network_name}"
+  count    = "${var.count}"
+  priority = 997
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+  }
+
+  allow {
+    protocol = "udp"
+  }
+
+  source_tags = ["isoseg-${var.env_name}"]
+  target_tags = ["isoseg-${var.env_name}"]
+}
+
 resource "google_compute_firewall" "isoseg-cf-ingress" {
   name    = "${var.env_name}-isoseg-cf-ingress"
   network = "${var.network_name}"
+  count   = "${var.count}"
 
   direction     = "INGRESS"
   source_ranges = ["${var.pas_subnet_cidr}"]
@@ -14,8 +37,9 @@ resource "google_compute_firewall" "isoseg-cf-ingress" {
 }
 
 resource "google_compute_firewall" "isoseg-block-everything-ingress" {
-  name    = "isoseg-block-cf-ingress"
+  name    = "${var.env_name}-isoseg-block-cf-ingress"
   network = "${var.network_name}"
+  count   = "${var.count}"
 
   direction     = "INGRESS"
   source_ranges = ["${var.pas_subnet_cidr}"]
@@ -38,6 +62,7 @@ resource "google_compute_firewall" "isoseg-block-everything-ingress" {
 resource "google_compute_firewall" "isoseg-cf-egress" {
   name    = "${var.env_name}-isoseg-cf-egress"
   network = "${var.network_name}"
+  count   = "${var.count}"
 
   direction          = "EGRESS"
   destination_ranges = ["${var.pas_subnet_cidr}"]
