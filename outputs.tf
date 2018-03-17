@@ -103,6 +103,10 @@ output "services_subnet_name" {
   value = "${google_compute_subnetwork.services-subnet.name}"
 }
 
+output "web_lb_name" {
+  value = "${google_compute_backend_service.http_lb_backend_service.name}"
+}
+
 output "http_lb_backend_name" {
   value = "${google_compute_backend_service.http_lb_backend_service.name}"
 }
@@ -139,8 +143,16 @@ output "ws_router_pool" {
   value = "${google_compute_target_pool.cf-ws.name}"
 }
 
+output "ssh_lb_name" {
+  value = "${google_compute_target_pool.cf-ssh.name}"
+}
+
 output "ssh_router_pool" {
   value = "${google_compute_target_pool.cf-ssh.name}"
+}
+
+output "tcp_lb_name" {
+  value = "${google_compute_target_pool.cf-tcp.name}"
 }
 
 output "tcp_router_pool" {
