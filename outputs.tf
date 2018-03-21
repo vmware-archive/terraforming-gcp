@@ -39,6 +39,10 @@ output "ops_manager_public_ip" {
   value = "${google_compute_address.ops-manager-ip.address}"
 }
 
+output "ops_manager_ip" {
+  value = "${google_compute_address.ops-manager-ip.address}"
+}
+
 output "optional_ops_manager_public_ip" {
   value = "${element(concat(google_compute_address.optional-ops-manager-ip.*.address, list("")), 0)}"
 }
@@ -79,6 +83,10 @@ output "management_subnet_name" {
   value = "${google_compute_subnetwork.management-subnet.name}"
 }
 
+output "management_subnets" {
+  value = "[${google_compute_subnetwork.management-subnet.name}]"
+}
+
 output "pas_subnet_gateway" {
   value = "${google_compute_subnetwork.pas-subnet.gateway_address}"
 }
@@ -91,6 +99,10 @@ output "pas_subnet_name" {
   value = "${google_compute_subnetwork.pas-subnet.name}"
 }
 
+output "pas_subnets" {
+  value = "[${google_compute_subnetwork.pas-subnet.name}]"
+}
+
 output "services_subnet_gateway" {
   value = "${google_compute_subnetwork.services-subnet.gateway_address}"
 }
@@ -101,6 +113,10 @@ output "services_subnet_cidrs" {
 
 output "services_subnet_name" {
   value = "${google_compute_subnetwork.services-subnet.name}"
+}
+
+output "services_subnets" {
+  value = "[${google_compute_subnetwork.services-subnet.name}]"
 }
 
 output "web_lb_name" {
