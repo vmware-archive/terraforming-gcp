@@ -84,7 +84,7 @@ output "management_subnet_name" {
 }
 
 output "management_subnets" {
-  value = "[${google_compute_subnetwork.management-subnet.name}]"
+  value = ["${google_compute_subnetwork.management-subnet.name}"]
 }
 
 output "pas_subnet_gateway" {
@@ -100,7 +100,7 @@ output "pas_subnet_name" {
 }
 
 output "pas_subnets" {
-  value = "[${google_compute_subnetwork.pas-subnet.name}]"
+  value = ["${google_compute_subnetwork.pas-subnet.name}"]
 }
 
 output "services_subnet_gateway" {
@@ -116,7 +116,7 @@ output "services_subnet_name" {
 }
 
 output "services_subnets" {
-  value = "[${google_compute_subnetwork.services-subnet.name}]"
+  value = ["${google_compute_subnetwork.services-subnet.name}"]
 }
 
 output "web_lb_name" {
