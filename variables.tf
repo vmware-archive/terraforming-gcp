@@ -90,6 +90,11 @@ variable "create_iam_service_account_members" {
   default     = true
 }
 
+variable "external_database" {
+  description = "standups up a cloud sql database instance for the ops manager and PAS"
+  default     = false
+}
+
 /******************
  * OpsMan Options *
  ******************/

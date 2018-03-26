@@ -1,5 +1,6 @@
 resource "random_id" "db-name" {
   byte_length = 8
+  count       = "${var.count}"
 }
 
 resource "google_sql_database_instance" "master" {
@@ -8,7 +9,7 @@ resource "google_sql_database_instance" "master" {
   name             = "${var.env_name}-${replace(lower(random_id.db-name.b64), "_", "-")}"
 
   settings {
-    tier = "db-f1-micro"
+    tier = "${var.sql_db_tier}"
 
     ip_configuration = {
       ipv4_enabled = true
@@ -21,4 +22,6 @@ resource "google_sql_database_instance" "master" {
       ]
     }
   }
+
+  count = "${var.count}"
 }
