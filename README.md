@@ -121,7 +121,7 @@ SERVICE_ACCOUNT_KEY
 - iso_seg_ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `iso_seg_ssl_cert` is specified.
 
 ## Cloud SQL Configuration (optional)
-- external_database: *(optional)* When set to `1`, a cloud SQL instance will be deployed for the Ops Manager and PAS.
+- external_database: *(optional)* When set to "true", a cloud SQL instance will be deployed for the Ops Manager and PAS.
 
 #### Ops Manager
 - opsman_sql_db_host: *(optional)* The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
