@@ -46,6 +46,6 @@ resource "google_compute_firewall" "pks-internal" {
 
   source_ranges = [
     "${google_compute_subnetwork.pks-subnet.ip_cidr_range}",
-    "${google_compute_subnetwork.pks-services-subnet.ip_cidr_range}"
+    "${google_compute_subnetwork.pks-services-subnet.ip_cidr_range}",
   ]
 }
