@@ -8,6 +8,10 @@ resource "google_sql_database_instance" "master" {
   database_version = "MYSQL_5_6"
   name             = "${var.env_name}-${replace(lower(random_id.db-name.b64), "_", "-")}"
 
+  timeouts {
+    create = "20m"
+  }
+
   settings {
     tier = "${var.sql_db_tier}"
 
