@@ -22,7 +22,7 @@ resource "google_compute_image" "ops-manager-image" {
   }
 
   raw_disk {
-    source = "${var.opsman_image_url}"
+    source = "https://storage.googleapis.com/ops-manager-${replace(var.opsman_image_url, "/.*ops-manager-(.*)/", "$1")}"
   }
 }
 
