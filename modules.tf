@@ -5,7 +5,7 @@ module "external_database" {
 
   env_name    = "${var.env_name}"
   region      = "${var.region}"
-  sql_db_tier = "db-f1-micro"
+  sql_db_tier = "db-n1-standard-1"
 
   pas_sql_db_host    = "${var.pas_sql_db_host}"
   opsman_sql_db_host = "${var.opsman_sql_db_host}"
