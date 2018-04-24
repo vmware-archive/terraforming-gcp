@@ -14,6 +14,8 @@ variable "zones" {
 
 variable "region" {}
 
+variable "project" {}
+
 variable "dns_zone_dns_name" {}
 
 variable "dns_zone_name" {}

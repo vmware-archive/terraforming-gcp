@@ -272,3 +272,13 @@ output "pks_services_subnet_gateway" {
 output "pks_services_subnet_cidrs" {
   value = ["${module.pks.pks_services_subnet_cidrs}"]
 }
+
+output "pks_master_node_service_account_key" {
+  value = "${module.pks.pks_master_node_service_account_key}"
+  sensitive = true
+}
+
+output "pks_worker_node_service_account_key" {
+  value = "${module.pks.pks_worker_node_service_account_key}"
+  sensitive = true
+}
