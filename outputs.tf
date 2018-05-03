@@ -1,9 +1,13 @@
+output "iaas" {
+  value = "gcp"
+}
+
 output "service_account_email" {
   value = "${google_service_account.opsman_service_account.email}"
 }
 
 output "pas_blobstore_gcp_service_account_key" {
-  value = "${base64decode(element(concat(google_service_account_key.blobstore_service_account_key.*.private_key, list("")), 0))}"
+  value     = "${base64decode(element(concat(google_service_account_key.blobstore_service_account_key.*.private_key, list("")), 0))}"
   sensitive = true
 }
 
@@ -274,11 +278,11 @@ output "pks_services_subnet_cidrs" {
 }
 
 output "pks_master_node_service_account_key" {
-  value = "${module.pks.pks_master_node_service_account_key}"
+  value     = "${module.pks.pks_master_node_service_account_key}"
   sensitive = true
 }
 
 output "pks_worker_node_service_account_key" {
-  value = "${module.pks.pks_worker_node_service_account_key}"
+  value     = "${module.pks.pks_worker_node_service_account_key}"
   sensitive = true
 }
