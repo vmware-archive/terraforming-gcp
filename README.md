@@ -135,6 +135,9 @@ SERVICE_ACCOUNT_KEY
 ## PKS (optional)
 - pks: **(optional)** When set to "true" creates a tcp load-balancer for PKS api, dedicated subnets and allows access on Port `8443` to `masters` external IP address for `kubectl` access
 
+## Internetless (optional)
+- internetless: **(optional)** When set to "true", all traffic going outside the 10.* network is denied.
+
 ## Running
 
 Note: please make sure you have created the `terraform.tfvars` file above as mentioned.
