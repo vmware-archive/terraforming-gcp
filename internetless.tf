@@ -1,4 +1,4 @@
-// Allow open access between internal VMs for a PCF deployment
+// Allow ingress between internal VMs for a PCF deployment
 resource "google_compute_firewall" "cf-internal-ingress" {
   count = "${var.internetless ? 1 : 0}"
 
@@ -28,6 +28,7 @@ resource "google_compute_firewall" "cf-internal-ingress" {
   ]
 }
 
+// Allow egress between internal VMs for a PCF deployment
 resource "google_compute_firewall" "cf-internal-egress" {
   count = "${var.internetless ? 1 : 0}"
 
