@@ -25,7 +25,6 @@ resource "google_compute_firewall" "isoseg-cf-ingress" {
   network = "${var.network_name}"
   count   = "${var.count}"
 
-  direction     = "INGRESS"
   source_ranges = ["${var.pas_subnet_cidr}"]
   target_tags   = ["isoseg-${var.env_name}"]
   priority      = 998
@@ -36,15 +35,15 @@ resource "google_compute_firewall" "isoseg-cf-ingress" {
   }
 }
 
-resource "google_compute_firewall" "isoseg-block-everything-ingress" {
+resource "google_compute_firewall" "isoseg-block-cf-ingress" {
   name    = "${var.env_name}-isoseg-block-cf-ingress"
   network = "${var.network_name}"
   count   = "${var.count}"
 
-  direction     = "INGRESS"
-  source_ranges = ["${var.pas_subnet_cidr}"]
-  target_tags   = ["isoseg-${var.env_name}"]
-  priority      = 999
+  direction   = "INGRESS"
+  source_tags = ["cf-${var.env_name}"]
+  target_tags = ["isoseg-${var.env_name}"]
+  priority    = 999
 
   deny {
     protocol = "icmp"
@@ -59,41 +58,67 @@ resource "google_compute_firewall" "isoseg-block-everything-ingress" {
   }
 }
 
-resource "google_compute_firewall" "isoseg-cf-egress" {
-  name    = "${var.env_name}-isoseg-cf-egress"
+resource "google_compute_firewall" "cf-isoseg-ingress" {
+  name    = "${var.env_name}-cf-isoseg-ingress"
   network = "${var.network_name}"
   count   = "${var.count}"
 
-  direction          = "EGRESS"
-  destination_ranges = ["${var.pas_subnet_cidr}"]
-  target_tags        = ["isoseg-${var.env_name}"]
+  source_tags = ["isoseg-${var.env_name}"]
+  target_tags = ["cf-${var.env_name}"]
+  priority    = 998
 
   allow {
     protocol = "tcp"
 
     ports = [
-      "9090",
-      "9091",
+      "3000",
+      "3457",
+      "4003",
+      "4103",
+      "4222",
+      "4443",
+      "8080",
       "8082",
+      "8084",
       "8300",
       "8301",
       "8302",
-      "8889",
       "8443",
-      "3000",
-      "4443",
-      "8080",
-      "3457",
-      "9023",
-      "9022",
-      "4222",
       "8844",
       "8853",
+      "8889",
+      "8891",
+      "9022",
+      "9023",
+      "9090",
+      "9091",
     ]
   }
 
   allow {
     protocol = "udp"
     ports    = ["8301", "8302", "8600"]
+  }
+}
+
+resource "google_compute_firewall" "cf-block-isoseg-ingress" {
+  name    = "${var.env_name}-cf-block-isoseg-ingress"
+  network = "${var.network_name}"
+  count   = "${var.count}"
+
+  source_tags = ["isoseg-${var.env_name}"]
+  target_tags = ["cf-${var.env_name}"]
+  priority    = 999
+
+  deny {
+    protocol = "icmp"
+  }
+
+  deny {
+    protocol = "tcp"
+  }
+
+  deny {
+    protocol = "udp"
   }
 }
