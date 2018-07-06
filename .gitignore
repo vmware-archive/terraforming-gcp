@@ -3,3 +3,5 @@
 *.tfstate
 terraform.key.json
 *.tfvars
+plan
+files/

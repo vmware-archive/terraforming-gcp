@@ -155,3 +155,7 @@ terraform apply plan
 ```bash
 terraform destroy
 ```
+
+## Configuring Operations Manager
+
+Once you've run terraform successfully you should find a new directory in your working path called `files` in there will be a file `opsman-gcp-config` which will describe how to configure the GCP tile in opsman using the outputs of this deployment.
