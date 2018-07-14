@@ -78,7 +78,7 @@ resource "google_compute_target_https_proxy" "https_lb_proxy" {
 }
 
 resource "google_compute_ssl_certificate" "cert" {
-  name        = "${var.env_name}-lbcert"
+  name_prefix = "${var.env_name}-lbcert-"
   description = "user provided ssl private key / ssl certificate pair"
   certificate = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_locally_signed_cert.ssl_cert.*.cert_pem, list("")), 0) : var.ssl_cert}"
   private_key = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_private_key.ssl_private_key.*.private_key_pem, list("")), 0) : var.ssl_private_key}"
