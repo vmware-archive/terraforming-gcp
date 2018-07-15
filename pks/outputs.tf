@@ -34,6 +34,14 @@ output "pks_worker_node_service_account_key" {
   value = "${base64decode(element(concat(google_service_account_key.pks_worker_node_service_account_key.*.private_key, list("")), 0))}"
 }
 
+output "pks_master_node_service_account_email" {
+  value = "${element(concat(google_service_account.pks_master_node_service_account.*.email, list("")), 0)}"
+}
+
+output "pks_worker_node_service_account_email" {
+  value = "${element(concat(google_service_account.pks_worker_node_service_account.*.email, list("")), 0)}"
+}
+
 output "domain" {
-  value = "${replace(replace(element(concat(google_dns_record_set.wildcard-pks-dns.*.name, list("")), 0), "/^\\*\\./", ""), "/\\.$/", "")}"
+  value = "${replace(replace(element(concat(google_dns_record_set.pks-dns.*.name, list("")), 0), "/^\\*\\./", ""), "/\\.$/", "")}"
 }

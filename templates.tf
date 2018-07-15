@@ -34,5 +34,10 @@ resource "template_dir" "config" {
     subnet_pks_svc_cidr        = "${module.pks.pks_services_subnet_cidrs}"
     subnet_pks_svc_reserved    = "${cidrhost(module.pks.pks_services_subnet_cidrs, 1)}-${cidrhost(module.pks.pks_services_subnet_cidrs, 9)}"
     subnet_pks_svc_gateway     = "${module.pks.pks_services_subnet_gateway}"
+
+    pks_wildcard                          = "*.${var.env_name}.${var.dns_suffix}"
+    pks_hostname                          = "${module.pks.domain}"
+    pks_master_node_service_account_email = "${module.pks.pks_master_node_service_account_email}"
+    pks_worker_node_service_account_email = "${module.pks.pks_worker_node_service_account_email}"
   }
 }

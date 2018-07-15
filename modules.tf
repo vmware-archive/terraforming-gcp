@@ -38,12 +38,11 @@ module "pks" {
   pks_cidr          = "${var.pks_cidr}"
   pks_services_cidr = "${var.pks_services_cidr}"
 
-  env_name     = "${var.env_name}"
-  network_name = "${google_compute_network.pcf-network.name}"
-  zones        = "${var.zones}"
-  region       = "${var.region}"
-  project      = "${var.project}"
-
+  env_name          = "${var.env_name}"
+  network_name      = "${google_compute_network.pcf-network.name}"
+  zones             = "${var.zones}"
+  region            = "${var.region}"
+  project           = "${var.project}"
   dns_zone_name     = "${google_dns_managed_zone.env_dns_zone.name}"
   dns_zone_dns_name = "${var.env_name}.${var.dns_suffix}"
 }

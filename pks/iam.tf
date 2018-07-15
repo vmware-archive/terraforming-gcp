@@ -61,4 +61,3 @@ resource "google_project_iam_member" "pks_worker_node_compute_viewer" {
   role    = "roles/compute.viewer"
   member  = "serviceAccount:${google_service_account.pks_worker_node_service_account.email}"
 }
-
