@@ -30,11 +30,6 @@ locals {
   haproxy_static_ip = "${cidrhost(google_compute_subnetwork.pas-subnet.ip_cidr_range, -20)}"
 }
 
-// Modify dns records to resolve to the ha proxy when in internetless mode.
-locals {
-  haproxy_static_ip = "${cidrhost(google_compute_subnetwork.pas-subnet.ip_cidr_range, -20)}"
-}
-
 resource "google_dns_record_set" "wildcard-sys-dns" {
   name = "*.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
   type = "A"
