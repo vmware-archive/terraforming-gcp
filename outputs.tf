@@ -216,6 +216,11 @@ output "pas_sql_password" {
   value     = "${module.external_database.pas_sql_password}"
 }
 
+output "pas_sql_cert" {
+  sensitive = true
+  value     = "${module.external_database.pas_sql_cert}"
+}
+
 output "opsman_sql_username" {
   value = "${module.external_database.opsman_sql_username}"
 }
