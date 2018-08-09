@@ -22,7 +22,7 @@ output "pas_sql_password" {
 
 output "pas_sql_cert" {
   sensitive = true
-  value     = "${google_sql_database_instance.master.server_ca_cert.0.cert}"
+  value     = "${element(concat(google_sql_database_instance.master.*.server_ca_cert.0.cert, list("")), 0)}"
 }
 
 output "ip" {
