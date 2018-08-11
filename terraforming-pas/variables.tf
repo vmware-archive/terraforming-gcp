@@ -161,9 +161,9 @@ variable "iso_seg_ssl_ca_private_key" {
   default     = ""
 }
 
-///********************************
-// * Google Cloud Storage Options *
-// ********************************/
+/*********************************
+ * Google Cloud Storage Options *
+ *********************************/
 
 variable "create_gcs_buckets" {
   description = "Create Google Storage Buckets for Elastic Runtime Cloud Controller's file storage"
@@ -173,4 +173,18 @@ variable "create_gcs_buckets" {
 variable "create_blobstore_service_account_key" {
   description = "Create a scoped service account key for gcs storage access"
   default     = true
+}
+
+/*******************************
+ * Jumpbox Options *
+ *******************************/
+
+variable "jumpbox" {
+  description = "Create a jumpbox."
+  default     = false
+}
+
+variable "jumpbox_init_script" {
+  description = "Path to the script for initiliazing the jumpbox vm."
+  default     = ""
 }
