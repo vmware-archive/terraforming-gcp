@@ -47,3 +47,21 @@ module "pks" {
   dns_zone_name     = "${google_dns_managed_zone.env_dns_zone.name}"
   dns_zone_dns_name = "${var.env_name}.${var.dns_suffix}"
 }
+
+module "jumpbox" {
+  source = "./jumpbox"
+
+  count = "${var.jumpbox ? 1 : 0}"
+
+  dns_suffix        = "${var.dns_suffix}"
+  availability_zone = "${var.zones[0]}"
+  subnet_name       = "${google_compute_subnetwork.management-subnet.name}"
+
+  jumpbox_init_script   = "${var.jumpbox_init_script}"
+  jumpbox_pub_key       = "${format("ubuntu:%s", tls_private_key.ops-manager.public_key_openssh)}"
+  jumpbox_priv_key      = "${tls_private_key.ops-manager.private_key_pem}"
+  env_name              = "${var.env_name}"
+  username              = "ubuntu"
+  pcf_network_name      = "${google_compute_network.pcf-network.name}"
+  pcf_managed_zone_name = "${google_dns_managed_zone.env_dns_zone.name}"
+}
