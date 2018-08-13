@@ -20,11 +20,6 @@ output "pas_sql_password" {
   value     = "${element(concat(random_id.pas_db_password.*.b64, list("")), 0)}"
 }
 
-output "pas_sql_cert" {
-  sensitive = true
-  value     = "${google_sql_database_instance.master.server_ca_cert.0.cert}"
-}
-
 output "ip" {
   value = "${element(concat(google_sql_database_instance.master.*.first_ip_address, list("")), 0)}"
 }
