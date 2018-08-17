@@ -1,6 +1,6 @@
 resource "google_service_account" "pks_master_node_service_account" {
   count        = "${var.count}"
-  account_id   = "${var.env_name}-pks-master-node"
+  account_id   = "${var.env_name}-pks-master"
   display_name = "${var.env_name} PKS Service Account"
 }
 
@@ -11,7 +11,7 @@ resource "google_service_account_key" "pks_master_node_service_account_key" {
 
 resource "google_service_account" "pks_worker_node_service_account" {
   count        = "${var.count}"
-  account_id   = "${var.env_name}-pks-worker-node"
+  account_id   = "${var.env_name}-pks-worker"
   display_name = "${var.env_name} PKS Service Account"
 }
 
