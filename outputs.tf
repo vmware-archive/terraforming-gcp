@@ -20,11 +20,11 @@ output "pas_blobstore_service_account_project" {
 }
 
 output "ops_manager_dns" {
-  value = "${replace(google_dns_record_set.ops-manager-dns.name, "/\\.$/", "")}"
+  value = "${module.ops_manager.ops_manager_dns}"
 }
 
 output "optional_ops_manager_dns" {
-  value = "${replace(element(concat(google_dns_record_set.optional-ops-manager-dns.*.name, list("")), 0), "/\\.$/", "")}"
+  value = "${module.ops_manager.optional_ops_manager_dns}"
 }
 
 output "haproxy_static_ip" {
@@ -44,15 +44,15 @@ output "tcp_domain" {
 }
 
 output "ops_manager_public_ip" {
-  value = "${google_compute_address.ops-manager-ip.address}"
+  value = "${module.ops_manager.ops_manager_public_ip}"
 }
 
 output "ops_manager_ip" {
-  value = "${google_compute_address.ops-manager-ip.address}"
+  value = "${module.ops_manager.ops_manager_ip}"
 }
 
 output "optional_ops_manager_public_ip" {
-  value = "${element(concat(google_compute_address.optional-ops-manager-ip.*.address, list("")), 0)}"
+  value = "${module.ops_manager.optional_ops_manager_public_ip}"
 }
 
 output "env_dns_zone_name_servers" {
@@ -204,7 +204,7 @@ output "resources_bucket" {
 }
 
 output "director_blobstore_bucket" {
-  value = "${element(concat(google_storage_bucket.director.*.name, list("")), 0)}"
+  value = "${module.ops_manager.director_blobstore_bucket}"
 }
 
 output "pas_sql_username" {
@@ -227,12 +227,12 @@ output "opsman_sql_password" {
 
 output "ops_manager_ssh_private_key" {
   sensitive = true
-  value     = "${tls_private_key.ops-manager.private_key_pem}"
+  value     = "${module.ops_manager.ops_manager_ssh_private_key}"
 }
 
 output "ops_manager_ssh_public_key" {
   sensitive = true
-  value     = "${format("ubuntu:%s", tls_private_key.ops-manager.public_key_openssh)}"
+  value     = "${module.ops_manager.ops_manager_ssh_public_key}"
 }
 
 output "cf_ws_address" {
