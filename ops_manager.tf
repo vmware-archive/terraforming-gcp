@@ -61,7 +61,7 @@ resource "google_compute_instance" "ops-manager" {
   }
 
   network_interface {
-    subnetwork = "${google_compute_subnetwork.management-subnet.name}"
+    subnetwork = "${google_compute_subnetwork.infrastructure-subnet.name}"
 
     access_config {
       nat_ip = "${google_compute_address.ops-manager-ip.address}"
@@ -103,7 +103,7 @@ resource "google_compute_instance" "optional-ops-manager" {
   }
 
   network_interface {
-    subnetwork = "${google_compute_subnetwork.management-subnet.name}"
+    subnetwork = "${google_compute_subnetwork.infrastructure-subnet.name}"
 
     access_config {
       nat_ip = "${google_compute_address.optional-ops-manager-ip.address}"

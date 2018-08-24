@@ -83,20 +83,20 @@ output "sql_db_ip" {
   value = "${module.external_database.ip}"
 }
 
-output "management_subnet_gateway" {
-  value = "${google_compute_subnetwork.management-subnet.gateway_address}"
+output "infrastructure_subnet_gateway" {
+  value = "${google_compute_subnetwork.infrastructure-subnet.gateway_address}"
 }
 
-output "management_subnet_cidrs" {
-  value = ["${google_compute_subnetwork.management-subnet.ip_cidr_range}"]
+output "infrastructure_subnet_cidrs" {
+  value = ["${google_compute_subnetwork.infrastructure-subnet.ip_cidr_range}"]
 }
 
-output "management_subnet_name" {
-  value = "${google_compute_subnetwork.management-subnet.name}"
+output "infrastructure_subnet_name" {
+  value = "${google_compute_subnetwork.infrastructure-subnet.name}"
 }
 
-output "management_subnets" {
-  value = ["${google_compute_subnetwork.management-subnet.name}"]
+output "infrastructure_subnets" {
+  value = ["${google_compute_subnetwork.infrastructure-subnet.name}"]
 }
 
 output "pas_subnet_gateway" {
@@ -289,4 +289,24 @@ output "pks_master_node_service_account_key" {
 output "pks_worker_node_service_account_key" {
   value     = "${module.pks.pks_worker_node_service_account_key}"
   sensitive = true
+}
+
+/*****************************
+ * Deprecated *
+ *****************************/
+
+output "management_subnet_gateway" {
+  value = "${google_compute_subnetwork.infrastructure-subnet.gateway_address}"
+}
+
+output "management_subnet_cidrs" {
+  value = ["${google_compute_subnetwork.infrastructure-subnet.ip_cidr_range}"]
+}
+
+output "management_subnet_name" {
+  value = "${google_compute_subnetwork.infrastructure-subnet.name}"
+}
+
+output "management_subnets" {
+  value = ["${google_compute_subnetwork.infrastructure-subnet.name}"]
 }
