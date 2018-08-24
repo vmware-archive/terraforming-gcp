@@ -131,12 +131,16 @@ output "services_subnets" {
   value = ["${google_compute_subnetwork.services-subnet.name}"]
 }
 
+locals {
+  lb_name = "${var.global_lb > 0 ? element(concat(google_compute_backend_service.http_lb_backend_service.*.name, list("")), 0) : element(concat(google_compute_target_pool.cf.*.name, list("")), 0)}"
+}
+
 output "web_lb_name" {
-  value = "${google_compute_backend_service.http_lb_backend_service.name}"
+  value = "${local.lb_name}"
 }
 
 output "http_lb_backend_name" {
-  value = "${google_compute_backend_service.http_lb_backend_service.name}"
+  value = "${local.lb_name}"
 }
 
 output "ssl_cert" {

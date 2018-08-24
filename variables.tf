@@ -189,3 +189,8 @@ variable "pks_services_cidr" {
   description = "cidr for pks services subnet"
   default     = "10.0.11.0/24"
 }
+
+variable "global_lb" {
+  description = "Use global load balancers for CF instead regional load balancers"
+  default     = 1
+}
