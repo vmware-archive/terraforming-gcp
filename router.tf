@@ -11,7 +11,11 @@ resource "google_compute_firewall" "cf-public" {
     ports    = ["80", "443"]
   }
 
-  target_tags = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws", "${var.env_name}-isoseglb"]
+  target_tags = [
+    "${var.env_name}-${var.global_lb > 0 ? "httpslb" : "tcplb"}",
+    "${var.env_name}-cf-ws",
+    "${var.env_name}-isoseglb"
+  ]
 }
 
 resource "google_compute_global_address" "cf" {
@@ -116,11 +120,15 @@ resource "google_compute_firewall" "cf-health_check" {
   }
 
   source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
-  target_tags   = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws", "${var.env_name}-isoseglb"]
+  target_tags   = [
+    "${var.env_name}-${var.global_lb > 0 ? "httpslb" : "tcplb"}",
+    "${var.env_name}-cf-ws",
+    "${var.env_name}-isoseglb"
+  ]
 }
 
 resource "google_compute_target_pool" "cf" {
-  name = "${var.env_name}-lb"
+  name = "${var.env_name}-tcplb"
 
   health_checks = [
     "${google_compute_http_health_check.cf-public.name}",
@@ -173,6 +181,8 @@ resource "google_compute_forwarding_rule" "cf-https" {
 
 resource "google_compute_address" "cf-ws" {
   name = "${var.env_name}-cf-ws"
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_target_pool" "cf-ws" {
@@ -181,6 +191,8 @@ resource "google_compute_target_pool" "cf-ws" {
   health_checks = [
     "${google_compute_http_health_check.cf-public.name}",
   ]
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_forwarding_rule" "cf-ws-https" {
@@ -189,6 +201,8 @@ resource "google_compute_forwarding_rule" "cf-ws-https" {
   port_range  = "443"
   ip_protocol = "TCP"
   ip_address  = "${google_compute_address.cf-ws.address}"
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_forwarding_rule" "cf-ws-http" {
@@ -197,6 +211,8 @@ resource "google_compute_forwarding_rule" "cf-ws-http" {
   port_range  = "80"
   ip_protocol = "TCP"
   ip_address  = "${google_compute_address.cf-ws.address}"
+
+  count = "${var.global_lb}"
 }
 
 /****************

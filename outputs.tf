@@ -172,7 +172,7 @@ output "iso_seg_ssl_private_key" {
 }
 
 output "ws_router_pool" {
-  value = "${google_compute_target_pool.cf-ws.name}"
+  value = "${element(concat(google_compute_target_pool.cf-ws.*.name, list("")), 0)}"
 }
 
 output "ssh_lb_name" {
@@ -240,7 +240,7 @@ output "ops_manager_ssh_public_key" {
 }
 
 output "cf_ws_address" {
-  value = "${google_compute_address.cf-ws.address}"
+  value = "${element(concat(google_compute_address.cf-ws.*.address, list("")), 0)}"
 }
 
 output "dns_managed_zone" {
