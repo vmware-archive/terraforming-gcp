@@ -136,7 +136,7 @@ SERVICE_ACCOUNT_KEY
 - pks: **(optional)** When set to "true" creates a tcp load-balancer for PKS api, dedicated subnets and allows access on Port `8443` to `masters` external IP address for `kubectl` access
 
 ## Internetless (optional)
-- internetless: **(optional)** When set to "true", all traffic going outside the 10.* network is denied.
+- internetless: **(optional)** When set to "true", all traffic going outside the 10.* network is denied. DNS records like '*.apps.DOMAIN' will be pointed to the HAProxy static IP rather than the LB address.
 
 ## Running
 
