@@ -167,6 +167,10 @@ output "iso_seg_ssl_private_key" {
   value     = "${module.isolation_segment.ssl_private_key}"
 }
 
+output "iso_seg_haproxy_static_ip" {
+  value = "${module.isolation_segment.haproxy_static_ip}"
+}
+
 output "ws_router_pool" {
   value = "${google_compute_target_pool.cf-ws.name}"
 }

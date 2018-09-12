@@ -19,3 +19,7 @@ variable "dns_zone_dns_name" {}
 variable "dns_zone_name" {}
 
 variable "public_healthcheck_link" {}
+
+variable "pas_subnet_cidr" {}
+
+variable "internetless" {}
