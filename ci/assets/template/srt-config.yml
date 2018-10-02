@@ -1,0 +1,66 @@
+---
+network-properties:
+  network:
+    name: pas
+  other_availability_zones:
+    {{range .azs}}
+    - name: {{.}}
+    {{end}}
+  singleton_availability_zone:
+    name: {{index .azs 0}}
+product-properties:
+  .cloud_controller.apps_domain:
+    value: {{.apps_domain}}
+  .cloud_controller.system_domain:
+    value: {{.sys_domain}}
+  .ha_proxy.skip_cert_verify:
+    value: true
+  .mysql_monitor.recipient_email:
+    value: cf-infra@pivotal.io
+  .properties.credhub_key_encryption_passwords:
+    value:
+    - key:
+        secret: 1a2b3c4d5e6f7g8h9i0j
+      name: Key
+      primary: true
+      provider: internal
+  .properties.enable_service_discovery_for_apps:
+    value: true
+  .properties.haproxy_forward_tls:
+    value: disable
+  .properties.networking_poe_ssl_certs:
+    value:
+    - certificate:
+        cert_pem: |
+{{indent 10 .ssl_cert}}
+        private_key_pem: |
+{{indent 10 .ssl_private_key}}
+      name: Certificate
+  .properties.security_acknowledgement:
+    value: X
+  .properties.system_blobstore:
+    value: internal
+  .properties.tcp_routing:
+    value: enable
+  .properties.tcp_routing.enable.reservable_ports:
+    value: 1024-1123
+  .uaa.service_provider_key_credentials:
+    value:
+        cert_pem: |
+{{indent 10 .ssl_cert}}
+        private_key_pem: |
+{{indent 10 .ssl_private_key}}
+resource-config:
+  compute:
+    instances: 1
+  control:
+    elb_names:
+    - tcp:{{.ssh_lb_name}}
+  router:
+    elb_names:
+    - http:{{.web_lb_name}}
+    - tcp:{{.ws_router_pool}}
+    instances: 1
+  tcp_router:
+    elb_names:
+    - tcp:{{.tcp_router_pool}}

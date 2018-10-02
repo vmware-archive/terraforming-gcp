@@ -1,0 +1,44 @@
+az-configuration:
+{{range .azs}}
+- name: {{.}}
+{{end}}
+director-configuration:
+  ntp_servers_string: 169.254.169.254
+iaas-configuration:
+  auth_json: {{ toJson (env "GCP_SERVICE_ACCOUNT_KEY") }}
+  default_deployment_tag: {{.vm_tag}}
+  project: {{.project}}
+network-assignment:
+  network:
+    name: {{.management_subnet_name}}
+  singleton_availability_zone:
+    name: {{index .azs 0}}
+networks-configuration:
+  icmp_checks_enabled: false
+  networks:
+  - name: {{.management_subnet_name}}
+    subnets:
+    - availability_zone_names:
+      {{range .azs}}
+      - {{.}}
+      {{end}}
+      cidr: {{index .management_subnet_cidrs 0}}
+      dns: 169.254.169.254
+      gateway: {{.management_subnet_gateway}}
+      iaas_identifier: {{.network_name}}/{{.management_subnet_name}}/{{.region}}
+      reserved_ip_ranges: {{cidrhost (index .management_subnet_cidrs 0) 0}}-{{cidrhost (index .management_subnet_cidrs 0) 4}}
+  - name: pas
+    subnets:
+    - availability_zone_names:
+      {{range .azs}}
+      - {{.}}
+      {{end}}
+      cidr: {{index .pas_subnet_cidrs 0}}
+      dns: 169.254.169.254
+      gateway: {{.pas_subnet_gateway}}
+      iaas_identifier: {{.network_name}}/{{.pas_subnet_name}}/{{.region}}
+      reserved_ip_ranges: {{cidrhost (index .pas_subnet_cidrs 0) 0}}-{{cidrhost (index .pas_subnet_cidrs 0) 4}}
+resource-configuration:
+  compilation:
+    instance_type:
+      id: xlarge.disk
