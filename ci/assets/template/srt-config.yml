@@ -24,8 +24,6 @@ product-properties:
       name: Key
       primary: true
       provider: internal
-  .properties.enable_service_discovery_for_apps:
-    value: true
   .properties.haproxy_forward_tls:
     value: disable
   .properties.networking_poe_ssl_certs:
