@@ -314,3 +314,7 @@ output "management_subnet_name" {
 output "management_subnets" {
   value = ["${google_compute_subnetwork.infrastructure-subnet.name}"]
 }
+
+output "ops_manager_private_ip" {
+  value = "${google_compute_instance.ops-manager.network_interface.0.address}"
+}
