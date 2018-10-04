@@ -26,6 +26,12 @@ shared:
     OM_PASSWORD: ((om.password))
 
 resources:
+- name: after-midnight
+  type: time
+  source:
+    start: 12:00 AM -0700
+    stop: 2:00 AM -0700
+
 - name: terraforming-gcp
   type: git
   source:
@@ -92,6 +98,8 @@ jobs:
   public: false
   plan:
   - aggregate:
+    - get: after-midnight
+      trigger: true
     - get: terraforming-gcp
       trigger: true
     - get: ci
