@@ -103,6 +103,7 @@ jobs:
         globs:
         - srt-*.pivotal
     - get: opsman-image
+      trigger: true
       params:
         globs:
         - '*GCP.yml'
