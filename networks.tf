@@ -1,13 +1,14 @@
 resource "google_compute_network" "pcf-network" {
-  name = "${var.env_name}-pcf-network"
+  name                    = "${var.env_name}-pcf-network"
   auto_create_subnetworks = false
 }
 
 resource "google_compute_subnetwork" "infrastructure-subnet" {
-  name          = "${var.env_name}-infrastructure-subnet"
-  ip_cidr_range = "${var.infrastructure_cidr}"
-  network       = "${google_compute_network.pcf-network.self_link}"
-  region        = "${var.region}"
+  name                     = "${var.env_name}-infrastructure-subnet"
+  ip_cidr_range            = "${var.infrastructure_cidr}"
+  network                  = "${google_compute_network.pcf-network.self_link}"
+  region                   = "${var.region}"
+  private_ip_google_access = "${var.internetless}"
 }
 
 resource "google_compute_subnetwork" "pas-subnet" {
