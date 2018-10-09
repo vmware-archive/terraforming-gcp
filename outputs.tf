@@ -83,20 +83,20 @@ output "sql_db_ip" {
   value = "${module.external_database.ip}"
 }
 
-output "management_subnet_gateway" {
-  value = "${google_compute_subnetwork.management-subnet.gateway_address}"
+output "infrastructure_subnet_gateway" {
+  value = "${google_compute_subnetwork.infrastructure-subnet.gateway_address}"
 }
 
-output "management_subnet_cidrs" {
-  value = ["${google_compute_subnetwork.management-subnet.ip_cidr_range}"]
+output "infrastructure_subnet_cidrs" {
+  value = ["${google_compute_subnetwork.infrastructure-subnet.ip_cidr_range}"]
 }
 
-output "management_subnet_name" {
-  value = "${google_compute_subnetwork.management-subnet.name}"
+output "infrastructure_subnet_name" {
+  value = "${google_compute_subnetwork.infrastructure-subnet.name}"
 }
 
-output "management_subnets" {
-  value = ["${google_compute_subnetwork.management-subnet.name}"]
+output "infrastructure_subnets" {
+  value = ["${google_compute_subnetwork.infrastructure-subnet.name}"]
 }
 
 output "pas_subnet_gateway" {
@@ -131,12 +131,16 @@ output "services_subnets" {
   value = ["${google_compute_subnetwork.services-subnet.name}"]
 }
 
+locals {
+  lb_name = "${var.global_lb > 0 ? element(concat(google_compute_backend_service.http_lb_backend_service.*.name, list("")), 0) : element(concat(google_compute_target_pool.cf.*.name, list("")), 0)}"
+}
+
 output "web_lb_name" {
-  value = "${google_compute_backend_service.http_lb_backend_service.name}"
+  value = "${local.lb_name}"
 }
 
 output "http_lb_backend_name" {
-  value = "${google_compute_backend_service.http_lb_backend_service.name}"
+  value = "${local.lb_name}"
 }
 
 output "ssl_cert" {
@@ -168,7 +172,7 @@ output "iso_seg_ssl_private_key" {
 }
 
 output "ws_router_pool" {
-  value = "${google_compute_target_pool.cf-ws.name}"
+  value = "${element(concat(google_compute_target_pool.cf-ws.*.name, list("")), 0)}"
 }
 
 output "ssh_lb_name" {
@@ -236,7 +240,7 @@ output "ops_manager_ssh_public_key" {
 }
 
 output "cf_ws_address" {
-  value = "${google_compute_address.cf-ws.address}"
+  value = "${element(concat(google_compute_address.cf-ws.*.address, list("")), 0)}"
 }
 
 output "dns_managed_zone" {
@@ -289,4 +293,28 @@ output "pks_master_node_service_account_key" {
 output "pks_worker_node_service_account_key" {
   value     = "${module.pks.pks_worker_node_service_account_key}"
   sensitive = true
+}
+
+/*****************************
+ * Deprecated *
+ *****************************/
+
+output "management_subnet_gateway" {
+  value = "${google_compute_subnetwork.infrastructure-subnet.gateway_address}"
+}
+
+output "management_subnet_cidrs" {
+  value = ["${google_compute_subnetwork.infrastructure-subnet.ip_cidr_range}"]
+}
+
+output "management_subnet_name" {
+  value = "${google_compute_subnetwork.infrastructure-subnet.name}"
+}
+
+output "management_subnets" {
+  value = ["${google_compute_subnetwork.infrastructure-subnet.name}"]
+}
+
+output "ops_manager_private_ip" {
+  value = "${google_compute_instance.ops-manager.network_interface.0.address}"
 }

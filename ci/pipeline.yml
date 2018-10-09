@@ -1,0 +1,201 @@
+---
+resource_types:
+- name: terraform
+  type: docker-image
+  source:
+    repository: ljfranklin/terraform-resource
+    tag: beta-backend
+
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+shared:
+- params: &modify-terraforming-gcp-dns-params
+    GCP_DNS_PROJECT_ID: ((cf_infra_gcp_project_id))
+    GCP_DNS_SERVICE_ACCOUNT_EMAIL: ((cf_infra_gcp_service_account_email))
+    GCP_DNS_SERVICE_ACCOUNT_KEY: ((cf_infra_gcp_service_account_key))
+    GCP_DNS_ZONE_NAME: infrastructure
+    GCP_DNS_SUFFIX: gcp.infrastructure.cf-app.com
+    GCP_DNS_RECORD_TTL: 60
+
+- params: &om-creds
+    OM_USERNAME: ((om.username))
+    OM_PASSWORD: ((om.password))
+
+resources:
+- name: after-midnight
+  type: time
+  source:
+    start: 12:00 AM -0700
+    stop: 2:00 AM -0700
+
+- name: terraforming-gcp
+  type: git
+  source:
+    branch: master
+    uri: git@github.com:pivotal-cf/terraforming-gcp.git
+    private_key: ((cf_infra_bot_github_user.private_key))
+
+- name: env-state-gcp
+  type: terraform
+  source:
+    backend_type: gcs
+    backend_config:
+      bucket: infra-tf-states
+      prefix: gcp
+      region: us-central1
+      credentials: |
+        {{cf_infra_gcp_service_account_key_for_terraform}}
+    vars:
+      project: ((cf_infra_gcp_project_id))
+      region: us-central1
+      zones: ["us-central1-a", "us-central1-b", "us-central1-c"]
+      dns_suffix: gcp.infrastructure.cf-app.com
+      isolation_segment: true
+      service_account_key: ((cf_infra_gcp_service_account_key))
+      ssl_cert: ((ssl_cert.certificate))
+      ssl_private_key: ((ssl_cert.private_key))
+      iso_seg_ssl_cert: ((ssl_cert.certificate))
+      iso_seg_ssl_private_key: ((ssl_cert.private_key))
+
+- name: infrastructure-ci
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/cloudfoundry/infrastructure-ci.git
+
+- name: pcf-releng-ci
+  type: git
+  source:
+    uri: git@github.com:pivotal-cf/pcf-releng-ci.git
+    private_key: ((cf_infra_bot_github_user.private_key))
+    ignore_paths:
+    - pipelines
+    - ci_screen
+
+- name: srt
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: elastic-runtime
+    product_version: ^\d+\.\d+\.\d+
+    sort_by: semver
+
+- name: opsman-image
+  type: pivnet
+  source:
+    product_slug: ops-manager
+    api_token: ((pivnet_token))
+    product_version: ^\d+\.\d+\.\d+
+    sort_by: semver
+
+jobs:
+- name: deploy-pas
+  serial: true
+  public: false
+  plan:
+  - aggregate:
+    - get: after-midnight
+      trigger: true
+    - get: terraforming-gcp
+      trigger: true
+    - get: ci
+      resource: infrastructure-ci
+    - get: pcf-releng-ci
+    - get: srt
+      trigger: true
+      params:
+        globs:
+        - srt-*.pivotal
+    - get: opsman-image
+      trigger: true
+      params:
+        globs:
+        - '*GCP.yml'
+  - do:
+    - task: opsman-url
+      file: ci/scripts/terraforming/latest-opsman/task.yml
+      params:
+        IAAS: GCP
+        KEY: us
+    - put: env-state-gcp
+      params:
+        env_name: terraforming-gcp-pas
+        terraform_source: terraforming-gcp
+        delete_on_failure: true
+        var_files: [tfvars/terraform.yml]
+    - task: add-dns
+      file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
+      params:
+        <<: *modify-terraforming-gcp-dns-params
+        ACTION: add
+      input_mapping:
+        env-state: env-state-gcp
+    - task: check-dns
+      file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
+      input_mapping:
+        terraform-state: env-state-gcp
+      timeout: 2m
+    - task: configure-director
+      file: ci/scripts/terraforming/configure-director/task.yml
+      params:
+        <<: *om-creds
+        TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
+        GCP_SERVICE_ACCOUNT_KEY: ((cf_infra_gcp_service_account_key))
+      input_mapping:
+        env-state: env-state-gcp
+        director-config-template: terraforming-gcp
+    - task: download-stemcell
+      file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
+      input_mapping:
+        ert-product: srt
+      params:
+        IAAS_TYPE: gcp
+        PIVNET_TOKEN: ((pivnet_token))
+    - task: upload-configure-stage-pas
+      file: ci/scripts/terraforming/upload-configure-stage/task.yml
+      params:
+        <<: *om-creds
+        PRODUCT_NAME: cf
+        PRODUCT_CONFIG_TEMPLATE: ci/assets/template/srt-config.yml
+      input_mapping:
+        env-state: env-state-gcp
+        product: srt
+        product-config-repo: terraforming-gcp
+    - task: apply-changes
+      file: ci/scripts/terraforming/apply-changes/task.yml
+      params:
+        <<: *om-creds
+        IGNORE_WARNINGS: true
+      input_mapping:
+        env-state: env-state-gcp
+    ensure:
+      do:
+      - task: delete-installation
+        file: pcf-releng-ci/tasks/environment/delete-installation/task.yml
+        params:
+          OPSMAN_USERNAME: ((om.username))
+          OPSMAN_PASSWORD: ((om.password))
+          OPSMAN_URL_SUFFIX: gcp.infrastructure.cf-app.com
+        input_mapping:
+          environment: env-state-gcp
+      - aggregate:
+        - task: remove-dns
+          file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
+          params:
+            <<: *modify-terraforming-gcp-dns-params
+            ACTION: remove
+          input_mapping:
+            env-state: env-state-gcp
+        - put: env-state-gcp
+          params:
+            env_name: terraforming-gcp-pas
+            terraform_source: terraforming-gcp
+            delete_on_failure: true
+            action: destroy
+            var_files: [tfvars/terraform.yml]
+          get_params:
+            action: destroy

@@ -15,9 +15,9 @@ variable "buckets_location" {
   default = "US"
 }
 
-variable "management_cidr" {
+variable "infrastructure_cidr" {
   type        = "string"
-  description = "cidr for management subnet"
+  description = "cidr for infrastructure subnet"
   default     = "10.0.0.0/26"
 }
 
@@ -188,4 +188,9 @@ variable "pks_services_cidr" {
   type        = "string"
   description = "cidr for pks services subnet"
   default     = "10.0.11.0/24"
+}
+
+variable "global_lb" {
+  description = "Use global load balancers for CF instead regional load balancers"
+  default     = 1
 }

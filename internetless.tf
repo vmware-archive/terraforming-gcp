@@ -22,7 +22,7 @@ resource "google_compute_firewall" "cf-internal-ingress" {
   }
 
   source_ranges = [
-    "${google_compute_subnetwork.management-subnet.ip_cidr_range}",
+    "${google_compute_subnetwork.infrastructure-subnet.ip_cidr_range}",
     "${google_compute_subnetwork.pas-subnet.ip_cidr_range}",
     "${google_compute_subnetwork.services-subnet.ip_cidr_range}",
   ]
@@ -52,7 +52,7 @@ resource "google_compute_firewall" "cf-internal-egress" {
   }
 
   destination_ranges = [
-    "${google_compute_subnetwork.management-subnet.ip_cidr_range}",
+    "${google_compute_subnetwork.infrastructure-subnet.ip_cidr_range}",
     "${google_compute_subnetwork.pas-subnet.ip_cidr_range}",
     "${google_compute_subnetwork.services-subnet.ip_cidr_range}",
   ]

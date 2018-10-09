@@ -11,16 +11,28 @@ resource "google_compute_firewall" "cf-public" {
     ports    = ["80", "443"]
   }
 
-  target_tags = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws", "${var.env_name}-isoseglb"]
+  target_tags = [
+    "${var.env_name}-${var.global_lb > 0 ? "httpslb" : "tcplb"}",
+    "${var.env_name}-cf-ws",
+    "${var.env_name}-isoseglb"
+  ]
 }
 
 resource "google_compute_global_address" "cf" {
   name = "${var.env_name}-cf"
+
+  count = "${var.global_lb}"
+}
+
+resource "google_compute_address" "cf" {
+  name = "${var.env_name}-cf"
+
+  count = "${var.global_lb > 0 ? 0 : 1}"
 }
 
 resource "google_compute_instance_group" "httplb" {
   // Count based on number of AZs
-  count       = 3
+  count       = "${var.global_lb > 0 ? 3 : 0}"
   name        = "${var.env_name}-httpslb-${element(var.zones, count.index)}"
   description = "terraform generated instance group that is multi-zone for https loadbalancing"
   zone        = "${element(var.zones, count.index)}"
@@ -56,18 +68,24 @@ resource "google_compute_backend_service" "http_lb_backend_service" {
   }
 
   health_checks = ["${google_compute_http_health_check.cf-public.self_link}"]
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_url_map" "https_lb_url_map" {
   name = "${var.env_name}-cf-http"
 
   default_service = "${google_compute_backend_service.http_lb_backend_service.self_link}"
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_target_http_proxy" "http_lb_proxy" {
   name        = "${var.env_name}-httpproxy"
   description = "really a load balancer but listed as an https proxy"
   url_map     = "${google_compute_url_map.https_lb_url_map.self_link}"
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_target_https_proxy" "https_lb_proxy" {
@@ -75,6 +93,8 @@ resource "google_compute_target_https_proxy" "https_lb_proxy" {
   description      = "really a load balancer but listed as an https proxy"
   url_map          = "${google_compute_url_map.https_lb_url_map.self_link}"
   ssl_certificates = ["${google_compute_ssl_certificate.cert.self_link}"]
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_ssl_certificate" "cert" {
@@ -86,6 +106,8 @@ resource "google_compute_ssl_certificate" "cert" {
   lifecycle = {
     create_before_destroy = true
   }
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_firewall" "cf-health_check" {
@@ -98,7 +120,21 @@ resource "google_compute_firewall" "cf-health_check" {
   }
 
   source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
-  target_tags   = ["${var.env_name}-httpslb", "${var.env_name}-cf-ws", "${var.env_name}-isoseglb"]
+  target_tags   = [
+    "${var.env_name}-${var.global_lb > 0 ? "httpslb" : "tcplb"}",
+    "${var.env_name}-cf-ws",
+    "${var.env_name}-isoseglb"
+  ]
+}
+
+resource "google_compute_target_pool" "cf" {
+  name = "${var.env_name}-tcplb"
+
+  health_checks = [
+    "${google_compute_http_health_check.cf-public.name}",
+  ]
+
+  count = "${var.global_lb > 0 ? 0 : 1}"
 }
 
 resource "google_compute_global_forwarding_rule" "cf-http" {
@@ -106,6 +142,18 @@ resource "google_compute_global_forwarding_rule" "cf-http" {
   ip_address = "${google_compute_global_address.cf.address}"
   target     = "${google_compute_target_http_proxy.http_lb_proxy.self_link}"
   port_range = "80"
+
+  count = "${var.global_lb}"
+}
+
+resource "google_compute_forwarding_rule" "cf-http" {
+  name       = "${var.env_name}-cf-lb-http"
+  ip_address = "${google_compute_address.cf.address}"
+  target     = "${google_compute_target_pool.cf.self_link}"
+  port_range = "80"
+  ip_protocol = "TCP"
+
+  count = "${var.global_lb > 0 ? 0 : 1}"
 }
 
 resource "google_compute_global_forwarding_rule" "cf-https" {
@@ -113,6 +161,18 @@ resource "google_compute_global_forwarding_rule" "cf-https" {
   ip_address = "${google_compute_global_address.cf.address}"
   target     = "${google_compute_target_https_proxy.https_lb_proxy.self_link}"
   port_range = "443"
+
+  count = "${var.global_lb}"
+}
+
+resource "google_compute_forwarding_rule" "cf-https" {
+  name       = "${var.env_name}-cf-lb-https"
+  ip_address = "${google_compute_address.cf.address}"
+  target     = "${google_compute_target_pool.cf.self_link}"
+  port_range = "443"
+  ip_protocol = "TCP"
+
+  count = "${var.global_lb > 0 ? 0 : 1}"
 }
 
 /**********
@@ -121,6 +181,8 @@ resource "google_compute_global_forwarding_rule" "cf-https" {
 
 resource "google_compute_address" "cf-ws" {
   name = "${var.env_name}-cf-ws"
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_target_pool" "cf-ws" {
@@ -129,6 +191,8 @@ resource "google_compute_target_pool" "cf-ws" {
   health_checks = [
     "${google_compute_http_health_check.cf-public.name}",
   ]
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_forwarding_rule" "cf-ws-https" {
@@ -137,6 +201,8 @@ resource "google_compute_forwarding_rule" "cf-ws-https" {
   port_range  = "443"
   ip_protocol = "TCP"
   ip_address  = "${google_compute_address.cf-ws.address}"
+
+  count = "${var.global_lb}"
 }
 
 resource "google_compute_forwarding_rule" "cf-ws-http" {
@@ -145,6 +211,8 @@ resource "google_compute_forwarding_rule" "cf-ws-http" {
   port_range  = "80"
   ip_protocol = "TCP"
   ip_address  = "${google_compute_address.cf-ws.address}"
+
+  count = "${var.global_lb}"
 }
 
 /****************
