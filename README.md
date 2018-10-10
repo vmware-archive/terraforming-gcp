@@ -1,4 +1,6 @@
-# How Does One Use This?
+# Terraforming GCP ![build-status](https://infra.ci.cf-app.com/api/v1/teams/main/pipelines/terraforming-gcp/jobs/deploy-pas/badge)
+
+## How Does One Use This?
 
 Please note that the master branch is generally *unstable*. If you are looking for something
 "tested", please consume one of our [releases](https://github.com/pivotal-cf/terraforming-gcp/releases).
