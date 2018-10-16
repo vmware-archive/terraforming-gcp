@@ -26,6 +26,13 @@ shared:
     OM_PASSWORD: ((om.password))
 
 resources:
+- name: cf-infra-tracker
+  type: tracker
+  source:
+    token: ((cf_infra_tracker_token))
+    project_id: ((cf_infrastructure_private_id))
+    tracker_url: https://www.pivotaltracker.com
+
 - name: after-midnight
   type: time
   source:
@@ -198,3 +205,14 @@ jobs:
             var_files: [tfvars/terraform.yml]
           get_params:
             action: destroy
+
+- name: deliver-stories
+  plan:
+  - get: terraforming-gcp
+    trigger: true
+    passed:
+    - deploy-pas
+  - put: cf-infra-tracker
+    params:
+      repos:
+      - terraforming-gcp
