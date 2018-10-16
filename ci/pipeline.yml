@@ -47,8 +47,7 @@ resources:
       bucket: infra-tf-states
       prefix: gcp
       region: us-central1
-      credentials: |
-        {{cf_infra_gcp_service_account_key_for_terraform}}
+      credentials: ((cf_infra_gcp_service_account_key))
     vars:
       project: ((cf_infra_gcp_project_id))
       region: us-central1

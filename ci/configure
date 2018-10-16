@@ -1,9 +1,8 @@
 #!/bin/bash -eu
 
 main() {
-fly -t "ovoc" set-pipeline -p terraforming-gcp \
-  -c "${PROJECT_DIR}/ci/pipeline.yml" \
-  -l <(lpass show --notes terraforming-pipeline-creds)
+  fly -t "ovoc" set-pipeline -p terraforming-gcp \
+    -c "${PROJECT_DIR}/ci/pipeline.yml"
 }
 
 main "$@"
