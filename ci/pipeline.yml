@@ -134,6 +134,7 @@ jobs:
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
+      attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
         <<: *modify-terraforming-gcp-dns-params
