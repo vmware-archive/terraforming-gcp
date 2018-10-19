@@ -53,12 +53,12 @@ resources:
     backend_config:
       bucket: infra-tf-states
       prefix: gcp
-      region: us-central1
+      region: us-east1
       credentials: ((cf_infra_gcp_service_account_key))
     vars:
       project: ((cf_infra_gcp_project_id))
-      region: us-central1
-      zones: ["us-central1-a", "us-central1-b", "us-central1-c"]
+      region: us-east1
+      zones: ["us-east1-a", "us-east1-b", "us-east1-c"]
       dns_suffix: gcp.infrastructure.cf-app.com
       isolation_segment: true
       service_account_key: ((cf_infra_gcp_service_account_key))
@@ -173,6 +173,7 @@ jobs:
         product: srt
         product-config-repo: terraforming-gcp
     - task: apply-changes
+      attempts: 3
       file: ci/scripts/terraforming/apply-changes/task.yml
       params:
         <<: *om-creds
