@@ -97,7 +97,7 @@ SERVICE_ACCOUNT_KEY
 - zones: **(required)** Zones in which to create resources. Must be within the given region. Currently you must specify exactly 3 Zones for this terraform configuration to work. (e.g. [us-central1-a, us-central1-b, us-central1-c])
 - opsman\_image\_url **(required)** Source URL of the Ops Manager image you want to boot.
 - service\_account\_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
-- dns\_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com)
+- dns\_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com). Trailing dots are not supported.
 - buckets\_location: **(optional)** Loction in which to create buckets. Defaults to US.
 - ssl\_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
 - ssl\_private\_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.

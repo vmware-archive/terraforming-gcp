@@ -58,7 +58,8 @@ variable "service_account_key" {
 }
 
 variable "dns_suffix" {
-  type = "string"
+  type        = "string"
+  description = "Domain to add environment subdomain to (e.g. foo.example.com). Trailing dots are not supported."
 }
 
 variable "ssl_cert" {
