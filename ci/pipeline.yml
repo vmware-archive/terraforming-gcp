@@ -13,7 +13,7 @@ resource_types:
     tag: latest-final
 
 shared:
-- params: &modify-terraforming-gcp-dns-params
+- params: &modify-terraforming-dns-params
     GCP_DNS_PROJECT_ID: ((cf_infra_gcp_project_id))
     GCP_DNS_SERVICE_ACCOUNT_EMAIL: ((cf_infra_gcp_service_account_email))
     GCP_DNS_SERVICE_ACCOUNT_KEY: ((cf_infra_gcp_service_account_key))
@@ -39,12 +39,29 @@ resources:
     start: 12:00 AM -0700
     stop: 2:00 AM -0700
 
-- name: terraforming-gcp
+- name: terraforming
   type: git
   source:
     branch: master
     uri: git@github.com:pivotal-cf/terraforming-gcp.git
     private_key: ((cf_infra_bot_github_user.private_key))
+
+- name: terraforming-release
+  type: github-release
+  source:
+    owner: pivotal-cf
+    repository: terraforming-gcp
+    access_token: ((cf_infra_bot_user_github_access_token))
+    drafts: true
+
+- name: version
+  type: semver
+  source:
+    driver: s3
+    bucket: terraforming
+    key: terraforming-gcp/version
+    access_key_id: ((aws_access_key_id))
+    secret_access_key: ((aws_secret_access_key))
 
 - name: env-state-gcp
   type: terraform
@@ -106,7 +123,7 @@ jobs:
   - aggregate:
     - get: after-midnight
       trigger: true
-    - get: terraforming-gcp
+    - get: terraforming
       trigger: true
     - get: ci
       resource: infrastructure-ci
@@ -130,14 +147,14 @@ jobs:
     - put: env-state-gcp
       params:
         env_name: terraforming-gcp-pas
-        terraform_source: terraforming-gcp
+        terraform_source: terraforming
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
       attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
-        <<: *modify-terraforming-gcp-dns-params
+        <<: *modify-terraforming-dns-params
         ACTION: add
       input_mapping:
         env-state: env-state-gcp
@@ -154,7 +171,7 @@ jobs:
         GCP_SERVICE_ACCOUNT_KEY: ((cf_infra_gcp_service_account_key))
       input_mapping:
         env-state: env-state-gcp
-        director-config-template: terraforming-gcp
+        director-config-template: terraforming
     - task: download-stemcell
       file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
       input_mapping:
@@ -171,7 +188,7 @@ jobs:
       input_mapping:
         env-state: env-state-gcp
         product: srt
-        product-config-repo: terraforming-gcp
+        product-config-repo: terraforming
     - task: apply-changes
       attempts: 3
       file: ci/scripts/terraforming/apply-changes/task.yml
@@ -194,27 +211,50 @@ jobs:
         - task: remove-dns
           file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
           params:
-            <<: *modify-terraforming-gcp-dns-params
+            <<: *modify-terraforming-dns-params
             ACTION: remove
           input_mapping:
             env-state: env-state-gcp
         - put: env-state-gcp
           params:
             env_name: terraforming-gcp-pas
-            terraform_source: terraforming-gcp
+            terraform_source: terraforming
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
           get_params:
             action: destroy
 
+- name: publish
+  serial: true
+  plan:
+  - aggregate:
+    - get: terraforming
+      passed: [deploy-pas]
+      trigger: true
+    - get: version
+    - get: ci
+      resource: infrastructure-ci
+  - task: release
+    file: ci/scripts/terraforming/release/task.yml
+  - put: terraforming-release
+    params:
+      name: version/version
+      tag_prefix: "v"
+      tag: version/version
+      commitish: release/commitish
+  - put: version
+    params:
+      bump: minor
+      file: version/version
+
 - name: deliver-stories
   plan:
-  - get: terraforming-gcp
+  - get: terraforming
     trigger: true
     passed:
     - deploy-pas
   - put: cf-infra-tracker
     params:
       repos:
-      - terraforming-gcp
+      - terraforming
