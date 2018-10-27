@@ -233,6 +233,8 @@ jobs:
       passed: [deploy-pas]
       trigger: true
     - get: version
+      params:
+        bump: minor
     - get: ci
       resource: infrastructure-ci
   - task: release

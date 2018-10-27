@@ -3,3 +3,4 @@
 *.tfstate
 terraform.key.json
 *.tfvars
+.idea
