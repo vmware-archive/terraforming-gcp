@@ -8,7 +8,7 @@ authenticate_om() {
 
 main() {
   local path=${1?"Path is required (e.g. terraforming-pas, terraforming-pks, terraforming-pks)"}
-  local product=${2?"Product slug is required (e.g. cf, pivotal-container-service"}
+  local product=${2?"Product slug is required (e.g. cf, pivotal-container-service, control-plane)"}
   local password=${3?"OpsManager password is required."}
 
   local product_template
@@ -18,6 +18,9 @@ main() {
       ;;
     pivotal-container-service)
       product_template=$PROJECT_DIR/ci/assets/template/pks-config.yml
+      ;;
+    control-plane)
+      product_template=$PROJECT_DIR/ci/assets/template/control-plane-config.yml
       ;;
   esac
 

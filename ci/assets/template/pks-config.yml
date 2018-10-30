@@ -1,9 +1,9 @@
 ---
 network-properties:
   network:
-    name: pks
+    name: {{.pks_subnet_name}}
   service_network:
-    name: services
+    name: {{.services_subnet_name}}
   other_availability_zones:
     {{range .azs}}
     - name: {{.}}

@@ -1,9 +1,9 @@
 ---
 network-properties:
   network:
-    name: pas
+    name: {{.pas_subnet_name}}
   service_network:
-    name: services
+    name: {{.services_subnet_name}}
   other_availability_zones:
     {{range .azs}}
     - name: {{.}}

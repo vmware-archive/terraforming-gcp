@@ -77,19 +77,13 @@ variable "opsman_sql_db_host" {
 }
 
 /*****************************
- * PKS Options *
+ * Control Plane Options *
  *****************************/
 
-variable "pks_cidr" {
+variable "control_plane_cidr" {
   type        = "string"
-  description = "cidr for pks subnet"
-  default     = "10.0.10.0/24"
-}
-
-variable "pks_services_cidr" {
-  type        = "string"
-  description = "cidr for pks services subnet"
-  default     = "10.0.11.0/24"
+  description = "cidr for control plane subnet"
+  default     = "10.0.12.0/24"
 }
 
 ///********************************
@@ -99,20 +93,4 @@ variable "pks_services_cidr" {
 variable "create_blobstore_service_account_key" {
   description = "Create a scoped service account key for gcs storage access"
   default     = true
-}
-
-/*****************************
- * Certificates *
- *****************************/
-
-variable "ssl_cert" {
-  type        = "string"
-  description = "The contents of an SSL certificate to be used by the LB, optional if `ssl_ca_cert` is provided"
-  default     = ""
-}
-
-variable "ssl_private_key" {
-  type        = "string"
-  description = "The contents of an SSL private key to be used by the LB, optional if `ssl_ca_cert` is provided"
-  default     = ""
 }
