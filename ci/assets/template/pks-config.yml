@@ -1,0 +1,49 @@
+---
+network-properties:
+  network:
+    name: pks
+  service_network:
+    name: services
+  other_availability_zones:
+    {{range .azs}}
+    - name: {{.}}
+    {{end}}
+  singleton_availability_zone:
+    name: {{index .azs 0}}
+product-properties:
+  .pivotal-container-service.pks_tls:
+    value:
+      cert_pem: |
+{{indent 10 .ssl_cert}}
+      private_key_pem: |
+{{indent 10 .ssl_private_key}}
+  .properties.pks_api_hostname:
+    value: {{.pks_api_endpoint}}
+  .properties.plan1_selector.active.master_az_placement:
+    value:
+    - {{index .azs 0}}
+  .properties.plan1_selector.active.worker_az_placement:
+    value:
+    {{range .azs}}
+    - {{.}}
+    {{end}}
+  .properties.plan2_selector:
+    value: "Plan Inactive"
+  .properties.plan3_selector:
+    value: "Plan Inactive"
+  .properties.cloud_provider:
+    value: GCP
+  .properties.cloud_provider.gcp.project_id:
+    value: {{.project}}
+  .properties.cloud_provider.gcp.network:
+    value: {{.network_name}}
+  .properties.cloud_provider.gcp.master_service_account:
+    value: {{.pks_master_node_service_account_key}}
+  .properties.cloud_provider.gcp.worker_service_account:
+    value: {{.pks_worker_node_service_account_key}}
+  .properties.telemetry_selector:
+    value: disabled
+resource-config:
+  pivotal-container-service:
+    elb_names:
+    - tcp:{{.pks_lb_backend_name}}

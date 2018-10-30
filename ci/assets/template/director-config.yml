@@ -10,23 +10,24 @@ iaas-configuration:
   project: {{.project}}
 network-assignment:
   network:
-    name: {{.management_subnet_name}}
+    name: {{.infrastructure_subnet_name}}
   singleton_availability_zone:
     name: {{index .azs 0}}
 networks-configuration:
   icmp_checks_enabled: false
   networks:
-  - name: {{.management_subnet_name}}
+  - name: {{.infrastructure_subnet_name}}
     subnets:
     - availability_zone_names:
       {{range .azs}}
       - {{.}}
       {{end}}
-      cidr: {{index .management_subnet_cidrs 0}}
+      cidr: {{index .infrastructure_subnet_cidrs 0}}
       dns: 169.254.169.254
-      gateway: {{.management_subnet_gateway}}
-      iaas_identifier: {{.network_name}}/{{.management_subnet_name}}/{{.region}}
-      reserved_ip_ranges: {{cidrhost (index .management_subnet_cidrs 0) 0}}-{{cidrhost (index .management_subnet_cidrs 0) 4}}
+      gateway: {{.infrastructure_subnet_gateway}}
+      iaas_identifier: {{.network_name}}/{{.infrastructure_subnet_name}}/{{.region}}
+      reserved_ip_ranges: {{cidrhost (index .infrastructure_subnet_cidrs 0) 0}}-{{cidrhost (index .infrastructure_subnet_cidrs 0) 4}}
+{{if  index . "pas_subnet_cidrs"}}
   - name: pas
     subnets:
     - availability_zone_names:
@@ -38,6 +39,33 @@ networks-configuration:
       gateway: {{.pas_subnet_gateway}}
       iaas_identifier: {{.network_name}}/{{.pas_subnet_name}}/{{.region}}
       reserved_ip_ranges: {{cidrhost (index .pas_subnet_cidrs 0) 0}}-{{cidrhost (index .pas_subnet_cidrs 0) 4}}
+{{end}}
+{{if  index . "pks_subnet_cidrs"}}
+  - name: pks
+    subnets:
+    - availability_zone_names:
+      {{range .azs}}
+      - {{.}}
+      {{end}}
+      cidr: {{index .pks_subnet_cidrs 0}}
+      dns: 169.254.169.254
+      gateway: {{.pks_subnet_gateway}}
+      iaas_identifier: {{.network_name}}/{{.pks_subnet_name}}/{{.region}}
+      reserved_ip_ranges: {{cidrhost (index .pks_subnet_cidrs 0) 0}}-{{cidrhost (index .pks_subnet_cidrs 0) 4}}
+{{end}}
+{{if  index . "services_subnet_cidrs"}}
+  - name: services
+    subnets:
+    - availability_zone_names:
+      {{range .azs}}
+      - {{.}}
+      {{end}}
+      cidr: {{index .services_subnet_cidrs 0}}
+      dns: 169.254.169.254
+      gateway: {{.services_subnet_gateway}}
+      iaas_identifier: {{.network_name}}/{{.services_subnet_name}}/{{.region}}
+      reserved_ip_ranges: {{cidrhost (index .services_subnet_cidrs 0) 0}}-{{cidrhost (index .services_subnet_cidrs 0) 4}}
+{{end}}
 resource-configuration:
   compilation:
     instance_type:

@@ -1,0 +1,32 @@
+#!/bin/bash -exu
+
+authenticate_om() {
+  export OM_TARGET="https://$(terraform output ops_manager_public_ip)"
+  export OM_USERNAME="admin"
+  export OM_PASSWORD="$1"
+}
+
+main() {
+  local path=${1?"Path is required (e.g. terraforming-pas, terraforming-pks, terraforming-pks)"}
+  local product=${2?"Product slug is required (e.g. cf, pivotal-container-service"}
+  local password=${3?"OpsManager password is required."}
+
+  local product_template
+  case $product in
+    cf)
+      product_template=$PROJECT_DIR/ci/assets/template/srt-config.yml
+      ;;
+    pivotal-container-service)
+      product_template=$PROJECT_DIR/ci/assets/template/pks-config.yml
+      ;;
+  esac
+
+  pushd $PROJECT_DIR/$path > /dev/null
+    authenticate_om "${password}"
+
+    om -k configure-product -n "${product}"\
+      -c <(texplate execute $product_template -f <(jq -e --raw-output '.modules[0].outputs | map_values(.value)' terraform.tfstate) -o yaml)
+  popd > /dev/null
+}
+
+main "$@"

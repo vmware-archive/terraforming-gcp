@@ -2,6 +2,8 @@
 network-properties:
   network:
     name: pas
+  service_network:
+    name: services
   other_availability_zones:
     {{range .azs}}
     - name: {{.}}

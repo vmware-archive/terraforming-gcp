@@ -107,6 +107,14 @@ resources:
     product_version: ^\d+\.\d+\.\d+
     sort_by: semver
 
+- name: pks
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: pivotal-container-service
+    product_version: ^\d+\.\d+\.\d+
+    sort_by: semver
+
 - name: opsman-image
   type: pivnet
   source:
@@ -147,7 +155,7 @@ jobs:
     - put: env-state-gcp
       params:
         env_name: terraforming-gcp-pas
-        terraform_source: terraforming
+        terraform_source: terraforming/terraforming-pas
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
@@ -218,7 +226,113 @@ jobs:
         - put: env-state-gcp
           params:
             env_name: terraforming-gcp-pas
-            terraform_source: terraforming
+            terraform_source: terraforming/terraforming-pas
+            delete_on_failure: true
+            action: destroy
+            var_files: [tfvars/terraform.yml]
+          get_params:
+            action: destroy
+
+- name: deploy-pks
+  serial: true
+  public: false
+  plan:
+  - aggregate:
+    - get: after-midnight
+      trigger: true
+    - get: terraforming
+      trigger: true
+    - get: ci
+      resource: infrastructure-ci
+    - get: pcf-releng-ci
+    - get: pks
+      trigger: true
+    - get: opsman-image
+      trigger: true
+      params:
+        globs:
+        - '*GCP.yml'
+  - do:
+    - task: opsman-url
+      file: ci/scripts/terraforming/latest-opsman/task.yml
+      params:
+        IAAS: GCP
+        KEY: us
+    - put: env-state-gcp
+      params:
+        env_name: terraforming-gcp-pks
+        terraform_source: terraforming/terraforming-pks
+        delete_on_failure: true
+        var_files: [tfvars/terraform.yml]
+    - task: add-dns
+      attempts: 3
+      file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
+      params:
+        <<: *modify-terraforming-dns-params
+        ACTION: add
+      input_mapping:
+        env-state: env-state-gcp
+    - task: check-dns
+      file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
+      input_mapping:
+        terraform-state: env-state-gcp
+      timeout: 2m
+    - task: configure-director
+      file: ci/scripts/terraforming/configure-director/task.yml
+      params:
+        <<: *om-creds
+        TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
+        GCP_SERVICE_ACCOUNT_KEY: ((cf_infra_gcp_service_account_key))
+      input_mapping:
+        env-state: env-state-gcp
+        director-config-template: terraforming
+    - task: download-stemcell
+      file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
+      input_mapping:
+        ert-product: pks
+      params:
+        IAAS_TYPE: gcp
+        PIVNET_TOKEN: ((pivnet_token))
+    - task: upload-configure-stage-pas
+      file: ci/scripts/terraforming/upload-configure-stage/task.yml
+      params:
+        <<: *om-creds
+        PRODUCT_NAME: cf
+        PRODUCT_CONFIG_TEMPLATE: ci/assets/template/pks-config.yml
+      input_mapping:
+        env-state: env-state-gcp
+        product: pks
+        product-config-repo: terraforming
+    - task: apply-changes
+      attempts: 3
+      file: ci/scripts/terraforming/apply-changes/task.yml
+      params:
+        <<: *om-creds
+        IGNORE_WARNINGS: true
+      input_mapping:
+        env-state: env-state-gcp
+    ensure:
+      do:
+      - task: delete-installation
+        file: pcf-releng-ci/tasks/environment/delete-installation/task.yml
+        params:
+          OPSMAN_USERNAME: ((om.username))
+          OPSMAN_PASSWORD: ((om.password))
+          OPSMAN_URL_SUFFIX: gcp.infrastructure.cf-app.com
+        input_mapping:
+          environment: env-state-gcp
+      - aggregate:
+        - task: remove-dns
+          file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
+          params:
+            <<: *modify-terraforming-dns-params
+            ACTION: remove
+          input_mapping:
+            env-state: env-state-gcp
+        - put: env-state-gcp
+          params:
+            env_name: terraforming-gcp-pks
+            terraform_source: terraforming/terraforming-pks
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
@@ -230,7 +344,7 @@ jobs:
   plan:
   - aggregate:
     - get: terraforming
-      passed: [deploy-pas]
+      passed: [deploy-pas, deploy-pks]
       trigger: true
     - get: version
       params:
@@ -254,8 +368,7 @@ jobs:
   plan:
   - get: terraforming
     trigger: true
-    passed:
-    - deploy-pas
+    passed: [deploy-pas, deploy-pks]
   - put: cf-infra-tracker
     params:
       repos:
