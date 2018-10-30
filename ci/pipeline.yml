@@ -176,7 +176,6 @@ jobs:
       params:
         <<: *om-creds
         TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
-        GCP_SERVICE_ACCOUNT_KEY: ((cf_infra_gcp_service_account_key))
       input_mapping:
         env-state: env-state-gcp
         director-config-template: terraforming
@@ -282,7 +281,6 @@ jobs:
       params:
         <<: *om-creds
         TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
-        GCP_SERVICE_ACCOUNT_KEY: ((cf_infra_gcp_service_account_key))
       input_mapping:
         env-state: env-state-gcp
         director-config-template: terraforming

@@ -5,7 +5,7 @@ az-configuration:
 director-configuration:
   ntp_servers_string: 169.254.169.254
 iaas-configuration:
-  auth_json: {{ toJson (env "GCP_SERVICE_ACCOUNT_KEY") }}
+  auth_json: {{ toJson .service_account_key }}
   default_deployment_tag: {{.vm_tag}}
   project: {{.project}}
 network-assignment:
