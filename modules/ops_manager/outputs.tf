@@ -40,6 +40,11 @@ output "service_account_email" {
   value = "${google_service_account.opsman_service_account.email}"
 }
 
+output "service_account_key" {
+  sensitive = true
+  value = "${base64decode(google_service_account_key.opsman_service_account_key.private_key)}"
+}
+
 output "sql_db_name" {
   value = "${element(concat(google_sql_database.opsman.*.name, list("")), 0)}"
 }

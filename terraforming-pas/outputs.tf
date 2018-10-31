@@ -6,9 +6,9 @@ output "project" {
   value = "${var.project}"
 }
 
-output "service_account_key" {
+output "opsman_service_account_key" {
   sensitive = true
-  value     = "${var.service_account_key}"
+  value = "${module.ops_manager.service_account_key}"
 }
 
 output "region" {
