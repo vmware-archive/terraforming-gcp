@@ -28,6 +28,22 @@ brew install Caskroom/cask/google-cloud-sdk
 brew install terraform
 ```
 
+## Deploying Ops Manager
+
+Depending if you're deploying PAS, PKS or Control Plane you need to perform the following steps:
+
+1. `cd` into the proper directory:
+    - [terraforming-pas/](terraforming-pas/)
+    - [terraforming-pks/](terraforming-pks/)
+    - [terraforming-control-plane/](terraforming-control-plane/)
+1. Create [`terraform.tfvars`](/README.md#var-file) file
+1. Run terraform apply:
+  ```bash
+  terraform init
+  terraform plan -out=plan
+  terraform apply plan
+  ```
+
 ## Notes
 
 You will need a key file for your [service account](https://cloud.google.com/iam/docs/service-accounts)
@@ -135,23 +151,12 @@ SERVICE_ACCOUNT_KEY
 ## PAS Cloud Controller's Google Cloud Storage Buckets (optional)
 - create\_gcs\_buckets: **(optional)** When set to "false", buckets will not be created for PAS Cloud Controller. Defaults to "true".
 
-## PKS (optional)
-- pks: **(optional)** When set to "true" creates a tcp load-balancer for PKS api, dedicated subnets and allows access on Port `8443` to `masters` external IP address for `kubectl` access
-
 ## Internetless (optional)
 - internetless: **(optional)** When set to "true", all traffic going outside the 10.* network is denied. DNS records like '*.apps.DOMAIN' will be pointed to the HAProxy static IP rather than the LB address.
 
 ## Running
 
 Note: please make sure you have created the `terraform.tfvars` file above as mentioned.
-
-### Standing up environment
-
-```bash
-terraform init
-terraform plan -out=plan
-terraform apply plan
-```
 
 ### Tearing down environment
 
