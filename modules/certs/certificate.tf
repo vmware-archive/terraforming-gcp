@@ -1,6 +1,6 @@
 locals {
   should_create_certificate = "${length(var.ssl_cert) > 0 ? 1 :
-    length(tls_locally_signed_cert.ssl_cert.*.cert_pem) > 0 ? 1 : 0}"
+    length(var.ssl_ca_cert) > 0 ? 1 : 0}"
 }
 
 resource "tls_private_key" "ssl_private_key" {
