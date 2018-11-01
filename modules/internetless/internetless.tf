@@ -21,7 +21,7 @@ resource "google_compute_firewall" "cf-internal-ingress" {
     protocol = "udp"
   }
 
-  source_ranges = "${var.internal_cidr_ranges}"
+  source_ranges = ["${var.internal_cidr_ranges}"]
 }
 
 // Allow egress between internal VMs for a PCF deployment
@@ -47,7 +47,7 @@ resource "google_compute_firewall" "cf-internal-egress" {
     protocol = "udp"
   }
 
-  destination_ranges = "${var.internal_cidr_ranges}"
+  destination_ranges = ["${var.internal_cidr_ranges}"]
 }
 
 // Allow OpsMgr and BOSH Director to talk to GCP APIs, e.g. googleapis.com
