@@ -178,7 +178,7 @@ jobs:
       file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
       input_mapping:
         terraform-state: env-state-gcp
-      timeout: 2m
+      timeout: 5m
     - task: configure-director
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
@@ -283,7 +283,7 @@ jobs:
       file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
       input_mapping:
         terraform-state: env-state-gcp
-      timeout: 2m
+      timeout: 5m
     - task: configure-director
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
@@ -388,7 +388,7 @@ jobs:
 #       file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
 #       input_mapping:
 #         terraform-state: env-state-gcp
-#       timeout: 2m
+#       timeout: 5m
 #     - task: configure-director
 #       file: ci/scripts/terraforming/configure-director/task.yml
 #       params:
