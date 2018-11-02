@@ -2,7 +2,9 @@ variable "env_name" {
   type = "string"
 }
 
-variable "network_name" {}
+variable "network" {
+  type = "string"
+}
 
 variable "zones" {
   type = "list"

@@ -30,7 +30,7 @@ resource "google_compute_forwarding_rule" "uaa" {
 
 resource "google_compute_firewall" "control-plane" {
   name    = "${var.env_name}-control-plane-open"
-  network = "${var.network_name}"
+  network = "${var.network}"
 
   allow {
     protocol = "tcp"

@@ -48,14 +48,13 @@ module "ops_manager" {
 module "control_plane" {
   source = "../modules/control_plane"
 
+  env_name           = "${var.env_name}"
+  zones              = "${var.zones}"
+  region             = "${var.region}"
+  project            = "${var.project}"
   control_plane_cidr = "${var.control_plane_cidr}"
 
-  env_name     = "${var.env_name}"
-  network_name = "${module.infra.network}"
-  zones        = "${var.zones}"
-  region       = "${var.region}"
-  project      = "${var.project}"
-
+  network           = "${module.infra.network}"
   dns_zone_name     = "${module.infra.dns_zone_name}"
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
 }
