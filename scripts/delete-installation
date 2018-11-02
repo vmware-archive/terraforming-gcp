@@ -1,0 +1,21 @@
+#!/bin/bash -exu
+
+authenticate_om() {
+  export OM_TARGET="https://$(terraform output ops_manager_public_ip)"
+  export OM_USERNAME="admin"
+  export OM_PASSWORD="$1"
+}
+
+main() {
+  local path=${1?"Path is required (e.g. terraforming-pas, terraforming-pks, terraforming-control-plane)"}
+  local password=${2?"OpsManager password is required."}
+
+  pushd $PROJECT_DIR/$path > /dev/null
+    authenticate_om "${password}"
+
+    om -k delete-installation
+    terraform destroy
+  popd > /dev/null
+}
+
+main "$@"
