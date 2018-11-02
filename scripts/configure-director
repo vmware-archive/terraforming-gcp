@@ -7,7 +7,7 @@ authenticate_om() {
 }
 
 main() {
-  local path=${1?"Path is required (e.g. terraforming-pas, terraforming-pks, terraforming-pks)"}
+  local path=${1?"Path is required (e.g. terraforming-pas, terraforming-pks, terraforming-control-plane)"}
   local password=${2?"OpsManager password is required."}
 
   pushd $PROJECT_DIR/$path > /dev/null

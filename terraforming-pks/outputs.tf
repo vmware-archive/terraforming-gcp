@@ -8,7 +8,7 @@ output "project" {
 
 output "opsman_service_account_key" {
   sensitive = true
-  value = "${module.ops_manager.service_account_key}"
+  value     = "${module.ops_manager.service_account_key}"
 }
 
 output "region" {

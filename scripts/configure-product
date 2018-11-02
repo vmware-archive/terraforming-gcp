@@ -7,7 +7,7 @@ authenticate_om() {
 }
 
 main() {
-  local path=${1?"Path is required (e.g. terraforming-pas, terraforming-pks, terraforming-pks)"}
+  local path=${1?"Path is required (e.g. terraforming-pas, terraforming-pks, terraforming-control-plane)"}
   local product=${2?"Product slug is required (e.g. cf, pivotal-container-service, control-plane)"}
   local password=${3?"OpsManager password is required."}
 
