@@ -179,11 +179,6 @@ variable "create_blobstore_service_account_key" {
  * Jumpbox Options *
  *******************************/
 
-variable "jumpbox" {
-  description = "Create a jumpbox."
-  default     = false
-}
-
 variable "jumpbox_init_script" {
   description = "Path to the script for initiliazing the jumpbox vm."
   default     = ""

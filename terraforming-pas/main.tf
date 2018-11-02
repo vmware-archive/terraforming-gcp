@@ -145,17 +145,15 @@ module "internetless" {
 module "jumpbox" {
   source = "../modules/jumpbox"
 
-  count = "${var.jumpbox ? 1 : 0}"
-
   dns_suffix        = "${var.dns_suffix}"
   availability_zone = "${var.zones[0]}"
   subnet            = "${module.infra.subnet}"
 
   jumpbox_init_script   = "${var.jumpbox_init_script}"
-  jumpbox_public_key    = "${format("ubuntu:%s", module.ops_manager.ops_manager_ssh_public_key)}"
+  jumpbox_public_key    = "${module.ops_manager.ops_manager_ssh_public_key}"
   jumpbox_private_key   = "${module.ops_manager.ops_manager_ssh_private_key}"
   env_name              = "${var.env_name}"
   username              = "ubuntu"
-  pcf_network_name      = "${module.infra.network}"
+  pcf_network           = "${module.infra.network}"
   pcf_managed_zone_name = "${module.infra.dns_zone_name}"
 }

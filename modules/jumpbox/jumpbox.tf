@@ -1,8 +1,12 @@
+locals {
+  create_jumpbox = "${length(var.jumpbox_init_script) > 0 ? 1 : 0}"
+}
+
 resource "google_compute_firewall" "jumpbox-external" {
-  count = "${var.count}"
+  count = "${local.create_jumpbox}"
 
   name    = "${var.env_name}-jumpbox-external"
-  network = "${var.pcf_network_name}"
+  network = "${var.pcf_network}"
 
   allow {
     protocol = "tcp"
@@ -13,7 +17,7 @@ resource "google_compute_firewall" "jumpbox-external" {
 }
 
 data "template_file" "jumpbox_init_script" {
-  count = "${var.count}"
+  count = "${local.create_jumpbox}"
 
   template = "${file(var.jumpbox_init_script)}"
 
@@ -23,7 +27,7 @@ data "template_file" "jumpbox_init_script" {
 }
 
 resource "google_compute_instance" "jumpbox" {
-  count = "${var.count}"
+  count = "${local.create_jumpbox}"
 
   name         = "${var.env_name}-jumpbox"
   machine_type = "n1-standard-2"

@@ -1,5 +1,3 @@
-variable "count" {}
-
 variable "env_name" {}
 
 variable "dns_suffix" {}
@@ -16,6 +14,6 @@ variable "jumpbox_public_key" {}
 
 variable "jumpbox_private_key" {}
 
-variable "pcf_network_name" {}
+variable "pcf_network" {}
 
 variable "pcf_managed_zone_name" {}

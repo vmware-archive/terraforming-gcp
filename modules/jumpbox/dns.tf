@@ -1,5 +1,5 @@
 resource "google_dns_record_set" "jumpbox-dns" {
-  count = "${var.count}"
+  count = "${local.create_jumpbox}"
 
   name = "jumpbox.${var.env_name}.${var.dns_suffix}."
   type = "A"
