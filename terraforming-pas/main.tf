@@ -43,6 +43,7 @@ module "ops_manager" {
   dns_zone_name     = "${module.infra.dns_zone_name}"
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
 
+  external_database  = "${var.external_database}"
   sql_instance       = "${module.external_database.sql_instance}"
   opsman_sql_db_host = "${var.opsman_sql_db_host}"
 }
@@ -80,8 +81,9 @@ module "pas" {
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
   ssl_certificate   = "${module.pas_certs.ssl_certificate}"
 
-  sql_instance    = "${module.external_database.sql_instance}"
-  pas_sql_db_host = "${var.pas_sql_db_host}"
+  external_database = "${var.external_database}"
+  sql_instance      = "${module.external_database.sql_instance}"
+  pas_sql_db_host   = "${var.pas_sql_db_host}"
 }
 
 # Optional

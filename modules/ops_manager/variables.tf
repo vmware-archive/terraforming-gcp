@@ -27,6 +27,10 @@ variable "dns_zone_dns_name" {
 
 variable "create_iam_service_account_members" {}
 
+variable "external_database" {
+  default = false
+}
+
 variable "sql_instance" {
   default = ""
 }

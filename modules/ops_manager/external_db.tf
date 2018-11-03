@@ -1,5 +1,5 @@
 locals {
-  external_db_count = "${length(var.sql_instance) > 0 ? 1 : 0}"
+  external_db_count = "${var.external_database > 0 ? 1 : 0}"
 }
 
 resource "google_sql_database" "opsman" {

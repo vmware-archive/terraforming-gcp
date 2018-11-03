@@ -46,6 +46,10 @@ variable "ssl_certificate" {
   type = "string"
 }
 
+variable "external_database" {
+  default = false
+}
+
 variable "sql_instance" {
   default = ""
 }

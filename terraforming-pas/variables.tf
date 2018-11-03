@@ -97,7 +97,7 @@ variable "create_iam_service_account_members" {
 }
 
 variable "external_database" {
-  description = "standups up a cloud sql database instance for the ops manager and PAS"
+  description = "Stands up a cloud SQL database instance for the Ops Manager and PAS"
   default     = false
 }
 
