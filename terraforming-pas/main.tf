@@ -51,7 +51,7 @@ module "ops_manager" {
 module "pas_certs" {
   source = "../modules/certs"
 
-  subdomains    = ["*.apps", "*.sys"] # Should we add support for multi-tenant UAA by adding: "*.login.sys", "*.uaa.sys"
+  subdomains    = ["*.apps", "*.sys", "*.login.sys", "*.uaa.sys"]
   env_name      = "${var.env_name}"
   dns_suffix    = "${var.dns_suffix}"
   resource_name = "pas-lbcert"
