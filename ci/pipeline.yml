@@ -469,9 +469,8 @@ jobs:
     file: ci/scripts/terraforming/release/task.yml
   - put: terraforming-release
     params:
-      name: version/version
-      tag_prefix: "v"
-      tag: version/version
+      name: release/version
+      tag: release/version
       commitish: release/commitish
   - put: version
     params:
