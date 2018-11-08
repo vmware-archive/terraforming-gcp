@@ -53,6 +53,7 @@ resource "google_project_iam_member" "pks_worker_node_compute_viewer" {
 }
 
 resource "google_project_iam_member" "pks_worker_node_storage_object_viewer" {
+  count   = "${var.enable_gcr ? 1 : 0}"
   project = "${var.project}"
   role    = "roles/storage.objectViewer"
   member  = "serviceAccount:${google_service_account.pks_worker_node_service_account.email}"

@@ -92,6 +92,11 @@ variable "pks_services_cidr" {
   default     = "10.0.11.0/24"
 }
 
+variable "enable_gcr" {
+  description = "permits worker nodes to access gcr.io"
+  default     = false
+}
+
 ///********************************
 // * Google Cloud Storage Options *
 // ********************************/

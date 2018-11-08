@@ -28,6 +28,10 @@ variable "pks_cidr" {
   type = "string"
 }
 
+variable "enable_gcr" {
+  default = false
+}
+
 variable "pks_services_cidr" {
   type = "string"
 }

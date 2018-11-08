@@ -56,6 +56,7 @@ module "pks" {
   zones        = "${var.zones}"
   region       = "${var.region}"
   project      = "${var.project}"
+  enable_gcr   = "${var.enable_gcr}"
 
   dns_zone_name     = "${module.infra.dns_zone_name}"
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
