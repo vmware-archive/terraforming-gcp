@@ -167,6 +167,7 @@ jobs:
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
+      timeout: 5m
       attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
@@ -174,11 +175,6 @@ jobs:
         ACTION: add
       input_mapping:
         env-state: env-state-gcp
-    - task: check-dns
-      file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
-      input_mapping:
-        terraform-state: env-state-gcp
-      timeout: 5m
     - task: configure-director
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
@@ -272,6 +268,7 @@ jobs:
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
+      timeout: 5m
       attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
@@ -279,11 +276,6 @@ jobs:
         ACTION: add
       input_mapping:
         env-state: env-state-gcp
-    - task: check-dns
-      file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
-      input_mapping:
-        terraform-state: env-state-gcp
-      timeout: 5m
     - task: configure-director
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
