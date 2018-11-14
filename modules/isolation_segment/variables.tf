@@ -14,6 +14,8 @@ variable "public_health_check_link" {}
 
 variable "pas_subnet_cidr" {}
 
+variable "network" {}
+
 variable "internetless" {}
 
 variable "ssl_certificate" {}
