@@ -105,12 +105,13 @@ module "isoseg_certs" {
 module "isolation_segment" {
   source = "../modules/isolation_segment"
 
-  count = "${var.isolation_segment ? 1 : 0}"
+  count = "${var.isolation_segment}"
 
   env_name          = "${var.env_name}"
   zones             = "${var.zones}"
   internetless      = "${var.internetless}"
   dns_zone_dns_name = "${var.env_name}.${var.dns_suffix}"
+  with_firewalls    = "${var.iso_seg_with_firewalls}"
 
   network                  = "${module.infra.network}"
   dns_zone_name            = "${module.infra.dns_zone_name}"

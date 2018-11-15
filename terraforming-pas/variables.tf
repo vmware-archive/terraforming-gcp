@@ -137,6 +137,11 @@ variable "isolation_segment" {
   default     = false
 }
 
+variable "iso_seg_with_firewalls" {
+  description = "create firewalls to lock down ports on the isolation segment"
+  default     = false
+}
+
 variable "iso_seg_ssl_cert" {
   type        = "string"
   description = "the contents of an SSL certificate to be used by the LB, optional if `iso_seg_ssl_ca_cert` is provided"

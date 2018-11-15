@@ -1,5 +1,5 @@
 resource "google_compute_firewall" "isoseg-cf-internal" {
-  count = "${var.count}"
+  count = "${var.count * var.with_firewalls}"
 
   name     = "${var.env_name}-isoseg-cf-internal"
   network  = "${var.network}"
@@ -22,7 +22,7 @@ resource "google_compute_firewall" "isoseg-cf-internal" {
 }
 
 resource "google_compute_firewall" "isoseg-cf-ingress" {
-  count = "${var.count}"
+  count = "${var.count * var.with_firewalls}"
 
   name    = "${var.env_name}-isoseg-cf-ingress"
   network = "${var.network}"
@@ -38,7 +38,7 @@ resource "google_compute_firewall" "isoseg-cf-ingress" {
 }
 
 resource "google_compute_firewall" "isoseg-block-cf-ingress" {
-  count = "${var.count}"
+  count = "${var.count * var.with_firewalls}"
 
   name    = "${var.env_name}-isoseg-block-cf-ingress"
   network = "${var.network}"
@@ -62,7 +62,7 @@ resource "google_compute_firewall" "isoseg-block-cf-ingress" {
 }
 
 resource "google_compute_firewall" "cf-isoseg-ingress" {
-  count = "${var.count}"
+  count = "${var.count * var.with_firewalls}"
 
   name    = "${var.env_name}-cf-isoseg-ingress"
   network = "${var.network}"

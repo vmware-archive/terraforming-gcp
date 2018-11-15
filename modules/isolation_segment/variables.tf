@@ -1,5 +1,7 @@
 variable "count" {}
 
+variable "with_firewalls" {}
+
 variable "zones" {
   type = "list"
 }
