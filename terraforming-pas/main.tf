@@ -112,6 +112,7 @@ module "isolation_segment" {
   internetless      = "${var.internetless}"
   dns_zone_dns_name = "${var.env_name}.${var.dns_suffix}"
 
+  network                  = "${module.infra.network}"
   dns_zone_name            = "${module.infra.dns_zone_name}"
   public_health_check_link = "${module.pas.cf_public_health_check}"
   pas_subnet_cidr          = "${module.pas.pas_subnet_ip_cidr_range}"
