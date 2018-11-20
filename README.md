@@ -135,6 +135,7 @@ SERVICE_ACCOUNT_KEY
 
 ## Isolation Segments (optional)
 - isolation\_segment: **(optional)** When set to `true` creates HTTP load-balancer across 3 zones for isolation segments.
+- iso\_seg\_with\_firewalls: **(optional)** When set to `true` creates firewall rules to lock down ports on the isolation segment.
 - iso\_seg\_ssl\_cert: **(optional)** SSL certificate for Iso Seg HTTP load balancer configuration. Required unless `iso_seg_ssl_ca_cert` is specified.
 - iso\_seg\_ssl\_private\_key: **(optional)** Private key for above SSL certificate. Required unless `iso_seg_ssl_ca_cert` is specified.
 - iso\_seg\_ssl\_ca\_cert: **(optional)** SSL CA certificate used to generate self-signed Iso Seg HTTP load balancer certificate. Required unless `iso_seg_ssl_cert` is specified.
