@@ -459,11 +459,15 @@ jobs:
       resource: infrastructure-ci
   - task: release
     file: ci/scripts/terraforming/release/task.yml
+    params:
+      IAAS: gcp
   - put: terraforming-release
     params:
       name: release/version
       tag: release/version
       commitish: release/commitish
+      globs:
+      - release/terraforming-gcp-*.tar.gz
   - put: version
     params:
       bump: minor
