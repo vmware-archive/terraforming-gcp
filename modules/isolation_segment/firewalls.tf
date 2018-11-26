@@ -106,7 +106,7 @@ resource "google_compute_firewall" "cf-isoseg-ingress" {
 }
 
 resource "google_compute_firewall" "cf-block-isoseg-ingress" {
-  count = "${var.count}"
+  count = "${var.count * var.with_firewalls}"
 
   name    = "${var.env_name}-cf-block-isoseg-ingress"
   network = "${var.network}"
