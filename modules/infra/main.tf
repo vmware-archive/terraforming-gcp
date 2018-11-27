@@ -30,11 +30,19 @@ resource "google_service_account_key" "blobstore_service_account_key" {
   service_account_id = "${google_service_account.blobstore_service_account.id}"
 }
 
-resource "google_project_iam_member" "blobstore_cloud_storage_admin" {
+resource "google_project_iam_member" "blobstore_cloud_storage_object_admin" {
   count = "${var.create_blobstore_service_account_key}"
 
   project = "${var.project}"
   role    = "roles/storage.objectAdmin"
+  member  = "serviceAccount:${google_service_account.blobstore_service_account.email}"
+}
+
+resource "google_project_iam_member" "blobstore_cloud_storage_admin" {
+  count = "${var.create_blobstore_service_account_key}"
+
+  project = "${var.project}"
+  role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.blobstore_service_account.email}"
 }
 
