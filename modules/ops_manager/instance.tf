@@ -3,6 +3,7 @@ resource "google_compute_instance" "ops-manager" {
   machine_type = "${var.opsman_machine_type}"
   zone         = "${element(var.zones, 1)}"
   tags         = ["${var.env_name}-ops-manager-external"]
+  count        = "${var.vm_count}"
 
   timeouts {
     create = "10m"

@@ -9,6 +9,8 @@ variable "opsman_machine_type" {}
 variable "opsman_storage_bucket_count" {}
 variable "opsman_image_url" {}
 
+variable "vm_count" {}
+
 variable "optional_opsman_image_url" {
   default = ""
 }
