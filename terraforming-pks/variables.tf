@@ -20,6 +20,10 @@ variable "zones" {
   type = "list"
 }
 
+variable "ops_manager_vm" {
+  default = true
+}
+
 variable "opsman_image_url" {
   type        = "string"
   description = "Location of ops manager image on google cloud storage"
