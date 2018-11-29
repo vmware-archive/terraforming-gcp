@@ -30,7 +30,7 @@ resources:
   type: tracker
   source:
     token: ((cf_infra_tracker_token))
-    project_id: ((cf_infrastructure_private_id))
+    project_id: ((cf_infrastructure_tracker_id))
     tracker_url: https://www.pivotaltracker.com
 
 - name: after-midnight
