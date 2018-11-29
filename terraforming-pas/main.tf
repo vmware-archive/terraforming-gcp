@@ -114,11 +114,12 @@ module "isolation_segment" {
   dns_zone_dns_name = "${var.env_name}.${var.dns_suffix}"
   with_firewalls    = "${var.iso_seg_with_firewalls}"
 
-  network                  = "${module.infra.network}"
-  dns_zone_name            = "${module.infra.dns_zone_name}"
-  public_health_check_link = "${module.pas.cf_public_health_check}"
-  pas_subnet_cidr          = "${module.pas.pas_subnet_ip_cidr_range}"
-  ssl_certificate          = "${module.isoseg_certs.ssl_certificate}"
+  network                    = "${module.infra.network}"
+  dns_zone_name              = "${module.infra.dns_zone_name}"
+  public_health_check_link   = "${module.pas.cf_public_health_check}"
+  infrastructure_subnet_cidr = "${var.infrastructure_cidr}"
+  pas_subnet_cidr            = "${module.pas.pas_subnet_ip_cidr_range}"
+  ssl_certificate            = "${module.isoseg_certs.ssl_certificate}"
 }
 
 module "external_database" {
