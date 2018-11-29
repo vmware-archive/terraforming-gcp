@@ -64,7 +64,7 @@ variable "internetless" {
 // * OpsMan Options *
 // ******************/
 
-variable "ops_manager_vm" {
+variable "opsman_vm" {
   default = true
 }
 

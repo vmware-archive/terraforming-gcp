@@ -33,7 +33,7 @@ module "ops_manager" {
   opsman_storage_bucket_count        = "${var.opsman_storage_bucket_count}"
   create_iam_service_account_members = "${var.create_iam_service_account_members}"
 
-  vm_count                  = "${var.ops_manager_vm ? 1 : 0}"
+  vm_count                  = "${var.opsman_vm ? 1 : 0}"
   opsman_machine_type       = "${var.opsman_machine_type}"
   opsman_image_url          = "${var.opsman_image_url}"
   optional_opsman_image_url = "${var.optional_opsman_image_url}"
