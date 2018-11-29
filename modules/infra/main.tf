@@ -17,25 +17,17 @@ resource "google_dns_managed_zone" "default" {
   description = "DNS zone for the ${var.env_name} environment"
 }
 
-resource "google_service_account" "blobstore_service_account" {
+resource "google_service_account" "blobstore" {
   count = "${var.create_blobstore_service_account_key}"
 
   account_id   = "${var.env_name}-blobstore"
   display_name = "${var.env_name} Blobstore Service Account"
 }
 
-resource "google_service_account_key" "blobstore_service_account_key" {
+resource "google_service_account_key" "blobstore" {
   count = "${var.create_blobstore_service_account_key}"
 
-  service_account_id = "${google_service_account.blobstore_service_account.id}"
-}
-
-resource "google_project_iam_member" "blobstore_cloud_storage_object_admin" {
-  count = "${var.create_blobstore_service_account_key}"
-
-  project = "${var.project}"
-  role    = "roles/storage.objectAdmin"
-  member  = "serviceAccount:${google_service_account.blobstore_service_account.email}"
+  service_account_id = "${google_service_account.blobstore.id}"
 }
 
 resource "google_project_iam_member" "blobstore_cloud_storage_admin" {
@@ -43,7 +35,7 @@ resource "google_project_iam_member" "blobstore_cloud_storage_admin" {
 
   project = "${var.project}"
   role    = "roles/storage.admin"
-  member  = "serviceAccount:${google_service_account.blobstore_service_account.email}"
+  member  = "serviceAccount:${google_service_account.blobstore.email}"
 }
 
 // Allow open access between internal VMs for a PCF deployment

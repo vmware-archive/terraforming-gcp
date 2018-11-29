@@ -39,14 +39,14 @@ output "subnet_name" {
 }
 
 output "blobstore_gcp_service_account_key" {
-  value     = "${base64decode(element(concat(google_service_account_key.blobstore_service_account_key.*.private_key, list("")), 0))}"
+  value     = "${base64decode(element(concat(google_service_account_key.blobstore.*.private_key, list("")), 0))}"
   sensitive = true
 }
 
 output "blobstore_service_account_email" {
-  value = "${element(concat(google_service_account.blobstore_service_account.*.email, list("")), 0)}"
+  value = "${element(concat(google_service_account.blobstore.*.email, list("")), 0)}"
 }
 
 output "blobstore_service_account_project" {
-  value = "${element(concat(google_service_account.blobstore_service_account.*.project, list("")), 0)}"
+  value = "${element(concat(google_service_account.blobstore.*.project, list("")), 0)}"
 }
