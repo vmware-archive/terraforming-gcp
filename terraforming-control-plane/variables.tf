@@ -64,6 +64,10 @@ variable "internetless" {
 // * OpsMan Options *
 // ******************/
 
+variable "ops_manager_vm" {
+  default = true
+}
+
 variable "opsman_storage_bucket_count" {
   type        = "string"
   description = "Optional configuration of a Google Storage Bucket for BOSH's blobstore"
