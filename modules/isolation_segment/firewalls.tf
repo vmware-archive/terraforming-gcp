@@ -1,3 +1,21 @@
+/*
+################
+# PLEASE READ! #
+################
+
+These firewall rules are intended to help
+keep this doc up-to-date:
+https://docs.pivotal.io/pivotalcf/2-3/adminguide/routing-is.html#config-firewall
+
+If you need to add any new ports to the allowed list, please submit a PR to the
+docs repo to let customers know about the new port:
+https://github.com/cloudfoundry/docs-cf-admin/blob/4.5/routing-is.html.md.erb
+
+Also let the PAS RelEng team know so that they can add this as a breaking change to the PAS release notes
+
+Thanks!
+*/
+
 /* This firewall allows traffic between VMs in the isolation segment. */
 resource "google_compute_firewall" "isoseg-cf-internal" {
   count = "${var.count * var.with_firewalls}"
@@ -35,7 +53,11 @@ resource "google_compute_firewall" "isoseg-cf-ingress" {
 
   allow {
     protocol = "tcp"
-    ports    = ["1801", "8853"]
+
+    ports = [
+      "1801", # rep.diego.rep.listen_addr_securable
+      "8853", # bosh-dns.health.server.port
+    ]
   }
 }
 
@@ -79,33 +101,38 @@ resource "google_compute_firewall" "cf-isoseg-ingress" {
     protocol = "tcp"
 
     ports = [
-      "3000",
-      "3457",
-      "4003",
-      "4103",
-      "4222",
-      "4443",
-      "8080",
-      "8082",
-      "8084",
-      "8300",
-      "8301",
-      "8302",
-      "8443",
-      "8844",
-      "8853",
-      "8889",
-      "8891",
-      "9022",
-      "9023",
-      "9090",
-      "9091",
+      "3000", # routing-api.routing_api.port
+      "3457", # loggregator_agent.listening_port
+      "4003", # vxlan-policy-agent.policy_server.internal_listen_port
+      "4103", # silk-controller.listen_port
+      "4222", # nats.nats.port
+      "4443", # blobstore.blobstore.tls.port
+      "8080", # blobstore.blobstore.port, file_server.diego.file_server.listen_addr (PAS only)
+      "8082", # reverse_log_proxy_port
+      "8084", # file_server.diego.file_server.listen_addr (8080 is PAS)
+      "8300", # default consul server port
+      "8301", # default consul serf lan port
+      "8302", # default consul serf wan port
+      "8443", # uaa.ssl.port
+      "8844", # credhub.port
+      "8853", # bosh-dns.health.server.port
+      "8889", # bbs.diego.bbs.listen_addr
+      "8891", # locket.diego.locket.listen_addr
+      "9022", # cloud_controller_ng.cc.external_port
+      "9023", # cloud_controller_ng.cc.tls_port
+      "9090", # cc_uploader.http_port
+      "9091", # cc_uploader.https_port
     ]
   }
 
   allow {
     protocol = "udp"
-    ports    = ["8301", "8302", "8600"]
+
+    ports = [
+      "8301", # default consul serf lan port
+      "8302", # default consul serf wan port
+      "8600", # default consul dns
+    ]
   }
 }
 
@@ -150,7 +177,7 @@ resource "google_compute_firewall" "bosh-to-isoseg-allow" {
     protocol = "tcp"
 
     ports = [
-      "22",
+      "22", # SSH for debugging
     ]
   }
 }
@@ -197,9 +224,9 @@ resource "google_compute_firewall" "isoseg-to-bosh-allow" {
     protocol = "tcp"
 
     ports = [
-      "4222",
-      "25250",
-      "25777",
+      "4222",  # bosh.nats.port
+      "25250", # bosh.blobstore.port
+      "25777", # bosh.registry.port
     ]
   }
 }
