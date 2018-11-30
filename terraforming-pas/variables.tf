@@ -170,6 +170,12 @@ variable "iso_seg_ssl_ca_private_key" {
   default     = ""
 }
 
+variable "iso_seg_replicated_suffix" {
+  type        = "string"
+  description = "If you are using the tile `replicator` CLI, set this variable to match the replicated suffix. Will be used to set networking firewall rules."
+  default     = "-replicated"
+}
+
 /*********************************
  * Google Cloud Storage Options *
  *********************************/

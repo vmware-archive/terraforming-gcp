@@ -120,6 +120,7 @@ module "isolation_segment" {
   infrastructure_subnet_cidr = "${var.infrastructure_cidr}"
   pas_subnet_cidr            = "${module.pas.pas_subnet_ip_cidr_range}"
   ssl_certificate            = "${module.isoseg_certs.ssl_certificate}"
+  replicated_suffix          = "${var.iso_seg_replicated_suffix}"
 }
 
 module "external_database" {
