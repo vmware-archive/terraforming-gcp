@@ -23,3 +23,5 @@ variable "network" {}
 variable "internetless" {}
 
 variable "ssl_certificate" {}
+
+variable "replicated_suffix" {}
