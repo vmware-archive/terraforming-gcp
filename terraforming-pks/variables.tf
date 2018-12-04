@@ -109,3 +109,19 @@ variable "create_blobstore_service_account_key" {
   description = "Create a scoped service account key for gcs storage access"
   default     = true
 }
+
+/*****************************
+ * Certificates *
+ *****************************/
+
+variable "ssl_cert" {
+  type        = "string"
+  description = "The contents of an SSL certificate to be used by the LB, optional if `ssl_ca_cert` is provided"
+  default     = ""
+}
+
+variable "ssl_private_key" {
+  type        = "string"
+  description = "The contents of an SSL private key to be used by the LB, optional if `ssl_ca_cert` is provided"
+  default     = ""
+}
