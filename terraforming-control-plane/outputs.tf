@@ -19,6 +19,14 @@ output "azs" {
   value = "${var.zones}"
 }
 
+output "om_cli_az_configuration" {
+  value = "${formatlist("{\"name\": \"%s\"}", var.zones)}"
+}
+
+output "om_cli_singleton_az" {
+  value = "name: ${element(var.zones, 0)}"
+}
+
 output "vm_tag" {
   value = "${var.env_name}-vms"
 }
@@ -47,6 +55,14 @@ output "infrastructure_subnet_cidrs" {
   value = "${module.infra.subnet_cidrs}"
 }
 
+output "infrastructure_subnet_cidr" {
+  value = "${element(module.infra.subnet_cidrs, 0)}"
+}
+
+# output "infrastructure_subnet_reserved_ip_ranges" {
+#   value = "${cidrhost(module.infra.subnet_cidrs, 1)}-${cidrhost(module.infra.subnet_cidrs, 9)}"
+# }
+
 output "infrastructure_subnet_name" {
   value = "${module.infra.subnet_name}"
 }
@@ -54,6 +70,10 @@ output "infrastructure_subnet_name" {
 output "infrastructure_subnets" {
   value = ["${module.infra.subnet_name}"]
 }
+
+# output "infrastructure_subnet_dns_servers" {
+#   value = "${cidrhost(module.infra.subnet_cidrs, 1)},8.8.8.8"
+# }
 
 # Ops Manager
 
@@ -136,4 +156,12 @@ output "control_plane_subnet_gateway" {
 
 output "control_plane_subnet_cidrs" {
   value = ["${module.control_plane.subnet_cidrs}"]
+}
+
+output "control_plane_subnet_reserved_ip_ranges" {
+  value = "${cidrhost(module.control_plane.subnet_cidrs, 1)}-${cidrhost(module.control_plane.subnet_cidrs, 9)}"
+}
+
+output "control_plane_subnet_dns_servers" {
+  value = "${cidrhost(module.control_plane.subnet_cidrs, 1)},8.8.8.8"
 }
