@@ -3,4 +3,5 @@
 *.tfstate
 terraform.key.json
 *.tfvars
+!example.tfvars
 .idea
