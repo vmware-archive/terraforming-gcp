@@ -1,6 +1,6 @@
-output "cf_public_health_check" {
-  value = "${google_compute_http_health_check.cf_public.self_link}"
-}
+# output "cf_public_health_check" {
+#   value = "${google_compute_http_health_check.cf_public.self_link}"
+# }
 
 output "sys_domain" {
   value = "${replace(replace(google_dns_record_set.wildcard-sys-dns.name, "/^\\*\\./", ""), "/\\.$/", "")}"
@@ -30,25 +30,25 @@ output "resources_bucket" {
   value = "${element(concat(google_storage_bucket.resources.*.name, list("")), 0)}"
 }
 
-output "ws_router_pool" {
-  value = "${element(concat(google_compute_target_pool.cf_ws.*.name, list("")), 0)}"
-}
+# output "ws_router_pool" {
+#   value = "${element(concat(google_compute_target_pool.cf_ws.*.name, list("")), 0)}"
+# }
 
 output "ssh_lb_name" {
-  value = "${google_compute_target_pool.cf-ssh.name}"
+  value = "${element(concat(google_compute_region_backend_service.ssh_internal.*.name, list("")), 0)}"
 }
 
-output "ssh_router_pool" {
-  value = "${google_compute_target_pool.cf-ssh.name}"
-}
+# output "ssh_router_pool" {
+#   value = "${google_compute_target_pool.cf-ssh.name}"
+# }
 
 output "tcp_lb_name" {
-  value = "${google_compute_target_pool.cf-tcp.name}"
+  value = "${element(concat(google_compute_region_backend_service.tcp_internal.*.name, list("")), 0)}"
 }
 
-output "tcp_router_pool" {
-  value = "${google_compute_target_pool.cf-tcp.name}"
-}
+# output "tcp_router_pool" {
+#   value = "${google_compute_target_pool.cf-tcp.name}"
+# }
 
 output "pas_subnet_gateway" {
   value = "${google_compute_subnetwork.pas.gateway_address}"
@@ -74,13 +74,17 @@ output "services_subnet_name" {
   value = "${google_compute_subnetwork.services.name}"
 }
 
+//output "lb_name" {
+//  value = "${var.global_lb > 0 ? element(concat(google_compute_backend_service.http_lb_backend_service.*.name, list("")), 0) : element(concat(google_compute_target_pool.cf.*.name, list("")), 0)}"
+//}
+
 output "lb_name" {
-  value = "${var.global_lb > 0 ? element(concat(google_compute_backend_service.http_lb_backend_service.*.name, list("")), 0) : element(concat(google_compute_target_pool.cf.*.name, list("")), 0)}"
+  value = "${element(concat(google_compute_region_backend_service.router_internal.*.name, list("")), 0)}"
 }
 
-output "cf_ws_address" {
-  value = "${element(concat(google_compute_address.cf_ws.*.address, list("")), 0)}"
-}
+# output "cf_ws_address" {
+#   value = "${element(concat(google_compute_address.cf_ws.*.address, list("")), 0)}"
+# }
 
 output "haproxy_static_ip" {
   value = "${local.haproxy_static_ip}"

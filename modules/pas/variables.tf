@@ -34,6 +34,10 @@ variable "dns_zone_name" {
 
 variable "global_lb" {}
 
+variable "use_internal_load_balancers" {
+  default = false
+}
+
 variable "zones" {
   type = "list"
 }
