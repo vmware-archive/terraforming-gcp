@@ -62,7 +62,7 @@ resource "google_dns_record_set" "app-ssh-dns" {
 
   managed_zone = "${var.dns_zone_name}"
 
-  rrdatas = ["${var.internetless ? local.haproxy_static_ip : var.ssh_lb_address}"]
+  rrdatas = ["${var.internetless ? local.haproxy_static_ip : google_compute_address.cf-ssh.address}"]
 }
 
 resource "google_dns_record_set" "tcp-dns" {
@@ -72,5 +72,5 @@ resource "google_dns_record_set" "tcp-dns" {
 
   managed_zone = "${var.dns_zone_name}"
 
-  rrdatas = ["${var.internetless ? local.haproxy_static_ip : var.tcp_lb_address}"]
+  rrdatas = ["${var.internetless ? local.haproxy_static_ip : google_compute_address.cf-tcp.address}"]
 }

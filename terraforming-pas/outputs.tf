@@ -125,23 +125,23 @@ output "tcp_domain" {
 }
 
 output "ws_router_pool" {
-  value = "${module.load_balancers.ws_router_pool}"
+  value = "${module.pas.ws_router_pool}"
 }
 
 output "ssh_lb_name" {
-  value = "${module.load_balancers.ssh_lb_name}"
+  value = "${module.pas.ssh_lb_name}"
 }
 
 output "ssh_router_pool" {
-  value = "${module.load_balancers.ssh_router_pool}"
+  value = "${module.pas.ssh_router_pool}"
 }
 
 output "tcp_lb_name" {
-  value = "${module.load_balancers.tcp_lb_name}"
+  value = "${module.pas.tcp_lb_name}"
 }
 
 output "tcp_router_pool" {
-  value = "${module.load_balancers.tcp_router_pool}"
+  value = "${module.pas.tcp_router_pool}"
 }
 
 output "buildpacks_bucket" {
@@ -193,15 +193,15 @@ output "services_subnets" {
 }
 
 output "web_lb_name" {
-  value = "${module.load_balancers.lb_name}"
+  value = "${module.pas.lb_name}"
 }
 
 output "http_lb_backend_name" {
-  value = "${module.load_balancers.lb_name}"
+  value = "${module.pas.lb_name}"
 }
 
 output "cf_ws_address" {
-  value = "${module.load_balancers.cf_ws_address}"
+  value = "${module.pas.cf_ws_address}"
 }
 
 output "haproxy_static_ip" {
