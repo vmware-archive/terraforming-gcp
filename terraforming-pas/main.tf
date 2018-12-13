@@ -63,6 +63,54 @@ module "pas_certs" {
   ssl_ca_private_key = "${var.ssl_ca_private_key}"
 }
 
+# module "load_balancers" {
+#   source = "../modules/lb"
+
+#   use_internal_lb = "${var.use_internal_lb}"
+#   global_lb       = "${var.use_internal_lb ? false : var.global_lb}"
+
+#   router_lb_ports                 = ["80", "443"]
+#   router_lb_type                  = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
+#   router_target_tags              = ["router-lb"]
+#   router_lb_ssl_certificate       = "${var.use_internal_lb ? "" : module.pas_certs.ssl_certificate}"
+#   router_lb_health_check_protocol = "${var.global_lb ? 'http' : 'tcp'}"                              # Maybe calculate inside of the module?
+#   router_lb_health_check_path     = "/health"
+#   router_lb_health_check_ports    = ["8080"]
+
+#   tcp_router_lb_ports                 = ["1024", "1025", "1026", "1027", "1028"]
+#   tcp_router_lb_type                  = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
+#   tcp_router_lb_target_tags           = ["tcp-lb"]
+#   tcp_router_lb_health_check_protocol = "${var.global_lb ? 'http' : 'tcp'}"                # Maybe calculate inside of the module?
+#   tcp_router_lb_health_check_path     = "/health"
+#   tcp_router_lb_health_check_ports    = ["80"]
+
+#   ssh_lb_ports                 = ["2222"]
+#   ssh_lb_type                  = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
+#   ssh_lb_target_tags           = ["ssh-lb"]
+#   ssh_lb_health_check_protocol = "tcp"
+#   ssh_lb_health_check_ports    = ["2222"]
+# }
+
+module "load_balancers" {
+  source = "../modules/lb"
+
+  use_internal_lb = "${var.use_internal_lb}"
+  global_lb       = "${var.use_internal_lb ? 0 : var.global_lb}"
+
+  env_name      = "${var.env_name}"
+  region        = "${var.region}"
+  zones         = "${var.zones}"
+  pas_cidr      = "${var.pas_cidr}"
+  services_cidr = "${var.services_cidr}"
+  internetless  = "${var.internetless}"
+
+  network           = "${module.infra.network}"
+  subnetwork_name   = "${module.pas.pas_subnet_name}"
+  dns_zone_name     = "${module.infra.dns_zone_name}"
+  dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
+  ssl_certificate   = "${module.pas_certs.ssl_certificate}"
+}
+
 module "pas" {
   source = "../modules/pas"
 
@@ -85,6 +133,9 @@ module "pas" {
   external_database = "${var.external_database}"
   sql_instance      = "${module.external_database.sql_instance}"
   pas_sql_db_host   = "${var.pas_sql_db_host}"
+
+  ssh_lb_address = "${module.load_balancers.cf_ssh_address}"
+  tcp_lb_address = "${module.load_balancers.cf_tcp_address}"
 }
 
 # Optional
@@ -116,7 +167,7 @@ module "isolation_segment" {
 
   network                    = "${module.infra.network}"
   dns_zone_name              = "${module.infra.dns_zone_name}"
-  public_health_check_link   = "${module.pas.cf_public_health_check}"
+  public_health_check_link   = "${module.load_balancers.cf_public_health_check}"
   infrastructure_subnet_cidr = "${var.infrastructure_cidr}"
   pas_subnet_cidr            = "${module.pas.pas_subnet_ip_cidr_range}"
   ssl_certificate            = "${module.isoseg_certs.ssl_certificate}"

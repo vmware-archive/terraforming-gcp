@@ -20,6 +20,11 @@ variable "global_lb" {
   default     = 1
 }
 
+variable "use_internal_lb" {
+  description = "Deploys internal load balancers"
+  default     = 0
+}
+
 variable "infrastructure_cidr" {
   type        = "string"
   description = "cidr for infrastructure subnet"

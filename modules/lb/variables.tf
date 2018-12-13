@@ -1,7 +1,3 @@
-variable "project" {
-  type = "string"
-}
-
 variable "env_name" {
   default = ""
 }
@@ -38,26 +34,10 @@ variable "zones" {
   type = "list"
 }
 
-variable "create_gcs_buckets" {}
-
-variable "buckets_location" {}
-
 variable "ssl_certificate" {
   type = "string"
 }
 
-variable "external_database" {
-  default = false
-}
+variable "use_internal_lb" {}
 
-variable "sql_instance" {
-  default = ""
-}
-
-variable "pas_sql_db_host" {
-  default = ""
-}
-
-variable "tcp_lb_address" {}
-
-variable "ssh_lb_address" {}
+variable "subnetwork_name" {}

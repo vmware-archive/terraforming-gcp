@@ -164,7 +164,7 @@ resource "google_compute_forwarding_rule" "cf_https" {
 }
 
 ///**********
-// * TCP LB *
+// * Web Sockets LB *
 // **********/
 
 resource "google_compute_address" "cf_ws" {
@@ -201,36 +201,4 @@ resource "google_compute_forwarding_rule" "cf-ws-http" {
   ip_address  = "${google_compute_address.cf_ws.address}"
 
   count = "${var.global_lb}"
-}
-
-///****************
-// * Diego SSH LB *
-// ****************/
-
-resource "google_compute_firewall" "cf-ssh" {
-  name    = "${var.env_name}-cf-ssh"
-  network = "${var.network}"
-
-  allow {
-    protocol = "tcp"
-    ports    = ["2222"]
-  }
-
-  target_tags = ["${var.env_name}-cf-ssh"]
-}
-
-resource "google_compute_address" "cf-ssh" {
-  name = "${var.env_name}-cf-ssh"
-}
-
-resource "google_compute_target_pool" "cf-ssh" {
-  name = "${var.env_name}-cf-ssh"
-}
-
-resource "google_compute_forwarding_rule" "cf-ssh" {
-  name        = "${var.env_name}-cf-ssh"
-  target      = "${google_compute_target_pool.cf-ssh.self_link}"
-  port_range  = "2222"
-  ip_protocol = "TCP"
-  ip_address  = "${google_compute_address.cf-ssh.address}"
 }
