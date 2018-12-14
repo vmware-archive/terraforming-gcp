@@ -111,14 +111,14 @@ SERVICE_ACCOUNT_KEY
 - project: **(required)** ID for your GCP project.
 - region: **(required)** Region in which to create resources (e.g. us-central1)
 - zones: **(required)** Zones in which to create resources. Must be within the given region. Currently you must specify exactly 3 unique Zones for this terraform configuration to work. (e.g. [us-central1-a, us-central1-b, us-central1-c])
-- opsman\_image\_url **(required)** Source URL of the Ops Manager image you want to boot.
-- service\_account\_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - dns\_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com). Trailing dots are not supported.
+- opsman\_image\_url **(required)** Source URL of the Ops Manager image you want to boot.
 - buckets\_location: **(optional)** Loction in which to create buckets. Defaults to US.
 - ssl\_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
 - ssl\_private\_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
 - ssl\_ca\_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
 - ssl\_ca\_private\_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
+- service\_account\_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - opsman\_storage\_bucket\_count: **(optional)** Google Storage Bucket for BOSH's Blobstore.
 - create\_iam\_service\_account\_members: **(optional)** Create IAM Service Account project roles. Default to 
 .
