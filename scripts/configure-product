@@ -1,7 +1,7 @@
 #!/bin/bash -exu
 
 authenticate_om() {
-  export OM_TARGET="https://$(terraform output ops_manager_public_ip)"
+  export OM_TARGET="https://$(terraform output ops_manager_dns)"
   export OM_USERNAME="admin"
   export OM_PASSWORD="$1"
 }
@@ -27,7 +27,7 @@ main() {
   pushd $PROJECT_DIR/$path > /dev/null
     authenticate_om "${password}"
 
-    om -k configure-product -n "${product}"\
+    om -k configure-product \
       -c <(texplate execute $product_template -f <(jq -e --raw-output '.modules[0].outputs | map_values(.value)' terraform.tfstate) -o yaml)
   popd > /dev/null
 }

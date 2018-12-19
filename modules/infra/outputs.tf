@@ -30,6 +30,10 @@ output "subnet_gateway" {
   value = "${google_compute_subnetwork.infrastructure.gateway_address}"
 }
 
+output "subnet_cidrs" {
+  value = ["${google_compute_subnetwork.infrastructure.ip_cidr_range}"]
+}
+
 output "subnet_name" {
   value = "${google_compute_subnetwork.infrastructure.name}"
 }
@@ -45,9 +49,4 @@ output "blobstore_service_account_email" {
 
 output "blobstore_service_account_project" {
   value = "${element(concat(google_service_account.blobstore.*.project, list("")), 0)}"
-}
-
-#DEPRECATED
-output "subnet_cidrs" {
-  value = ["${google_compute_subnetwork.infrastructure.ip_cidr_range}"]
 }

@@ -1,4 +1,5 @@
 ---
+product-name: cf
 network-properties:
   network:
     name: {{.pas_subnet_name}}
@@ -54,13 +55,12 @@ resource-config:
   compute:
     instances: 1
   control:
-    elb_names:
-    - tcp:{{.ssh_lb_name}}
+    additional_vm_extensions:
+    - ssh-internal-lb
   router:
-    elb_names:
-    - http:{{.web_lb_name}}
-    - tcp:{{.ws_router_pool}}
+    additional_vm_extensions:
+    - router-internal-lb
     instances: 1
   tcp_router:
-    elb_names:
-    - tcp:{{.tcp_router_pool}}
+    additional_vm_extensions:
+    - tcp-internal-lb

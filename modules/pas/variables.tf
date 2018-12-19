@@ -57,3 +57,5 @@ variable "sql_instance" {
 variable "pas_sql_db_host" {
   default = ""
 }
+
+variable "use_internal_lb" {}

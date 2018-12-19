@@ -85,6 +85,8 @@ module "pas" {
   external_database = "${var.external_database}"
   sql_instance      = "${module.external_database.sql_instance}"
   pas_sql_db_host   = "${var.pas_sql_db_host}"
+
+  use_internal_lb   = "${var.use_internal_lb}"
 }
 
 # Optional
