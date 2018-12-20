@@ -1,6 +1,6 @@
 locals {
-  use_internal_lb = "${var.type == "INTERNAL" ? 1 : 0}"
-  global_lb       = "${var.type == "INTERNAL" ? 0 : (var.global_lb ? 1 : 0)}"
+  use_internal_lb = "${var.type == "INTERNAL"}"
+  global_lb_count = "${var.type == "EXTERNAL" && var.global_lb ? 1 : 0}"
   port_range      = "${element(var.ports, 1)}"
 
   #  health_check_type = "${var.health_check_path == "" ? "${google_compute_health_check.tcp.0.self_link}" : "${google_compute_health_check.http.0.self_link}"}"
@@ -26,7 +26,8 @@ resource "google_compute_firewall" "health_check" {
 
 resource "google_compute_instance_group" "lb" {
   // Count based on number of AZs
-  count       = "${local.use_internal_lb ? 3 : 0}"
+  count = "${local.use_internal_lb ? 3 : 0}"
+
   name        = "${var.name}-${element(var.zones, count.index)}"
   description = "Terraform generated instance group that is multi-zone for Internal Load Balancing"
   zone        = "${element(var.zones, count.index)}"
@@ -35,7 +36,7 @@ resource "google_compute_instance_group" "lb" {
 
 resource "google_compute_address" "lb" {
   name         = "${var.name}"
-  address_type = "${local.use_internal_lb > 0 ? "INTERNAL" : "EXTERNAL"}"
+  address_type = "${var.type}"
 }
 
 ############
@@ -51,7 +52,7 @@ resource "google_compute_http_health_check" "lb" {
   healthy_threshold   = 6
   unhealthy_threshold = 3
 
-  count = "${local.global_lb}"
+  count = "${local.global_lb_count}"
 }
 
 resource "google_compute_target_pool" "pool" {
@@ -61,18 +62,18 @@ resource "google_compute_target_pool" "pool" {
     "${google_compute_http_health_check.lb.name}",
   ]
 
-  count = "${local.global_lb}"
+  count = "${local.global_lb_count}"
 }
 
 resource "google_compute_forwarding_rule" "external_forwarding_rule" {
-  count = "${local.global_lb}"
-
   name        = "${var.name}"
   port_range  = "${local.port_range}"
   ip_protocol = "${var.protocol}"
 
   ip_address = "${google_compute_address.lb.address}"
   target     = "${google_compute_target_pool.pool.self_link}"
+
+  count = "${local.global_lb_count}"
 }
 
 ############
@@ -91,7 +92,7 @@ resource "google_compute_firewall" "lb" {
   source_ranges = "${var.source_ranges}"
   target_tags   = "${var.target_tags}"
 
-  count = "${local.use_internal_lb}"
+  count = "${local.use_internal_lb ? 1 : 0}"
 }
 
 resource "google_compute_health_check" "tcp" {
@@ -141,13 +142,10 @@ resource "google_compute_region_backend_service" "backend_service" {
   }
 
   health_checks = ["${coalescelist(google_compute_health_check.tcp.*.self_link, google_compute_health_check.http.*.self_link)}"]
-
-  count = "${local.use_internal_lb ? 1 : 0}"
+  count         = "${local.use_internal_lb ? 1 : 0}"
 }
 
 resource "google_compute_forwarding_rule" "internal_forwarding_rule" {
-  count = "${local.use_internal_lb ? 1 : 0}"
-
   name                  = "${var.name}"
   network               = "${var.network}"
   subnetwork            = "${var.subnetwork_name}"

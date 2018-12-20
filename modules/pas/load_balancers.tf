@@ -1,17 +1,18 @@
-module "router-lb" {
+module "http-lb" {
   source = "../lb"
 
-  name     = "${var.env_name}-router-lb"
-  protocol = "TCP"
-  type     = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
-  ports    = [80, 443]
+  name      = "${var.env_name}-http-lb"
+  protocol  = "TCP"
+  global_lb = "${var.global_lb}"
+  type      = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
+  ports     = [80, 443]
 
   source_ranges = [
     "${var.pas_cidr}",
     "${var.services_cidr}",
   ]
 
-  target_tags = ["${var.env_name}-router-lb"]
+  target_tags = ["${var.env_name}-http-lb"]
 
   health_check_path = "/health"
   health_check_port = "8080"
@@ -22,23 +23,24 @@ module "router-lb" {
   subnetwork_name = "${google_compute_subnetwork.pas.name}"
 }
 
-module "tcp-router-lb" {
+module "ws-lb" {
   source = "../lb"
 
-  name     = "${var.env_name}-tcp-router-lb"
-  protocol = "TCP"
-  type     = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
-  ports    = [80, 443]
+  name      = "${var.env_name}-ws-lb"
+  protocol  = "TCP"
+  global_lb = "${var.global_lb}"
+  type      = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
+  ports     = [80, 443]
 
   source_ranges = [
     "${var.pas_cidr}",
     "${var.services_cidr}",
   ]
 
-  target_tags = ["${var.env_name}-tcp-router-lb"]
+  target_tags = ["${var.env_name}-ws-lb"]
 
   health_check_path = "/health"
-  health_check_port = "80"
+  health_check_port = "8080"
 
   zones = "${var.zones}"
 
@@ -49,10 +51,11 @@ module "tcp-router-lb" {
 module "tcp-lb" {
   source = "../lb"
 
-  name     = "${var.env_name}-tcp-lb"
-  protocol = "TCP"
-  type     = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
-  ports    = [1024, 1025, 1026, 1027, 1028]
+  name      = "${var.env_name}-tcp-lb"
+  protocol  = "TCP"
+  global_lb = "${var.global_lb}"
+  type      = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
+  ports     = [1024, 1025, 1026, 1027, 1028]
 
   source_ranges = [
     "${var.pas_cidr}",
@@ -72,10 +75,11 @@ module "tcp-lb" {
 module "ssh-lb" {
   source = "../lb"
 
-  name     = "${var.env_name}-ssh-lb"
-  protocol = "TCP"
-  type     = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
-  ports    = [2222]
+  name      = "${var.env_name}-ssh-lb"
+  protocol  = "TCP"
+  global_lb = "${var.global_lb}"
+  type      = "${var.use_internal_lb ? "INTERNAL" : "EXTERNAL"}"
+  ports     = [2222]
 
   source_ranges = [
     "${var.pas_cidr}",

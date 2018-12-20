@@ -38,6 +38,4 @@ variable "type" {
   default = "EXTERNAL"
 }
 
-variable "global_lb" {
-  default = false
-}
+variable "global_lb" {}

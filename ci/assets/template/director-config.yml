@@ -22,62 +22,62 @@ networks-configuration:
       {{range .azs}}
       - {{.}}
       {{end}}
-      cidr: {{.infrastructure_subnet_cidr}}
+      cidr: {{index .infrastructure_subnet_cidrs 0}}
       dns: 169.254.169.254
       gateway: {{.infrastructure_subnet_gateway}}
       iaas_identifier: {{.network_name}}/{{.infrastructure_subnet_name}}/{{.region}}
-      reserved_ip_ranges: {{cidrhost (.infrastructure_subnet_cidr) 0}}-{{cidrhost (.infrastructure_subnet_cidr) 4}}
-{{if  index . "pas_subnet_cidr"}}
+      reserved_ip_ranges: {{cidrhost (index .infrastructure_subnet_cidrs 0) 0}}-{{cidrhost (index .infrastructure_subnet_cidrs 0) 4}}
+{{if  index . "pas_subnet_cidrs"}}
   - name: {{.pas_subnet_name}}
     subnets:
     - availability_zone_names:
       {{range .azs}}
       - {{.}}
       {{end}}
-      cidr: {{.pas_subnet_cidr}}
+      cidr: {{index .pas_subnet_cidrs 0}}
       dns: 169.254.169.254
       gateway: {{.pas_subnet_gateway}}
       iaas_identifier: {{.network_name}}/{{.pas_subnet_name}}/{{.region}}
-      reserved_ip_ranges: {{cidrhost (.pas_subnet_cidr) 0}}-{{cidrhost (.pas_subnet_cidr) 4}}
+      reserved_ip_ranges: {{cidrhost (index .pas_subnet_cidrs 0) 0}}-{{cidrhost (index .pas_subnet_cidrs 0) 4}}
 {{end}}
-{{if  index . "pks_subnet_cidr"}}
+{{if  index . "pks_subnet_cidrs"}}
   - name: {{.pks_subnet_name}}
     subnets:
     - availability_zone_names:
       {{range .azs}}
       - {{.}}
       {{end}}
-      cidr: {{.pks_subnet_cidr}}
+      cidr: {{index .pks_subnet_cidrs 0}}
       dns: 169.254.169.254
       gateway: {{.pks_subnet_gateway}}
       iaas_identifier: {{.network_name}}/{{.pks_subnet_name}}/{{.region}}
-      reserved_ip_ranges: {{cidrhost (.pks_subnet_cidr) 0}}-{{cidrhost (.pks_subnet_cidr) 4}}
+      reserved_ip_ranges: {{cidrhost (index .pks_subnet_cidrs 0) 0}}-{{cidrhost (index .pks_subnet_cidrs 0) 4}}
 {{end}}
-{{if  index . "control_plane_subnet_cidr"}}
+{{if  index . "control_plane_subnet_cidrs"}}
   - name: {{.control_plane_subnet_name}}
     subnets:
     - availability_zone_names:
       {{range .azs}}
       - {{.}}
       {{end}}
-      cidr: {{.control_plane_subnet_cidr}}
+      cidr: {{index .control_plane_subnet_cidrs 0}}
       dns: 169.254.169.254
       gateway: {{.control_plane_subnet_gateway}}
       iaas_identifier: {{.network_name}}/{{.control_plane_subnet_name}}/{{.region}}
-      reserved_ip_ranges: {{cidrhost (.control_plane_subnet_cidr) 0}}-{{cidrhost (.control_plane_subnet_cidr) 4}}
+      reserved_ip_ranges: {{cidrhost (index .control_plane_subnet_cidrs 0) 0}}-{{cidrhost (index .control_plane_subnet_cidrs 0) 4}}
 {{end}}
-{{if  index . "services_subnet_cidr"}}
+{{if  index . "services_subnet_cidrs"}}
   - name: {{.services_subnet_name}}
     subnets:
     - availability_zone_names:
       {{range .azs}}
       - {{.}}
       {{end}}
-      cidr: {{.services_subnet_cidr}}
+      cidr: {{index .services_subnet_cidrs 0}}
       dns: 169.254.169.254
       gateway: {{.services_subnet_gateway}}
       iaas_identifier: {{.network_name}}/{{.services_subnet_name}}/{{.region}}
-      reserved_ip_ranges: {{cidrhost (.services_subnet_cidr) 0}}-{{cidrhost (.services_subnet_cidr) 4}}
+      reserved_ip_ranges: {{cidrhost (index .services_subnet_cidrs 0) 0}}-{{cidrhost (index .services_subnet_cidrs 0) 4}}
 {{end}}
 resource-configuration:
   compilation:
