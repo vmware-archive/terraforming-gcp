@@ -5,9 +5,7 @@ resource "google_compute_instance" "ops-manager" {
   tags         = ["${var.env_name}-ops-manager-external"]
   count        = "${var.vm_count}"
 
-  timeouts {
-    create = "10m"
-  }
+  create_timeout = 10
 
   boot_disk {
     initialize_params {
