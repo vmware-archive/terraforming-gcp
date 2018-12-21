@@ -6,7 +6,7 @@ resource "google_compute_instance" "ops-manager" {
   count        = "${var.vm_count}"
 
   timeouts {
-    create = "10m"
+    create = "${var.ops_man_image_creation_timeout}"
   }
 
   boot_disk {

@@ -1,6 +1,11 @@
 variable "project" {}
 variable "env_name" {}
 
+variable "ops_man_image_creation_timeout" {
+  type    = "string"
+  default = "10m"
+}
+
 variable "zones" {
   type = "list"
 }
