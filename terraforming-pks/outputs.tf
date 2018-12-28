@@ -39,6 +39,11 @@ output "director_blobstore_bucket" {
   value = "${module.ops_manager.director_blobstore_bucket}"
 }
 
+output "director_blobstore_service_account_key" {
+  value = "${module.infra.blobstore_gcp_service_account_key}"
+  sensitive = true
+}
+
 output "infrastructure_subnet_gateway" {
   value = "${module.infra.subnet_gateway}"
 }
