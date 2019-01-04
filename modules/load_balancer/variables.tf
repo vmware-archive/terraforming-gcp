@@ -14,10 +14,6 @@ variable "network" {
   type = "string"
 }
 
-variable "ports" {
-  type = "list"
-}
-
 variable "target_tags" {
   type = "list"
 }
@@ -33,6 +29,11 @@ variable "count" {
 }
 
 ## OPTIONAL
+variable "ports" {
+  type = "list"
+  default = []
+}
+
 variable "health_check_port" {
   default = 0
 }
