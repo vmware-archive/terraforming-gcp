@@ -1,55 +1,16 @@
-resource "google_compute_target_pool" "control-plane" {
-  name = "${var.env_name}-control-plane"
+module "plane-lb" {
+  source = "../load_balancer"
 
-  session_affinity = "NONE"
-}
+  env_name = "${var.env_name}"
+  name     = "plane"
 
-resource "google_compute_forwarding_rule" "worker-gateway" {
-  name        = "${var.env_name}-control-plane-worker-gw"
-  target      = "${google_compute_target_pool.control-plane.self_link}"
-  port_range  = "2222"
-  ip_protocol = "TCP"
-  ip_address  = "${google_compute_address.control-plane.address}"
-}
-
-resource "google_compute_forwarding_rule" "atc" {
-  name        = "${var.env_name}-control-plane-atc"
-  target      = "${google_compute_target_pool.control-plane.self_link}"
-  port_range  = "443"
-  ip_protocol = "TCP"
-  ip_address  = "${google_compute_address.control-plane.address}"
-}
-
-resource "google_compute_forwarding_rule" "uaa" {
-  name        = "${var.env_name}-control-plane-uaa"
-  target      = "${google_compute_target_pool.control-plane.self_link}"
-  port_range  = "8443"
-  ip_protocol = "TCP"
-  ip_address  = "${google_compute_address.control-plane.address}"
-}
-
-resource "google_compute_firewall" "control-plane" {
-  name    = "${var.env_name}-control-plane-open"
+  global  = false
+  count   = 1
   network = "${var.network}"
 
-  allow {
-    protocol = "tcp"
-    ports    = ["443", "2222", "8443"]
-  }
+  ports                 = ["2222", "443", "8443"]
+  target_tags           = ["${var.env_name}-control-plane"]
+  forwarding_rule_ports = ["2222", "443", "8443"]
 
-  target_tags = ["${var.env_name}-control-plane"]
-}
-
-resource "google_compute_address" "control-plane" {
-  name = "${var.env_name}-control-plane"
-}
-
-resource "google_dns_record_set" "control-plane" {
-  name = "plane.${var.dns_zone_dns_name}"
-  type = "A"
-  ttl  = 300
-
-  managed_zone = "${var.dns_zone_name}"
-
-  rrdatas = ["${google_compute_address.control-plane.address}"]
+  health_check = false
 }

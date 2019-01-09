@@ -11,7 +11,7 @@ output "address" {
 }
 
 output "health_check_self_link" {
-  value = "${google_compute_http_health_check.lb.self_link}"
+  value = "${element(concat(google_compute_http_health_check.lb.*.self_link, list("")), 0)}"
 }
 
 output "global_address" {

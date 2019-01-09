@@ -21,7 +21,7 @@ resource "google_compute_backend_service" "http_lb_backend_service" {
     group = "${google_compute_instance_group.httplb.2.self_link}"
   }
 
-  health_checks = ["${google_compute_http_health_check.lb.self_link}"]
+  health_checks = ["${google_compute_http_health_check.lb.*.self_link}"]
 
   count = "${local.count}"
 }

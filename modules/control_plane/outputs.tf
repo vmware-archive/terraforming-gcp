@@ -1,5 +1,5 @@
 output "load_balancer_name" {
-  value = "${google_compute_target_pool.control-plane.name}"
+  value = "${module.plane-lb.name}"
 }
 
 output "subnet_name" {
