@@ -61,3 +61,7 @@ variable "ssl_certificate" {
   type    = "string"
   default = ""
 }
+
+variable "optional_target_tag" {
+  default = ""
+}

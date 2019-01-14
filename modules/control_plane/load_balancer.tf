@@ -9,8 +9,8 @@ module "plane-lb" {
   network = "${var.network}"
 
   ports                 = ["2222", "443", "8443"]
-  target_tags           = ["${var.env_name}-control-plane"]
   forwarding_rule_ports = ["2222", "443", "8443"]
 
+  lb_name      = "${var.env_name}-control-plane"
   health_check = false
 }

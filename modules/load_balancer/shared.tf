@@ -1,5 +1,6 @@
 locals {
-  firewall = "${length(var.ports) > 0}"
+  firewall    = "${length(var.ports) > 0}"
+  target_tags = ["${var.lb_name}", "${var.optional_target_tag}"]
 }
 
 resource "google_compute_http_health_check" "lb" {
@@ -25,7 +26,7 @@ resource "google_compute_firewall" "health_check" {
 
   source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
 
-  target_tags = "${local.target_tags}"
+  target_tags = ["${compact(local.target_tags)}"]
 
   count = "${var.health_check ? 1 : 0}"
 }
@@ -39,7 +40,7 @@ resource "google_compute_firewall" "lb" {
     ports    = "${var.ports}"
   }
 
-  target_tags = "${local.target_tags}"
+  target_tags = ["${compact(local.target_tags)}"]
 
   count = "${local.firewall ? 1 : 0}"
 }

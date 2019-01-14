@@ -57,3 +57,7 @@ variable "sql_instance" {
 variable "pas_sql_db_host" {
   default = ""
 }
+
+variable "isoseg_lb_name" {
+  default = ""
+}

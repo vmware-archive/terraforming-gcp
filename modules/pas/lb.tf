@@ -29,11 +29,8 @@ module "gorouter" {
 
   ports = ["80", "443"]
 
-  target_tags = [
-    "${var.env_name}-${var.global_lb > 0 ? "httpslb" : "tcplb"}",
-    "${var.env_name}-isoseglb",
-  ]
-
+  optional_target_tag   = "${var.isoseg_lb_name}"
+  lb_name               = "${var.env_name}-${var.global_lb > 0 ? "httpslb" : "tcplb"}"
   forwarding_rule_ports = ["80", "443"]
 
   health_check                     = true
