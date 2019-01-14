@@ -25,7 +25,7 @@ resource "google_compute_firewall" "health_check" {
 
   source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
 
-  target_tags = "${var.target_tags}"
+  target_tags = "${local.target_tags}"
 
   count = "${var.health_check ? 1 : 0}"
 }
@@ -39,7 +39,7 @@ resource "google_compute_firewall" "lb" {
     ports    = "${var.ports}"
   }
 
-  target_tags = "${var.target_tags}"
+  target_tags = "${local.target_tags}"
 
   count = "${local.firewall ? 1 : 0}"
 }

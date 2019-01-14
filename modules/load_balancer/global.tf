@@ -35,7 +35,7 @@ resource "google_compute_instance_group" "httplb" {
 }
 
 resource "google_compute_global_address" "lb" {
-  name = "${var.env_name}-${var.name}-address"
+  name = "${var.lb_name}"
 
   count = "${local.count}"
 }

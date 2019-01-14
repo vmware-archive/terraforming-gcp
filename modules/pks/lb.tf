@@ -1,14 +1,14 @@
 module "api" {
-  source = "../load_balancer"
+  source   = "../load_balancer"
   env_name = "${var.env_name}"
-  name = "api"
+  name     = "api"
 
-  global = false
-  count = 1
+  global  = false
+  count   = 1
   network = "${var.network_name}"
 
-  ports = ["9021", "8443"]
-  target_tags = ["${var.env_name}-pks-api"]
+  ports                 = ["9021", "8443"]
+  lb_name               = "${var.env_name}-pks-api"
   forwarding_rule_ports = ["9021", "8443"]
-  health_check = false
+  health_check          = false
 }

@@ -82,9 +82,11 @@ module "pas" {
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
   ssl_certificate   = "${module.pas_certs.ssl_certificate}"
 
-  external_database = "${var.external_database}"
-  sql_instance      = "${module.external_database.sql_instance}"
-  pas_sql_db_host   = "${var.pas_sql_db_host}"
+  # TODO (sm) Check if load_balancer_name is empty and reconcile
+  optional_target_tags = "${module.isolation_segment.load_balancer_name}"
+  external_database    = "${var.external_database}"
+  sql_instance         = "${module.external_database.sql_instance}"
+  pas_sql_db_host      = "${var.pas_sql_db_host}"
 }
 
 # Optional

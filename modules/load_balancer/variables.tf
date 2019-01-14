@@ -14,10 +14,6 @@ variable "network" {
   type = "string"
 }
 
-variable "target_tags" {
-  type = "list"
-}
-
 variable "health_check" {}
 
 variable "forwarding_rule_ports" {
@@ -28,9 +24,11 @@ variable "count" {
   default = "0"
 }
 
+variable "lb_name" {}
+
 ## OPTIONAL
 variable "ports" {
-  type = "list"
+  type    = "list"
   default = []
 }
 

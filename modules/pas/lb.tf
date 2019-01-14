@@ -9,8 +9,8 @@ module "ssh-lb" {
   network = "${var.network}"
 
   ports                 = ["2222"]
-  target_tags           = ["${var.env_name}-cf-ssh"]
   forwarding_rule_ports = ["2222"]
+  lb_name               = "${var.env_name}-cf-ssh"
 
   health_check = false
 }
@@ -55,7 +55,7 @@ module "websocket" {
   count   = "${var.global_lb}"
 
   ports                 = ["80", "443"]
-  target_tags           = ["${var.env_name}-cf-ws"]
+  lb_name               = "${var.env_name}-cf-ws"
   forwarding_rule_ports = ["80", "443"]
 
   health_check                     = true
@@ -77,7 +77,7 @@ module "tcprouter" {
   count   = 1
 
   ports                 = ["1024-65535"]
-  target_tags           = ["${var.env_name}-cf-tcp"]
+  lb_name               = "${var.env_name}-cf-tcp"
   forwarding_rule_ports = ["1024-1123"]
 
   health_check                     = true

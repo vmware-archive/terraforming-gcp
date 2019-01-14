@@ -15,7 +15,7 @@ resource "google_compute_forwarding_rule" "lb" {
 }
 
 resource "google_compute_target_pool" "lb" {
-  name = "${var.env_name}-${var.name}-target-pool"
+  name = "${var.lb_name}"
 
   health_checks = ["${google_compute_http_health_check.lb.*.name}"]
 
