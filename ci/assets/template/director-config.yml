@@ -2,12 +2,13 @@ az-configuration:
 {{range .azs}}
 - name: {{.}}
 {{end}}
-director-configuration:
-  ntp_servers_string: 169.254.169.254
-iaas-configuration:
-  auth_json: {{ toJson .opsman_service_account_key }}
-  default_deployment_tag: {{.vm_tag}}
-  project: {{.project}}
+properties-configuration:
+  director-configuration:
+    ntp_servers_string: 169.254.169.254
+  iaas-configuration:
+    auth_json: {{ toJson .opsman_service_account_key }}
+    default_deployment_tag: {{.vm_tag}}
+    project: {{.project}}
 network-assignment:
   network:
     name: {{.infrastructure_subnet_name}}
