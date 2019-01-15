@@ -162,6 +162,7 @@ jobs:
         KEY: us
     - put: env-state-gcp
       params:
+        generate_random_name: true
         terraform_source: terraforming/terraforming-pas
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
@@ -262,6 +263,7 @@ jobs:
         KEY: us
     - put: env-state-gcp
       params:
+        generate_random_name: true
         terraform_source: terraforming/terraforming-pks
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
