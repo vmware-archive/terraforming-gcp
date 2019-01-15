@@ -230,6 +230,7 @@ jobs:
           params:
             terraform_source: terraforming/terraforming-pas
             delete_on_failure: true
+            env_name_file: env-state-gcp/name
             action: destroy
             var_files: [tfvars/terraform.yml]
           get_params:
@@ -329,6 +330,7 @@ jobs:
         - put: env-state-gcp
           params:
             terraform_source: terraforming/terraforming-pks
+            env_name_file: env-state-gcp/name
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
