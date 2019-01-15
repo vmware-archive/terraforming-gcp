@@ -3,9 +3,9 @@ az-configuration:
 - name: {{.}}
 {{end}}
 properties-configuration:
-  director-configuration:
+  director_configuration:
     ntp_servers_string: 169.254.169.254
-  iaas-configuration:
+  iaas_configuration:
     auth_json: {{ toJson .opsman_service_account_key }}
     default_deployment_tag: {{.vm_tag}}
     project: {{.project}}
