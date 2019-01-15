@@ -228,7 +228,6 @@ jobs:
             env-state: env-state-gcp
         - put: env-state-gcp
           params:
-            env_name: terraforming-gcp-pas
             terraform_source: terraforming/terraforming-pas
             delete_on_failure: true
             action: destroy
@@ -329,7 +328,6 @@ jobs:
             env-state: env-state-gcp
         - put: env-state-gcp
           params:
-            env_name: tf-gcp-pks
             terraform_source: terraforming/terraforming-pks
             delete_on_failure: true
             action: destroy
