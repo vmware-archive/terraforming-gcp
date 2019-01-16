@@ -1,4 +1,5 @@
 ---
+product-name: pivotal-container-service
 network-properties:
   network:
     name: {{.pks_subnet_name}}
