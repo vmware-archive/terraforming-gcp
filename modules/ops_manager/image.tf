@@ -1,6 +1,7 @@
 resource "google_compute_image" "ops-manager-image" {
   name = "${var.env_name}-ops-manager-image"
-
+  count = "${min(length(split("", var.opsman_image_url)),1)}"
+  
   timeouts {
     create = "20m"
   }
