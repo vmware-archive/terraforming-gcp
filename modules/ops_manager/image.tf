@@ -1,7 +1,7 @@
 resource "google_compute_image" "ops-manager-image" {
   name = "${var.env_name}-ops-manager-image"
-  count = "${min(length(split("", var.opsman_image_url)),1)}"
-  
+  count = "${var.opsman_image_url == "" ? 0 : 1}"
+
   timeouts {
     create = "20m"
   }
@@ -13,7 +13,7 @@ resource "google_compute_image" "ops-manager-image" {
 
 resource "google_compute_image" "optional-ops-manager-image" {
   name  = "${var.env_name}-optional-ops-manager-image"
-  count = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+  count = "${var.optional_opsman_image_url == "" ? 0 : 1}"
 
   timeouts {
     create = "20m"
