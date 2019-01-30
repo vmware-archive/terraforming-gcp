@@ -163,6 +163,8 @@ Note: please make sure you have created the `terraform.tfvars` file above as men
 
 ### Tearing down environment
 
+**Note:** This will only destroy resources deployed by Terraform. You will need to clean up anything deployed on top of that infrastructure yourself (e.g. by running `om delete-installation`)
+
 ```bash
 terraform destroy
 ```
