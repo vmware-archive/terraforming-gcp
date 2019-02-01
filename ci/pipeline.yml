@@ -194,7 +194,6 @@ jobs:
       file: ci/scripts/terraforming/apply-changes/task.yml
       params:
         <<: *om-creds
-        IGNORE_WARNINGS: true
       input_mapping:
         env-state: env-state-gcp
     ensure:
@@ -292,7 +291,6 @@ jobs:
       file: ci/scripts/terraforming/apply-changes/task.yml
       params:
         <<: *om-creds
-        IGNORE_WARNINGS: true
       input_mapping:
         env-state: env-state-gcp
     ensure:
