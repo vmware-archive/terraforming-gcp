@@ -42,10 +42,6 @@ variable "zones" {
   type = "list"
 }
 
-variable "opsman_vm" {
-  default = true
-}
-
 variable "opsman_image_url" {
   type        = "string"
   description = "Location of ops manager image on google cloud storage"
@@ -197,4 +193,11 @@ variable "create_blobstore_service_account_key" {
 variable "jumpbox_init_script" {
   description = "Path to the script for initiliazing the jumpbox vm."
   default     = ""
+}
+
+/*******************************
+ * Deprecated, Delete After Next Release *
+ *******************************/
+variable "opsman_vm" {
+  default = true
 }

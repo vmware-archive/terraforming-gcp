@@ -146,7 +146,7 @@ SERVICE_ACCOUNT_KEY
 
 ## Ops Manager (optional)
 - opsman\_sql\_db\_host: **(optional)** The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
-- opsman\_vm: **(optional)** Set to `false` to opt out of creating an Ops Manager VM.
+- opsman\_image\_url **(optional)** Source URL of the Ops Manager image you want to boot (if not provided you get no Ops Manager).
 
 ## PAS (optional)
 - pas\_sql\_db\_host: **(optional)** The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
