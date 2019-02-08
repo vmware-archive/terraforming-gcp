@@ -1,13 +1,8 @@
-locals {
-  should_create_certificate = "${length(var.ssl_cert) > 0 ? 1 :
-    length(var.ssl_ca_cert) > 0 ? 1 : 0}"
-}
-
 resource "tls_private_key" "ssl_private_key" {
   algorithm = "RSA"
   rsa_bits  = "2048"
 
-  count = "${length(var.ssl_ca_cert) > 0 ? 1 : 0}"
+  count = "${length(var.ssl_private_key) > 0 ? 0 : 1}"
 }
 
 resource "tls_cert_request" "ssl_csr" {
@@ -46,14 +41,38 @@ resource "tls_locally_signed_cert" "ssl_cert" {
 }
 
 resource "google_compute_ssl_certificate" "certificate" {
-  count = "${local.should_create_certificate}"
+  count = "1"
 
   name_prefix = "${var.env_name}-${var.resource_name}"
   description = "user provided ssl private key / ssl certificate pair"
-  certificate = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_locally_signed_cert.ssl_cert.*.cert_pem, list("")), 0) : var.ssl_cert}"
-  private_key = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_private_key.ssl_private_key.*.private_key_pem, list("")), 0) : var.ssl_private_key}"
+  certificate = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_locally_signed_cert.ssl_cert.*.cert_pem, list("")), 0) : length(var.ssl_cert) > 0 ? var.ssl_cert : element(concat(tls_self_signed_cert.self_signed_certificate.*.cert_pem, list("")), 0)}"
+  private_key = "${length(var.ssl_private_key) > 0 ? var.ssl_private_key : element(concat(tls_private_key.ssl_private_key.*.private_key_pem, list("")), 0)}"
 
   lifecycle = {
     create_before_destroy = true
   }
+}
+
+resource "tls_self_signed_cert" "self_signed_certificate" {
+  count = "${length(var.ssl_cert) == 0 && length(var.ssl_ca_cert) == 0 ? 1 : 0}"
+
+  key_algorithm   = "RSA"
+  private_key_pem = "${tls_private_key.ssl_private_key.private_key_pem}"
+
+  subject {
+    common_name         = "${var.env_name}.${var.dns_suffix}"
+    organization        = "Pivotal"
+    organizational_unit = "Cloudfoundry"
+    country             = "US"
+    province            = "CA"
+    locality            = "San Francisco"
+  }
+
+  validity_period_hours = 24
+
+  allowed_uses = [
+    "key_encipherment",
+    "digital_signature",
+    "server_auth",
+  ]
 }
