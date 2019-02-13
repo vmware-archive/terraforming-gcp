@@ -98,3 +98,11 @@ variable "create_blobstore_service_account_key" {
   description = "Create a scoped service account key for gcs storage access"
   default     = true
 }
+
+/*******************************
+ * YAML Configuration File Options
+ *******************************/
+
+variable "generate_yml" {
+  default = false
+}
