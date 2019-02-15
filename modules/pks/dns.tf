@@ -5,5 +5,5 @@ resource "google_dns_record_set" "wildcard-pks-dns" {
 
   managed_zone = "${var.dns_zone_name}"
 
-  rrdatas = ["${google_compute_address.pks-api.address}"]
+  rrdatas = ["${module.api.address}"]
 }

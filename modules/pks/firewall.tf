@@ -11,19 +11,6 @@ resource "google_compute_firewall" "pks-master" {
   target_tags = ["master"]
 }
 
-// Allow access to PKS API
-resource "google_compute_firewall" "pks-api" {
-  name    = "${var.env_name}-pks-api"
-  network = "${var.network_name}"
-
-  allow {
-    protocol = "tcp"
-    ports    = ["9021", "8443"]
-  }
-
-  target_tags = ["${var.env_name}-pks-api"]
-}
-
 // Allow open access between internal VMs for a PKS deployment
 resource "google_compute_firewall" "pks-internal" {
   name    = "${var.env_name}-pks-internal"

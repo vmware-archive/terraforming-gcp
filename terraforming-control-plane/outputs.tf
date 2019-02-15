@@ -39,12 +39,17 @@ output "director_blobstore_bucket" {
   value = "${module.ops_manager.director_blobstore_bucket}"
 }
 
+output "director_blobstore_service_account_key" {
+  value = "${module.infra.blobstore_gcp_service_account_key}"
+  sensitive = true
+}
+
 output "infrastructure_subnet_gateway" {
   value = "${module.infra.subnet_gateway}"
 }
 
-output "infrastructure_subnet_cidrs" {
-  value = "${module.infra.subnet_cidrs}"
+output "infrastructure_subnet_cidr" {
+  value = "${module.infra.ip_cidr_range}"
 }
 
 output "infrastructure_subnet_name" {
@@ -134,6 +139,15 @@ output "control_plane_subnet_gateway" {
   value = "${module.control_plane.subnet_gateway}"
 }
 
+output "control_plane_subnet_cidr" {
+  value = "${module.control_plane.subnet_cidrs}"
+}
+
+#DEPRECATED
 output "control_plane_subnet_cidrs" {
   value = ["${module.control_plane.subnet_cidrs}"]
+}
+
+output "infrastructure_subnet_cidrs" {
+  value = "${module.infra.subnet_cidrs}"
 }

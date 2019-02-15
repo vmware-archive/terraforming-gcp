@@ -32,7 +32,7 @@ module "ops_manager" {
 
   opsman_storage_bucket_count = "${var.opsman_storage_bucket_count}"
 
-  vm_count                           = "${var.opsman_vm ? 1 : 0}"
+  vm_count                           = "${var.opsman_image_url == "" ? 0 : 1}"
   opsman_machine_type                = "${var.opsman_machine_type}"
   opsman_image_url                   = "${var.opsman_image_url}"
   optional_opsman_image_url          = "${var.optional_opsman_image_url}"
@@ -82,6 +82,7 @@ module "pas" {
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
   ssl_certificate   = "${module.pas_certs.ssl_certificate}"
 
+  isoseg_lb_name    = "${module.isolation_segment.load_balancer_name}"
   external_database = "${var.external_database}"
   sql_instance      = "${module.external_database.sql_instance}"
   pas_sql_db_host   = "${var.pas_sql_db_host}"

@@ -114,14 +114,13 @@ SERVICE_ACCOUNT_KEY
 - dns\_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com). Trailing dots are not supported.
 - opsman\_image\_url **(required)** Source URL of the Ops Manager image you want to boot.
 - buckets\_location: **(optional)** Loction in which to create buckets. Defaults to US.
-- ssl\_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
-- ssl\_private\_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
-- ssl\_ca\_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
-- ssl\_ca\_private\_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
+- ssl\_cert: **(conditionally required)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
+- ssl\_private\_key: **(conditionally required)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
+- ssl\_ca\_cert: **(conditionally required)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
+- ssl\_ca\_private\_key: **(conditionally required)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
 - service\_account\_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - opsman\_storage\_bucket\_count: **(optional)** Google Storage Bucket for BOSH's Blobstore.
-- create\_iam\_service\_account\_members: **(optional)** Create IAM Service Account project roles. Default to 
-.
+- create\_iam\_service\_account\_members: **(optional)** Create IAM Service Account project roles. Default to `true`.
 
 ## DNS Records
 - pcf.*$env_name*.*$dns_suffix*: Points at the Ops Manager VM's public IP address.
@@ -146,7 +145,7 @@ SERVICE_ACCOUNT_KEY
 
 ## Ops Manager (optional)
 - opsman\_sql\_db\_host: **(optional)** The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
-- opsman\_vm: **(optional)** Set to `false` to opt out of creating an Ops Manager VM.
+- opsman\_image\_url **(optional)** Source URL of the Ops Manager image you want to boot (if not provided you get no Ops Manager).
 
 ## PAS (optional)
 - pas\_sql\_db\_host: **(optional)** The host the user can connect from. Can be an IP address. Changing this forces a new resource to be created.
@@ -162,6 +161,8 @@ SERVICE_ACCOUNT_KEY
 Note: please make sure you have created the `terraform.tfvars` file above as mentioned.
 
 ### Tearing down environment
+
+**Note:** This will only destroy resources deployed by Terraform. You will need to clean up anything deployed on top of that infrastructure yourself (e.g. by running `om delete-installation`)
 
 ```bash
 terraform destroy

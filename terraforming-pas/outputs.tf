@@ -43,8 +43,8 @@ output "infrastructure_subnet_gateway" {
   value = "${module.infra.subnet_gateway}"
 }
 
-output "infrastructure_subnet_cidrs" {
-  value = "${module.infra.subnet_cidrs}"
+output "infrastructure_subnet_cidr" {
+  value = "${module.infra.ip_cidr_range}"
 }
 
 output "infrastructure_subnet_name" {
@@ -164,32 +164,32 @@ output "pas_subnet_gateway" {
   value = "${module.pas.pas_subnet_gateway}"
 }
 
-output "pas_subnet_cidrs" {
-  value = ["${module.pas.pas_subnet_ip_cidr_range}"]
+output "pas_subnet_cidr" {
+  value = "${module.pas.pas_subnet_ip_cidr_range}"
 }
 
 output "pas_subnet_name" {
   value = "${module.pas.pas_subnet_name}"
 }
 
-output "pas_subnets" {
-  value = ["${module.pas.pas_subnet_name}"]
+output "pas_subnet" {
+  value = "${module.pas.pas_subnet_name}"
 }
 
 output "services_subnet_gateway" {
   value = "${module.pas.services_subnet_gateway}"
 }
 
-output "services_subnet_cidrs" {
-  value = ["${module.pas.services_subnet_ip_cidr_range}"]
+output "services_subnet_cidr" {
+  value = "${module.pas.services_subnet_ip_cidr_range}"
 }
 
 output "services_subnet_name" {
   value = "${module.pas.services_subnet_name}"
 }
 
-output "services_subnets" {
-  value = ["${module.pas.services_subnet_name}"]
+output "services_subnet" {
+  value = "${module.pas.services_subnet_name}"
 }
 
 output "web_lb_name" {
@@ -290,4 +290,24 @@ output "management_subnet_name" {
 
 output "management_subnets" {
   value = ["${module.infra.subnet_name}"]
+}
+
+output "infrastructure_subnet_cidrs" {
+  value = "${module.infra.subnet_cidrs}"
+}
+
+output "pas_subnet_cidrs" {
+  value = ["${module.pas.pas_subnet_ip_cidr_range}"]
+}
+
+output "services_subnet_cidrs" {
+  value = ["${module.pas.services_subnet_ip_cidr_range}"]
+}
+
+output "services_subnets" {
+  value = ["${module.pas.services_subnet_name}"]
+}
+
+output "pas_subnets" {
+  value = ["${module.pas.pas_subnet_name}"]
 }

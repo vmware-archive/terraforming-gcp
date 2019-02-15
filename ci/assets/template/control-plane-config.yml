@@ -1,4 +1,5 @@
 ---
+product-name: control-plane
 network-properties:
   network:
     name: {{.control_plane_subnet_name}}

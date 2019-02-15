@@ -39,20 +39,25 @@ output "director_blobstore_bucket" {
   value = "${module.ops_manager.director_blobstore_bucket}"
 }
 
+output "director_blobstore_service_account_key" {
+  value = "${module.infra.blobstore_gcp_service_account_key}"
+  sensitive = true
+}
+
 output "infrastructure_subnet_gateway" {
   value = "${module.infra.subnet_gateway}"
 }
 
-output "infrastructure_subnet_cidrs" {
-  value = "${module.infra.subnet_cidrs}"
+output "infrastructure_subnet_cidr" {
+  value = "${module.infra.ip_cidr_range}"
 }
 
 output "infrastructure_subnet_name" {
   value = "${module.infra.subnet_name}"
 }
 
-output "infrastructure_subnets" {
-  value = ["${module.infra.subnet_name}"]
+output "infrastructure_subnet" {
+  value = "${module.infra.subnet_name}"
 }
 
 # Ops Manager
@@ -134,8 +139,8 @@ output "pks_subnet_gateway" {
   value = "${module.pks.pks_subnet_gateway}"
 }
 
-output "pks_subnet_cidrs" {
-  value = ["${module.pks.pks_subnet_cidrs}"]
+output "pks_subnet_cidr" {
+  value = "${module.pks.pks_subnet_cidrs}"
 }
 
 output "services_subnet_name" {
@@ -146,8 +151,8 @@ output "services_subnet_gateway" {
   value = "${module.pks.pks_services_subnet_gateway}"
 }
 
-output "services_subnet_cidrs" {
-  value = ["${module.pks.pks_services_subnet_cidrs}"]
+output "services_subnet_cidr" {
+  value = "${module.pks.pks_services_subnet_cidrs}"
 }
 
 output "pks_master_node_service_account_key" {
@@ -202,4 +207,20 @@ output "pks_services_subnet_gateway" {
 
 output "pks_services_subnet_cidrs" {
   value = ["${module.pks.pks_services_subnet_cidrs}"]
+}
+
+output "infrastructure_subnet_cidrs" {
+  value = "${module.infra.subnet_cidrs}"
+}
+
+output "pks_subnet_cidrs" {
+  value = ["${module.pks.pks_subnet_cidrs}"]
+}
+
+output "services_subnet_cidrs" {
+  value = ["${module.pks.pks_services_subnet_cidrs}"]
+}
+
+output "infrastructure_subnets" {
+  value = ["${module.infra.subnet_name}"]
 }

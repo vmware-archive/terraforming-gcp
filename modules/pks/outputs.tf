@@ -1,5 +1,5 @@
 output "load_balancer_name" {
-  value = "${google_compute_target_pool.pks-api.name}"
+  value = "${module.api.name}"
 }
 
 output "pks_subnet_name" {

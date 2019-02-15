@@ -1,4 +1,5 @@
 ---
+product-name: cf
 network-properties:
   network:
     name: {{.pas_subnet_name}}

@@ -1,5 +1,5 @@
 output "cf_public_health_check" {
-  value = "${google_compute_http_health_check.cf_public.self_link}"
+  value = "${module.gorouter.health_check_self_link}"
 }
 
 output "sys_domain" {
@@ -31,23 +31,23 @@ output "resources_bucket" {
 }
 
 output "ws_router_pool" {
-  value = "${element(concat(google_compute_target_pool.cf_ws.*.name, list("")), 0)}"
+  value = "${module.websocket.name}"
 }
 
 output "ssh_lb_name" {
-  value = "${google_compute_target_pool.cf-ssh.name}"
+  value = "${module.ssh-lb.name}"
 }
 
 output "ssh_router_pool" {
-  value = "${google_compute_target_pool.cf-ssh.name}"
+  value = "${module.ssh-lb.name}"
 }
 
 output "tcp_lb_name" {
-  value = "${google_compute_target_pool.cf-tcp.name}"
+  value = "${module.tcprouter.name}"
 }
 
 output "tcp_router_pool" {
-  value = "${google_compute_target_pool.cf-tcp.name}"
+  value = "${module.tcprouter.name}"
 }
 
 output "pas_subnet_gateway" {
@@ -75,11 +75,11 @@ output "services_subnet_name" {
 }
 
 output "lb_name" {
-  value = "${var.global_lb > 0 ? element(concat(google_compute_backend_service.http_lb_backend_service.*.name, list("")), 0) : element(concat(google_compute_target_pool.cf.*.name, list("")), 0)}"
+  value = "${var.global_lb > 0 ? module.gorouter.backend_service_name : module.gorouter.name}"
 }
 
 output "cf_ws_address" {
-  value = "${element(concat(google_compute_address.cf_ws.*.address, list("")), 0)}"
+  value = "${module.websocket.address}"
 }
 
 output "haproxy_static_ip" {
