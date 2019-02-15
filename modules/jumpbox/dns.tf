@@ -6,5 +6,5 @@ resource "google_dns_record_set" "jumpbox-dns" {
   ttl  = 300
 
   managed_zone = "${var.pcf_managed_zone_name}"
-  rrdatas      = ["${google_compute_instance.jumpbox.network_interface.0.access_config.0.assigned_nat_ip}"]
+  rrdatas      = ["${google_compute_instance.jumpbox.network_interface.0.access_config.0.nat_ip}"]
 }
