@@ -5,8 +5,7 @@ The following are experimental WIP instructions. Please follow official docs htt
 ## Requirements
 
 - `terraform version`
-
-  v0.11.*
+  **v0.11.x**
 
   The following should be installed using `terraform init`
 
@@ -17,24 +16,20 @@ The following are experimental WIP instructions. Please follow official docs htt
   - provider.tls v1.2.0
 
 - `om --version`
-
-  v0.53.0
+  **v0.53.0**
 
 - Pivotal Cloud Foundry Operations Manager
-
-  v2.4.4
+  **v2.4.4**
 
 - Small Footprint PAS (Download this from https://network.pivotal.io)
-
-  v2.4.3
+  **v2.4.3**
 
 	Set `SOME_PATH_TO_PRODUCT_TILE`
 
   *Note make sure you are checking signature.*
 
 - Stemcells for PCF (Download this from https://network.pivotal.io)
-
-  170.24-170.30 (tested with 170.30)
+  **170.24-170.30 (tested with 170.30)**
 
 	Set `SOME_PATH_TO_STEMCELL`.
 
@@ -54,7 +49,7 @@ Also set
 
 Make sure your `opsman_image_url` is set to the correct version.
 
-# Pave and Deploy PAS
+## Pave and Deploy PAS
 
 ```sh
 # Pave infrastructure =====================================
