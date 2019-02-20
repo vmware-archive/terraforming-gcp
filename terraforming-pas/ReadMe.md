@@ -29,9 +29,9 @@ The following are experimental WIP instructions. Please follow official docs htt
   *Note make sure you are checking signature.*
 
 - Stemcells for PCF (Download this from https://network.pivotal.io)
-  **170.24-170.30 (tested with 170.30)**
+  **170.24-170.30** (tested with 170.30)
 
-	Set `SOME_PATH_TO_STEMCELL`.
+	Set `SOME_PATH_TO_STEMCELL`
 
 	*Note make sure you are checking signature.*
 
