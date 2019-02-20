@@ -5,3 +5,4 @@ terraform.key.json
 *.tfvars
 !example.tfvars
 .idea
+*-config.yml
