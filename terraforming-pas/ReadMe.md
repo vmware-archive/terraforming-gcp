@@ -63,7 +63,9 @@ terraform output env_dns_zone_name_servers
 
 # Configure Ops Manager and Tiles =========================
 
-export OM_USERNAME=admin OM_PASSWORD="$(terraform output om_password)" OM_TARGET="https://$(terraform output ops_manager_dns)"
+export OM_USERNAME=admin \
+  OM_PASSWORD="$(terraform output om_password)" \
+  OM_TARGET="https://$(terraform output ops_manager_dns)"
 
 om -k configure-authentication -dp "${OM_PASSWORD}"
 
@@ -82,6 +84,3 @@ om -k configure-product --config director-product.yml
 om -k apply-changes
 
 ```
-
-
-
