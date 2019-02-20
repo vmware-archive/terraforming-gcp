@@ -58,9 +58,8 @@ terraform apply # this requires user input
 
 terraform output env_dns_zone_name_servers
 
-#   use this output to create an NS record
-
-sleep 120 # to avoid Negative DNS Cacheing
+#  use this output to create an NS record
+#  to avoid Negative DNS Cacheing wait 2 minutes
 
 # Configure Ops Manager and Tiles =========================
 
