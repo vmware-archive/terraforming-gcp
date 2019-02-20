@@ -115,13 +115,12 @@ SERVICE_ACCOUNT_KEY
 - service\_account\_key: **(required)** Contents of your service account key file generated using the `gcloud iam service-accounts keys create` command.
 - dns\_suffix: **(required)** Domain to add environment subdomain to (e.g. foo.example.com). Trailing dots are not supported.
 - buckets\_location: **(optional)** Loction in which to create buckets. Defaults to US.
-- ssl\_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
-- ssl\_private\_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
-- ssl\_ca\_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
-- ssl\_ca\_private\_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
+- ssl\_cert: **(conditionally required)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
+- ssl\_private\_key: **(conditionally required)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
+- ssl\_ca\_cert: **(conditionally required)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
+- ssl\_ca\_private\_key: **(conditionally required)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
 - opsman\_storage\_bucket\_count: **(optional)** Google Storage Bucket for BOSH's Blobstore.
-- create\_iam\_service\_account\_members: **(optional)** Create IAM Service Account project roles. Default to 
-.
+- create\_iam\_service\_account\_members: **(optional)** Create IAM Service Account project roles. Default to `true`.
 
 ## DNS Records
 - pcf.*$env_name*.*$dns_suffix*: Points at the Ops Manager VM's public IP address.
