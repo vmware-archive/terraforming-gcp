@@ -196,20 +196,8 @@ variable "jumpbox_init_script" {
 }
 
 /*******************************
- * YAML Configuration File Options
- *******************************/
-
-variable "generate_yml" {
-  default = false
-}
-
-/*******************************
  * Deprecated, Delete After Next Release *
  *******************************/
 variable "opsman_vm" {
   default = true
-}
-
-variable "mysql_monitor_email" {
-  default = ""
 }

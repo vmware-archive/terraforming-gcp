@@ -1,5 +1,13 @@
+variable "generate_config_files" {
+  default = false
+}
+
+variable "mysql_monitor_email" {
+  type = "string"
+}
+
 locals {
-  generate_yml = "${var.generate_yml ? 1 : 0}"
+  generate_config_files = "${var.generate_config_files ? 1 : 0}"
 }
 
 data "template_file" "director_config" {
@@ -19,13 +27,13 @@ data "template_file" "director_config" {
     infrastructure_subnet_cidr    = "${module.infra.ip_cidr_range}"
     infrastructure_subnet_gateway = "${module.infra.subnet_gateway}"
 
-    pas_subnet_name    = "${module.pas.subnet_name}"
-    pas_subnet_cidr    = "${module.pas.subnet_cidrs}"
-    pas_subnet_gateway = "${module.pas.subnet_gateway}"
+    pas_subnet_name    = "${module.pas.pas_subnet_name}"
+    pas_subnet_cidr    = "${module.pas.pas_subnet_ip_cidr_range}"
+    pas_subnet_gateway = "${module.pas.pas_subnet_gateway}"
 
-    services_subnet_name    = "${module.services.subnet_name}"
-    services_subnet_cidr    = "${module.services.subnet_cidrs}"
-    services_subnet_gateway = "${module.services.subnet_gateway}"
+    services_subnet_name    = "${module.pas.services_subnet_name}"
+    services_subnet_cidr    = "${module.pas.services_subnet_ip_cidr_range}"
+    services_subnet_gateway = "${module.pas.services_subnet_gateway}"
 
     opsman_service_account_key = "${module.ops_manager.service_account_key}"
 
@@ -34,14 +42,14 @@ data "template_file" "director_config" {
 }
 
 resource "local_file" "director_config_yml" {
-  count = "${local.generate_yml}"
+  count = "${local.generate_config_files}"
 
   filename = "director-config.yml"
   content  = "${data.template_file.director_config.rendered}"
 }
 
 output "director_config_yml" {
-  value = "${data.template_file.director_config_yml.rendered}"
+  value = "${data.template_file.director_config.rendered}"
 }
 
 resource "random_string" "credhub_encryption_password" {
@@ -65,14 +73,11 @@ data "template_file" "product_config_yml" {
     az_config    = "[${join(", ", formatlist("{%q: %q}", "name", var.zones))}]"
     az_singleton = "${element(var.zones, 0)}"
 
-    pas_subnet_name      = "${module.pas.subnet_name}"
+    pas_subnet_name      = "${module.pas.pas_subnet_name}"
     services_subnet_name = "${module.pas.services_subnet_name}"
 
-    pas_domain  = "${module.pas.domain}"
-    pas_lb_name = "${module.pas.load_balancer_name}"
-
     ssh_lb_name = "${module.pas.ssh_lb_name}"
-    web_lb_name = "${module.pas.web_lb_name}"
+    web_lb_name = "${module.pas.lb_name}"
 
     sys_domain  = "${module.pas.sys_domain}"
     apps_domain = "${module.pas.apps_domain}"
@@ -90,7 +95,7 @@ data "template_file" "product_config_yml" {
 }
 
 resource "local_file" "product_config_yml" {
-  count = "${local.generate_yml}"
+  count = "${local.generate_config_files}"
 
   filename = "product-config.yml"
   content  = "${data.template_file.product_config_yml.rendered}"
@@ -105,12 +110,11 @@ locals {
 ---
 az-configuration: $${az_config}
 properties-configuration:
-
   director_configuration:
     ntp_servers_string: 169.254.169.254
   iaas_configuration:
     auth_json: |
-$${indent(6, trimspace(opsman_service_account_key))}
+      $${indent(6, trimspace(opsman_service_account_key))}
     default_deployment_tag: $${vm_tag}
     project: $${project}
 network-assignment:
@@ -161,12 +165,13 @@ network-properties:
   service_network:
     name: $${services_subnet_name}
   other_availability_zones: $${az_config}
-  singleton_availability_zone: ${az_singleton}
+  singleton_availability_zone:
+    name: $${az_singleton}
 product-properties:
   .cloud_controller.apps_domain:
     value: $${apps_domain}
   .cloud_controller.system_domain:
-  value: $${sys_domain}
+    value: $${sys_domain}
   .ha_proxy.skip_cert_verify:
     value: true
   .mysql_monitor.recipient_email:
@@ -184,9 +189,9 @@ product-properties:
     value:
     - certificate:
         cert_pem: |
-$${indent(10, trimspace(ssl_cert))}}
+          $${indent(10, trimspace(ssl_cert))}
         private_key_pem: |
-$${indent(10, trimspace(ssl_private_key))}}
+          $${indent(10, trimspace(ssl_private_key))}
       name: Certificate
   .properties.security_acknowledgement:
     value: X
@@ -199,9 +204,9 @@ $${indent(10, trimspace(ssl_private_key))}}
   .uaa.service_provider_key_credentials:
     value:
         cert_pem: |
-$${indent(10, trimspace(ssl_cert))}}
+          $${indent(10, trimspace(ssl_cert))}
         private_key_pem: |
-$${indent(10, trimspace(ssl_private_key))}}
+          $${indent(10, trimspace(ssl_private_key))}
 resource-config:
   compute:
     instances: 1
