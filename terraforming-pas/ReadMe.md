@@ -1,6 +1,6 @@
 # Terraforming PAS for GCP
 
-The following are experimental instructions. Please follow official docs https://docs.pivotal.io/.
+The following are experimental WIP instructions. Please follow official docs https://docs.pivotal.io/.
 
 ## Requirements
 
@@ -48,13 +48,13 @@ Make sure your `opsman_image_url` is set to the correct version.
 # Pave and Deploy PAS
 
 ```sh
-# Pave infrastructure
+# Pave infrastructure =====================================
 
 terraform init
 
 terraform apply # this requires user input
 
-# Configure DNS
+# Configure DNS ===========================================
 
 terraform output env_dns_zone_name_servers
 
@@ -62,7 +62,7 @@ terraform output env_dns_zone_name_servers
 
 sleep 120 # to avoid Negative DNS Cacheing
 
-# Configure Ops Manager and Tiles
+# Configure Ops Manager and Tiles =========================
 
 export OM_USERNAME=admin OM_PASSWORD="$(terraform output om_password)" OM_TARGET="https://$(terraform output ops_manager_dns)"
 
@@ -78,7 +78,7 @@ om -k stage-product --product-name cf --product-version 2.4.2
 
 om -k configure-product --config director-product.yml
 
-# Deploy
+# Deploy ==================================================
 
 om -k apply-changes
 
