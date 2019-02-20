@@ -49,7 +49,7 @@ Also set
 
 Make sure your `opsman_image_url` is set to the correct version.
 
-## Pave and Deploy PAS
+## Pave, Configure, and Deploy PAS
 
 ```sh
 # Pave infrastructure =====================================
