@@ -21,19 +21,23 @@ The following are experimental WIP instructions. Please follow official docs htt
 - Pivotal Cloud Foundry Operations Manager
   **v2.4.4**
 
-- Small Footprint PAS (Download this from https://network.pivotal.io)
+- Small Footprint PAS
   **v2.4.3**
 
-	Set `SOME_PATH_TO_PRODUCT_TILE`
+  (Download this from https://network.pivotal.io)
+
+  Set `SOME_PATH_TO_PRODUCT_TILE`
 
   *Note make sure you are checking signature.*
 
-- Stemcells for PCF (Download this from https://network.pivotal.io)
+- Stemcells for PCF
   **170.24-170.30** (tested with 170.30)
 
-	Set `SOME_PATH_TO_STEMCELL`
+  (Download this from https://network.pivotal.io)
 
-	*Note make sure you are checking signature.*
+  Set `SOME_PATH_TO_STEMCELL`
+
+  *Note make sure you are checking signature.*
 
 ## Environment Configuration
 
