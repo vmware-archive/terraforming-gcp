@@ -3,7 +3,7 @@ provider "google" {
   region      = "${var.region}"
   credentials = "${var.service_account_key}"
 
-  version = ">= 1.7.0"
+  version = "~> 1.20"
 }
 
 terraform {
