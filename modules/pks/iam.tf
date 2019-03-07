@@ -16,9 +16,9 @@ resource "google_service_account_key" "pks_worker_node_service_account_key" {
   service_account_id = "${google_service_account.pks_worker_node_service_account.id}"
 }
 
-resource "google_project_iam_member" "pks_master_node_compute_instance_admin" {
+resource "google_project_iam_member" "pks_master_node_compute_instance_admin_v1" {
   project = "${var.project}"
-  role    = "roles/compute.instanceAdmin"
+  role    = "roles/compute.instanceAdmin.v1"
   member  = "serviceAccount:${google_service_account.pks_master_node_service_account.email}"
 }
 
@@ -40,9 +40,15 @@ resource "google_project_iam_member" "pks_master_node_compute_security_admin" {
   member  = "serviceAccount:${google_service_account.pks_master_node_service_account.email}"
 }
 
-resource "google_project_iam_member" "pks_master_node_iam_service_account_actor" {
+resource "google_project_iam_member" "pks_master_node_iam_service_account_user" {
   project = "${var.project}"
-  role    = "roles/iam.serviceAccountActor"
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${google_service_account.pks_master_node_service_account.email}"
+}
+
+resource "google_project_iam_member" "pks_master_node_compute_viewer" {
+  project = "${var.project}"
+  role    = "roles/compute.viewer"
   member  = "serviceAccount:${google_service_account.pks_master_node_service_account.email}"
 }
 
