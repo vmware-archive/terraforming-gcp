@@ -27,6 +27,10 @@ output "dns_managed_zone" {
   value = "${module.infra.dns_zone_name}"
 }
 
+output "dns_zone_name" {
+  value = "${replace(module.infra.dns_zone_dns_name, "/\\.$/", "")}"
+}
+
 output "env_dns_zone_name_servers" {
   value = "${module.infra.dns_zone_name_servers}"
 }
@@ -40,7 +44,7 @@ output "director_blobstore_bucket" {
 }
 
 output "director_blobstore_service_account_key" {
-  value = "${module.infra.blobstore_gcp_service_account_key}"
+  value     = "${module.infra.blobstore_gcp_service_account_key}"
   sensitive = true
 }
 
