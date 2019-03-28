@@ -3,6 +3,7 @@ resource "google_compute_subnetwork" "pks-subnet" {
   ip_cidr_range = "${var.pks_cidr}"
   network       = "${var.network_name}"
   region        = "${var.region}"
+  private_ip_google_access = true
 }
 
 resource "google_compute_subnetwork" "pks-services-subnet" {
@@ -10,4 +11,5 @@ resource "google_compute_subnetwork" "pks-services-subnet" {
   ip_cidr_range = "${var.pks_services_cidr}"
   network       = "${var.network_name}"
   region        = "${var.region}"
+  private_ip_google_access = true
 }
