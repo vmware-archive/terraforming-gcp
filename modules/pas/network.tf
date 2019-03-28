@@ -3,6 +3,7 @@ resource "google_compute_subnetwork" "pas" {
   ip_cidr_range = "${var.pas_cidr}"
   network       = "${var.network}"
   region        = "${var.region}"
+  private_ip_google_access = true
 }
 
 resource "google_compute_subnetwork" "services" {
@@ -10,4 +11,5 @@ resource "google_compute_subnetwork" "services" {
   ip_cidr_range = "${var.services_cidr}"
   network       = "${var.network}"
   region        = "${var.region}"
+  private_ip_google_access = true
 }
