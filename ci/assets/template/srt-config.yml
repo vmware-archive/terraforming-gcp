@@ -20,6 +20,8 @@ product-properties:
     value: true
   .mysql_monitor.recipient_email:
     value: cf-infra@pivotal.io
+  .properties.stack_migration_acknowledgement:
+      value: x
   .properties.credhub_key_encryption_passwords:
     value:
     - key:
