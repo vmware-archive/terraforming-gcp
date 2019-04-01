@@ -145,12 +145,12 @@ jobs:
       trigger: true
       params:
         globs:
-        - '*GCP.yml'
+        - '*gcp*.yml'
   - do:
     - task: opsman-url
       file: ci/scripts/terraforming/latest-opsman/task.yml
       params:
-        IAAS: GCP
+        IAAS: gcp
         KEY: us
     - put: env-state-gcp
       params:
@@ -242,12 +242,12 @@ jobs:
       trigger: true
       params:
         globs:
-        - '*GCP.yml'
+        - '*gcp*.yml'
   - do:
     - task: opsman-url
       file: ci/scripts/terraforming/latest-opsman/task.yml
       params:
-        IAAS: GCP
+        IAAS: gcp
         KEY: us
     - put: env-state-gcp
       params:
