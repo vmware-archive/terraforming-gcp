@@ -3,6 +3,8 @@ az-configuration:
 - name: {{.}}
 {{end}}
 properties-configuration:
+  security_configuration:
+    opsmanager_root_ca_trusted_certs: true
   director_configuration:
     ntp_servers_string: 169.254.169.254
   iaas_configuration:
