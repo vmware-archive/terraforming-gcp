@@ -2,7 +2,7 @@ module "ssh-lb" {
   source = "../load_balancer"
 
   env_name = "${var.env_name}"
-  name     = "ssh"
+  name     = "${var.env_name}-ssh"
 
   global  = false
   count   = 1
@@ -19,10 +19,16 @@ module "gorouter" {
   source = "../load_balancer"
 
   env_name = "${var.env_name}"
-  name     = "gorouter"
+  name     = "${var.env_name}-gorouter"
 
-  global          = "${var.global_lb}"
-  count           = "${var.global_lb > 0 ? 0 : 1}"
+  global                     = "${var.global_lb}"
+  url_map_name               = "${var.env_name}-cf-http"
+  http_proxy_name            = "${var.env_name}-httpproxy"
+  https_proxy_name           = "${var.env_name}-httpsproxy"
+  http_forwarding_rule_name  = "${var.env_name}-cf-lb-http"
+  https_forwarding_rule_name = "${var.env_name}-cf-lb-https"
+
+  count           = "1"
   network         = "${var.network}"
   zones           = "${var.zones}"
   ssl_certificate = "${var.ssl_certificate}"
@@ -39,17 +45,18 @@ module "gorouter" {
   health_check_timeout             = 3
   health_check_healthy_threshold   = 6
   health_check_unhealthy_threshold = 3
+
 }
 
 module "websocket" {
   source = "../load_balancer"
 
   env_name = "${var.env_name}"
-  name     = "websocket"
+  name     = "${var.env_name}-websocket"
 
   global  = false
   network = "${var.network}"
-  count   = "${var.global_lb}"
+  count   = "${var.global_lb ? 1 : 0}"
 
   ports                 = ["80", "443"]
   lb_name               = "${var.env_name}-cf-ws"
@@ -67,11 +74,11 @@ module "tcprouter" {
   source = "../load_balancer"
 
   env_name = "${var.env_name}"
-  name     = "tcprouter"
+  name     = "${var.env_name}-tcprouter"
 
   global  = false
   network = "${var.network}"
-  count   = 1
+  count   = "${var.create_tcp_router ? 1 : 0}"
 
   ports                 = ["1024-65535"]
   lb_name               = "${var.env_name}-cf-tcp"

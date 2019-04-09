@@ -65,3 +65,30 @@ variable "ssl_certificate" {
 variable "optional_target_tag" {
   default = ""
 }
+
+## legacy
+
+variable "url_map_name" {
+  type = "string"
+  default = ""
+}
+
+variable "http_proxy_name" {
+  type = "string"
+  default = ""
+}
+
+variable "https_proxy_name" {
+  type = "string"
+  default = ""
+}
+
+variable "http_forwarding_rule_name" {
+  type = "string"
+  default = ""
+}
+
+variable "https_forwarding_rule_name" {
+  type = "string"
+  default = ""
+}

@@ -75,6 +75,7 @@ module "pas" {
   internetless       = "${var.internetless}"
   global_lb          = "${var.global_lb}"
   create_gcs_buckets = "${var.create_gcs_buckets}"
+  create_tcp_router  = "${var.create_tcp_router}"
   buckets_location   = "${var.buckets_location}"
 
   network           = "${module.infra.network}"

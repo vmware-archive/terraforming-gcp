@@ -17,7 +17,7 @@ variable "buckets_location" {
 
 variable "global_lb" {
   description = "Use global load balancers for CF instead regional load balancers"
-  default     = 1
+  default     = true
 }
 
 variable "infrastructure_cidr" {
@@ -104,6 +104,11 @@ variable "external_database" {
 variable "internetless" {
   description = "When set to true, all traffic going outside the 10.* network is denied."
   default     = false
+}
+
+variable "create_tcp_router" {
+  description = "Create google load balancer for tcp router"
+  default     = true
 }
 
 ///******************
