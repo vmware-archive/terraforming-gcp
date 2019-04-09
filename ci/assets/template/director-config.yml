@@ -11,6 +11,8 @@ properties-configuration:
     auth_json: {{ toJson .opsman_service_account_key }}
     default_deployment_tag: {{.vm_tag}}
     project: {{.project}}
+  security_configuration:
+    trusted_certificates: {{.terraforming_ca_cert}}
 network-assignment:
   network:
     name: {{.infrastructure_subnet_name}}

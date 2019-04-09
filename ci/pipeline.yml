@@ -79,10 +79,10 @@ resources:
       dns_suffix: gcp.infrastructure.cf-app.com
       isolation_segment: true
       service_account_key: ((cf_infra_gcp_service_account_key))
-      ssl_cert: ((ssl_cert.certificate))
-      ssl_private_key: ((ssl_cert.private_key))
-      iso_seg_ssl_cert: ((ssl_cert.certificate))
-      iso_seg_ssl_private_key: ((ssl_cert.private_key))
+      ssl_cert: ((terraforming-gcp.certificate))
+      ssl_private_key: ((terraforming-gcp.private_key))
+      iso_seg_ssl_cert: ((terraforming-gcp.certificate))
+      iso_seg_ssl_private_key: ((terraforming-gcp.private_key))
 
 - name: infrastructure-ci
   type: git
@@ -154,7 +154,7 @@ jobs:
         KEY: us
     - put: env-state-gcp
       params:
-        generate_random_name: true
+        env_name: tf-ci
         terraform_source: terraforming/terraforming-pas
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
@@ -169,6 +169,7 @@ jobs:
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
         <<: *om-creds
+        CA_CERT: ((terraforming-ca.ca))
         TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
       input_mapping:
         env-state: env-state-gcp

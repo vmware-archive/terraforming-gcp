@@ -11,10 +11,13 @@ main() {
   local password=${2?"OpsManager password is required."}
 
   pushd $PROJECT_DIR/$path > /dev/null
+    RAW_JSON=$(jq -e --raw-output '.modules[0].outputs | map_values(.value)' terraform.tfstate)
+    WITH_CERT=$(echo ${RAW_JSON} | jq --arg terraformingca "${CA_CERT}" '. + {terraforming_ca_cert: $terraformingca}')
+
     authenticate_om "${password}"
 
     om -k configure-authentication -dp "${OM_PASSWORD}"
-    om -k configure-director --config <(texplate execute $PROJECT_DIR/ci/assets/template/director-config.yml -f  <(jq -e --raw-output '.modules[0].outputs | map_values(.value)' terraform.tfstate) -o yaml)
+    om -k configure-director --config <(texplate execute "${PROJECT_DIR}/ci/assets/template/director-config.yml" -f  <(echo "${WITH_CERT}") -o yaml)
   popd > /dev/null
 }
 
