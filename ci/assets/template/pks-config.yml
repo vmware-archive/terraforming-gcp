@@ -48,3 +48,6 @@ resource-config:
   pivotal-container-service:
     elb_names:
     - tcp:{{.pks_lb_backend_name}}
+errand-config:
+  smoke-tests:
+    post-deploy-state: true
