@@ -3,16 +3,17 @@ az-configuration:
 - name: {{.}}
 {{end}}
 properties-configuration:
-  security_configuration:
-    opsmanager_root_ca_trusted_certs: true
   director_configuration:
     ntp_servers_string: 169.254.169.254
   iaas_configuration:
     auth_json: {{ toJson .opsman_service_account_key }}
     default_deployment_tag: {{.vm_tag}}
     project: {{.project}}
+{{if index . "terraforming_ca_cert"}}
   security_configuration:
-    trusted_certificates: {{.terraforming_ca_cert}}
+    trusted_certificates: |
+{{indent 6 .terraforming_ca_cert}}
+{{end}}
 network-assignment:
   network:
     name: {{.infrastructure_subnet_name}}
