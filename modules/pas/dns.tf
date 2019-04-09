@@ -1,8 +1,8 @@
 // Modify dns records to resolve to the ha proxy when in internetless mode.
 locals {
   haproxy_static_ip = "${cidrhost(google_compute_subnetwork.pas.ip_cidr_range, -20)}"
-  cf_address        = "${var.global_lb > 0 ? module.gorouter.global_address : module.gorouter.address}"
-  cf_ws_address     = "${var.global_lb > 0 ? module.websocket.address : module.gorouter.address}"
+  cf_address        = "${var.global_lb ? module.gorouter.global_address : module.gorouter.address}"
+  cf_ws_address     = "${var.global_lb ? module.websocket.address : module.gorouter.address}"
 }
 
 resource "google_dns_record_set" "wildcard-sys-dns" {
@@ -69,7 +69,7 @@ resource "google_dns_record_set" "tcp-dns" {
   name = "tcp.${var.dns_zone_dns_name}"
   type = "A"
   ttl  = 300
-
+  count = "${var.create_tcp_router ? 1 : 0}"
   managed_zone = "${var.dns_zone_name}"
 
   rrdatas = ["${var.internetless ? local.haproxy_static_ip : module.tcprouter.address}"]
