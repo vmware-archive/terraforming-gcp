@@ -28,7 +28,7 @@ resource "google_compute_backend_service" "http_lb_backend_service" {
 
 resource "google_compute_instance_group" "httplb" {
   // Count based on number of AZs
-  count       = "${var.global > 0 ? 3 : 0}"
+  count       = "${local.count > 0 ? 3 : 0}"
   name        = "${var.lb_name}-${element(var.zones, count.index)}"
   description = "terraform generated instance group that is multi-zone for https loadbalancing"
   zone        = "${element(var.zones, count.index)}"
