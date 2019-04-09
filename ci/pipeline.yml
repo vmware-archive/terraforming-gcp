@@ -252,7 +252,7 @@ jobs:
         KEY: us
     - put: env-state-gcp
       params:
-        generate_random_name: true
+        env_name: tf-pks-ci
         terraform_source: terraforming/terraforming-pks
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
@@ -268,6 +268,7 @@ jobs:
       params:
         <<: *om-creds
         TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
+        CA_CERT: ((terraforming-ca.ca))
       input_mapping:
         env-state: env-state-gcp
         director-config-template: terraforming
@@ -330,7 +331,6 @@ jobs:
       passed:
       - deploy-pas
       - deploy-pks
-      # - deploy-control-plane
       trigger: true
     - get: version
       params:
