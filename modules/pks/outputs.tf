@@ -37,3 +37,11 @@ output "pks_worker_node_service_account_key" {
 output "api_endpoint" {
   value = "api.${replace(replace(google_dns_record_set.wildcard-pks-dns.name, "/^\\*\\./", ""), "/\\.$/", "")}"
 }
+
+output "worker_node_service_account_email" {
+  value = "${google_service_account.pks_worker_node_service_account.email}"
+}
+
+output "master_node_service_account_email" {
+  value = "${google_service_account.pks_master_node_service_account.email}"
+}

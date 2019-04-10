@@ -40,7 +40,7 @@ output "director_blobstore_bucket" {
 }
 
 output "director_blobstore_service_account_key" {
-  value = "${module.infra.blobstore_gcp_service_account_key}"
+  value     = "${module.infra.blobstore_gcp_service_account_key}"
   sensitive = true
 }
 
@@ -162,6 +162,16 @@ output "pks_master_node_service_account_key" {
 
 output "pks_worker_node_service_account_key" {
   value     = "${module.pks.pks_worker_node_service_account_key}"
+  sensitive = true
+}
+
+output "pks_worker_node_service_account_email" {
+  value     = "${module.pks.worker_node_service_account_email}"
+  sensitive = true
+}
+
+output "pks_master_node_service_account_email" {
+  value     = "${module.pks.master_node_service_account_email}"
   sensitive = true
 }
 
