@@ -2,6 +2,10 @@ output "name" {
   value = "${element(concat(google_compute_target_pool.lb.*.name, list("")), 0)}"
 }
 
+output "names" {
+  value = "${google_compute_target_pool.lb.*.name}"
+}
+
 output "backend_service_name" {
   value = "${element(concat(google_compute_backend_service.http_lb_backend_service.*.name, list("")), 0)}"
 }

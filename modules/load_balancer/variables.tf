@@ -20,6 +20,11 @@ variable "forwarding_rule_ports" {
   type = "list"
 }
 
+variable "ports_lb_map" {
+  type    = "map"
+  default = {}
+}
+
 variable "count" {
   default = "0"
 }
@@ -64,4 +69,9 @@ variable "ssl_certificate" {
 
 variable "optional_target_tag" {
   default = ""
+}
+
+locals {
+  discrete_lbs = "${length(var.ports_lb_map) > 0}"
+  lb_names     = "${split(":", local.discrete_lbs ? join(":", values(var.ports_lb_map)) : var.lb_name)}"
 }

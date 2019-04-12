@@ -1,6 +1,6 @@
 locals {
-  firewall    = "${length(var.ports) > 0}"
-  target_tags = ["${var.lb_name}", "${var.optional_target_tag}"]
+  firewall_ports = "${split(":", local.discrete_lbs ? join(":", keys(var.ports_lb_map)) : join(":", var.ports))}"
+  firewall       = "${length(local.firewall_ports) > 0}"
 }
 
 resource "google_compute_http_health_check" "lb" {
@@ -26,21 +26,21 @@ resource "google_compute_firewall" "health_check" {
 
   source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
 
-  target_tags = ["${compact(local.target_tags)}"]
+  target_tags = ["${compact(concat(local.lb_names, list(var.optional_target_tag)))}"]
 
   count = "${var.health_check ? 1 : 0}"
 }
 
 resource "google_compute_firewall" "lb" {
-  name    = "${var.env_name}-${var.name}-firewall"
+  name    = "${var.env_name}-${var.name}-firewall${local.discrete_lbs ? format("-%d", count.index) : ""}"
   network = "${var.network}"
 
   allow {
     protocol = "tcp"
-    ports    = "${var.ports}"
+    ports    = "${split(":", local.discrete_lbs ? element(local.firewall_ports, count.index) : join(":", local.firewall_ports))}"
   }
 
-  target_tags = ["${compact(local.target_tags)}"]
+  target_tags = ["${compact(concat(split(":", local.discrete_lbs ? element(local.lb_names, count.index) : join(":", local.lb_names)), list(var.optional_target_tag)))}"]
 
-  count = "${local.firewall ? 1 : 0}"
+  count = "${local.firewall ? local.discrete_lbs ? length(local.firewall_ports) : 1 : 0}"
 }
