@@ -33,3 +33,26 @@ resource "google_compute_firewall" "pks-internal" {
     "${google_compute_subnetwork.pks-services-subnet.ip_cidr_range}",
   ]
 }
+
+# allow external access for master node(s)
+resource "google_compute_firewall" "pks-external" {
+  name    = "${var.env_name}-pks-external"
+  network = "${var.network_name}"
+
+  direction = "EGRESS"
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+  }
+
+  allow {
+    protocol = "udp"
+  }
+
+  destination_ranges = ["0.0.0.0/0"]
+  target_tags        = ["master"]
+}
