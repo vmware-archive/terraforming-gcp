@@ -8,9 +8,11 @@ module "plane-lb" {
   count   = 1
   network = "${var.network}"
 
-  ports                 = ["2222", "443", "8443", "8844"]
-  forwarding_rule_ports = ["2222", "443", "8443", "8844"]
+  ports_lb_map = {
+    "2222,443" = "${var.env_name}-control-plane"
+    "8443"     = "${var.env_name}-uaa-control-plane"
+    "8844"     = "${var.env_name}-credhub-control-plane"
+  }
 
-  lb_name      = "${var.env_name}-control-plane"
   health_check = false
 }

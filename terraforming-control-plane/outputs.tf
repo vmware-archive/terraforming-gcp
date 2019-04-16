@@ -132,7 +132,15 @@ output "control_plane_domain" {
 }
 
 output "control_plane_lb_name" {
-  value = "${module.control_plane.load_balancer_name}"
+  value = "${element(module.control_plane.load_balancer_names, 0)}"
+}
+
+output "control_plane_uaa_lb_name" {
+  value = "${element(module.control_plane.load_balancer_names, 1)}"
+}
+
+output "control_plane_credhub_lb_name" {
+  value = "${element(module.control_plane.load_balancer_names, 2)}"
 }
 
 output "control_plane_subnet_name" {

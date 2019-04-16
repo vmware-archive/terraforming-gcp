@@ -13,11 +13,19 @@ product-properties:
   .properties.domain:
     value: {{.control_plane_domain}}
 resource-config:
+  worker:
+    internet_connected: true
+  db:
+    internet_connected: false
   web:
     elb_names:
     - tcp:{{.control_plane_lb_name}}
     internet_connected: false
-  db:
+  uaa:
+    elb_names:
+    - tcp:{{.control_plane_uaa_lb_name}}
     internet_connected: false
-  worker:
-    internet_connected: true
+  credhub:
+    elb_names:
+    - tcp:{{.control_plane_credhub_lb_name}}
+    internet_connected: false

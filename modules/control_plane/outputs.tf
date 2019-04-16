@@ -1,5 +1,5 @@
-output "load_balancer_name" {
-  value = "${module.plane-lb.name}"
+output "load_balancer_names" {
+  value = "${module.plane-lb.names}"
 }
 
 output "subnet_name" {
