@@ -30,7 +30,6 @@ module "ops_manager" {
   env_name = "${var.env_name}"
   zones    = "${var.zones}"
 
-  vm_count                           = "${var.opsman_vm ? 1 : 0}"
   opsman_storage_bucket_count        = "${var.opsman_storage_bucket_count}"
   create_iam_service_account_members = "${var.create_iam_service_account_members}"
   opsman_machine_type                = "${var.opsman_machine_type}"

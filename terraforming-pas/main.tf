@@ -32,7 +32,6 @@ module "ops_manager" {
 
   opsman_storage_bucket_count = "${var.opsman_storage_bucket_count}"
 
-  vm_count                           = "${var.opsman_image_url == "" ? 0 : 1}"
   opsman_machine_type                = "${var.opsman_machine_type}"
   opsman_image_url                   = "${var.opsman_image_url}"
   optional_opsman_image_url          = "${var.optional_opsman_image_url}"
