@@ -10,12 +10,20 @@ network-properties:
   singleton_availability_zone:
     name: {{index .azs 0}}
 product-properties:
-  .properties.domain:
-    value: {{.control_plane_domain}}
+  .properties.root_domain:
+    value: {{.dns_zone_name}}
 resource-config:
   web:
     elb_names:
     - tcp:{{.control_plane_lb_name}}
+    internet_connected: false
+  uaa:
+    elb_names:
+    - http:{{.uaa_lb_name}}
+    internet_connected: false
+  credhub:
+    elb_names:
+    - http:{{.credhub_lb_name}}
     internet_connected: false
   db:
     internet_connected: false

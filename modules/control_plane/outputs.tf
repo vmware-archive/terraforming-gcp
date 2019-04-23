@@ -2,6 +2,14 @@ output "load_balancer_name" {
   value = "${module.plane-lb.name}"
 }
 
+output "uaa_load_balancer_name" {
+  value = "${google_compute_backend_service.uaa_backend_service.name}"
+}
+
+output "credhub_load_balancer_name" {
+  value = "${google_compute_backend_service.credhub_backend_service.name}"
+}
+
 output "subnet_name" {
   value = "${google_compute_subnetwork.control-plane.name}"
 }

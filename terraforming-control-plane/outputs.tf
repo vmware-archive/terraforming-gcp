@@ -135,6 +135,14 @@ output "control_plane_lb_name" {
   value = "${module.control_plane.load_balancer_name}"
 }
 
+output "uaa_lb_name" {
+  value = "${module.control_plane.uaa_load_balancer_name}"
+}
+
+output "credhub_lb_name" {
+  value = "${module.control_plane.credhub_load_balancer_name}"
+}
+
 output "control_plane_subnet_name" {
   value = "${module.control_plane.subnet_name}"
 }

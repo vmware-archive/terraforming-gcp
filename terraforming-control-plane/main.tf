@@ -6,6 +6,17 @@ provider "google" {
   version = "~> 1.20"
 }
 
+# The google beta provider has the google_compute_managed_ssl_certificate
+# feature, which we want to take advantage of in control plane
+provider "google-beta" {
+  alias       = "beta"
+  project     = "${var.project}"
+  region      = "${var.region}"
+  credentials = "${var.service_account_key}"
+
+  version = "~> 2.5"
+}
+
 terraform {
   required_version = "< 0.12.0"
 }
@@ -57,6 +68,10 @@ module "control_plane" {
   network           = "${module.infra.network}"
   dns_zone_name     = "${module.infra.dns_zone_name}"
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
+
+  providers = {
+    google = "google-beta.beta"
+  }
 }
 
 # Optional
