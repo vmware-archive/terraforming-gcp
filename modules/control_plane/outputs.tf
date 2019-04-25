@@ -25,3 +25,7 @@ output "subnet_cidrs" {
 output "domain" {
   value = "${replace(google_dns_record_set.control-plane.name, "/\\.$/", "")}"
 }
+
+output "uaa_cert_id" {
+  value = "${google_compute_managed_ssl_certificate.uaa_managed_cert.certificate_id}"
+}
