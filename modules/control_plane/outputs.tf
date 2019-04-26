@@ -26,6 +26,14 @@ output "domain" {
   value = "${replace(google_dns_record_set.control-plane.name, "/\\.$/", "")}"
 }
 
+output "uaa_domain" {
+  value = "${replace(google_dns_record_set.uaa.name, "/\\.$/", "")}"
+}
+
+output "credhub_domain" {
+  value = "${replace(google_dns_record_set.credhub.name, "/\\.$/", "")}"
+}
+
 output "uaa_cert_id" {
   value = "${google_compute_managed_ssl_certificate.uaa_managed_cert.certificate_id}"
 }

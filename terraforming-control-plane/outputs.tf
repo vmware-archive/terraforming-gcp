@@ -159,6 +159,14 @@ output "control_plane_subnet_cidr" {
   value = "${module.control_plane.subnet_cidrs}"
 }
 
+output "uaa_domain" {
+  value = "${module.control_plane.uaa_domain}"
+}
+
+output "credhub_domain" {
+  value = "${module.control_plane.credhub_domain}"
+}
+
 #DEPRECATED
 output "control_plane_subnet_cidrs" {
   value = ["${module.control_plane.subnet_cidrs}"]
