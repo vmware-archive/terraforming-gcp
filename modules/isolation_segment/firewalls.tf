@@ -71,6 +71,7 @@ resource "google_compute_firewall" "isoseg-cf-ingress" {
       "22",   # SSH for debugging
       "1801", # rep.diego.rep.listen_addr_securable
       "8853", # bosh-dns.health.server.port
+      "9100", # loggr-metric-scraper.scrape_port
     ]
   }
 }
