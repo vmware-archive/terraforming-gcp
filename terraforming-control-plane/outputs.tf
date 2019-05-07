@@ -27,10 +27,6 @@ output "dns_managed_zone" {
   value = "${module.infra.dns_zone_name}"
 }
 
-output "dns_zone_name" {
-  value = "${replace(module.infra.dns_zone_dns_name, "/\\.$/", "")}"
-}
-
 output "env_dns_zone_name_servers" {
   value = "${module.infra.dns_zone_name_servers}"
 }
@@ -127,6 +123,10 @@ output "opsman_sql_db_name" {
 
 # Control Plane
 
+output "control_plane_root_domain" {
+  value = "${var.env_name}.${var.dns_suffix}"
+}
+
 output "control_plane_domain" {
   value = "${module.control_plane.domain}"
 }
@@ -174,4 +174,8 @@ output "control_plane_subnet_cidrs" {
 
 output "infrastructure_subnet_cidrs" {
   value = "${module.infra.subnet_cidrs}"
+}
+
+output "dns_zone_name" {
+  value = "${replace(module.infra.dns_zone_dns_name, "/\\.$/", "")}"
 }
