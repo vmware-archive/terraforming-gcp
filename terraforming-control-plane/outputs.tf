@@ -139,10 +139,6 @@ output "control_plane_uaa_lb_name" {
   value = "${module.control_plane.uaa_load_balancer_name}"
 }
 
-output "control_plane_uaa_cert_id" {
-  value = "${module.control_plane.uaa_cert_id}"
-}
-
 output "control_plane_credhub_lb_name" {
   value = "${module.control_plane.credhub_load_balancer_name}"
 }
@@ -167,15 +163,6 @@ output "credhub_domain" {
   value = "${module.control_plane.credhub_domain}"
 }
 
-#DEPRECATED
-output "control_plane_subnet_cidrs" {
-  value = ["${module.control_plane.subnet_cidrs}"]
-}
-
-output "infrastructure_subnet_cidrs" {
-  value = "${module.infra.subnet_cidrs}"
-}
-
-output "dns_zone_name" {
-  value = "${replace(module.infra.dns_zone_dns_name, "/\\.$/", "")}"
+output "control_plane_lb_ca_cert" {
+  value = "${module.acme_cert.issuer_pem}"
 }

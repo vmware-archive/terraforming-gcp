@@ -6,17 +6,6 @@ provider "google" {
   version = "~> 1.20"
 }
 
-# The google beta provider has the google_compute_managed_ssl_certificate
-# feature, which we want to take advantage of in control plane
-provider "google-beta" {
-  alias       = "beta"
-  project     = "${var.project}"
-  region      = "${var.region}"
-  credentials = "${var.service_account_key}"
-
-  version = "~> 2.5"
-}
-
 terraform {
   required_version = "< 0.12.0"
 }
@@ -32,6 +21,15 @@ module "infra" {
   internetless                         = "${var.internetless}"
   create_blobstore_service_account_key = "${var.create_blobstore_service_account_key}"
   internal_access_source_ranges        = ["${var.control_plane_cidr}"]
+}
+
+module "acme_cert" {
+  source              = "../modules/acme_cert"
+  project             = "${var.project}"
+  service_account_key = "${var.service_account_key}"
+  common_name         = "${var.env_name}.${var.dns_suffix}"
+  registration_email  = "${var.registration_email}"
+  sans                = ["uaa.${var.env_name}.${var.dns_suffix}", "credhub.${var.env_name}.${var.dns_suffix}"]
 }
 
 module "ops_manager" {
@@ -69,9 +67,8 @@ module "control_plane" {
   dns_zone_name     = "${module.infra.dns_zone_name}"
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
 
-  providers = {
-    google = "google-beta.beta"
-  }
+  lb_cert_pem        = "${module.acme_cert.cert_pem}"
+  lb_private_key_pem = "${module.acme_cert.private_key_pem}"
 }
 
 # Optional

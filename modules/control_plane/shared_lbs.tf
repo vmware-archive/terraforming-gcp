@@ -112,14 +112,14 @@ resource "google_compute_target_https_proxy" "credhub_https_lb_proxy" {
   name             = "${var.env_name}-credhub-httpsproxy"
   description      = "really a load balancer but listed as an https proxy"
   url_map          = "${google_compute_url_map.https_lb_url_map.self_link}"
-  ssl_certificates = ["${google_compute_managed_ssl_certificate.credhub_managed_cert.self_link}"]
+  ssl_certificates = ["${google_compute_ssl_certificate.lb_managed_cert.self_link}"]
 }
 
 resource "google_compute_target_https_proxy" "uaa_https_lb_proxy" {
   name             = "${var.env_name}-uaa-httpsproxy"
   description      = "really a load balancer but listed as an https proxy"
   url_map          = "${google_compute_url_map.https_lb_url_map.self_link}"
-  ssl_certificates = ["${google_compute_managed_ssl_certificate.uaa_managed_cert.self_link}"]
+  ssl_certificates = ["${google_compute_ssl_certificate.lb_managed_cert.self_link}"]
 }
 
 resource "google_compute_global_forwarding_rule" "uaa_https" {

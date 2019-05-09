@@ -80,6 +80,11 @@ variable "opsman_sql_db_host" {
  * Control Plane Options *
  *****************************/
 
+variable "registration_email" {
+  type        = "string"
+  description = "acme registration email"
+}
+
 variable "control_plane_cidr" {
   type        = "string"
   description = "cidr for control plane subnet"

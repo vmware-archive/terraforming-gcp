@@ -1,5 +1,3 @@
-provider google {}
-
 variable "env_name" {
   type = "string"
 }
@@ -29,5 +27,13 @@ variable "dns_zone_name" {
 }
 
 variable "control_plane_cidr" {
+  type = "string"
+}
+
+variable "lb_cert_pem" {
+  type = "string"
+}
+
+variable "lb_private_key_pem" {
   type = "string"
 }
