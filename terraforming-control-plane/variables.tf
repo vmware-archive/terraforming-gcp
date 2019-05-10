@@ -91,6 +91,11 @@ variable "control_plane_cidr" {
   default     = "10.0.12.0/24"
 }
 
+variable "top_level_zone_name" {
+  description = "When provided, the NS records created for the dns zone will be added to this top level zone"
+  default     = ""
+}
+
 ///********************************
 // * Google Cloud Storage Options *
 // ********************************/

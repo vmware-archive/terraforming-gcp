@@ -17,10 +17,10 @@ module "infra" {
   env_name                             = "${var.env_name}"
   region                               = "${var.region}"
   infrastructure_cidr                  = "${var.infrastructure_cidr}"
-  dns_suffix                           = "${var.dns_suffix}"
   internetless                         = "${var.internetless}"
   create_blobstore_service_account_key = "${var.create_blobstore_service_account_key}"
   internal_access_source_ranges        = ["${var.pas_cidr}", "${var.services_cidr}"]
+  root_domain                          = "${var.env_name}.${var.dns_suffix}"
 }
 
 module "ops_manager" {

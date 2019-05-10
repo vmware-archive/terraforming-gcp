@@ -10,6 +10,14 @@ terraform {
   required_version = "< 0.12.0"
 }
 
+module "acme_cert" {
+  source              = "../modules/acme_cert"
+  project             = "${var.project}"
+  service_account_key = "${var.service_account_key}"
+  root_domain         = "${var.env_name}.${var.dns_suffix}"
+  registration_email  = "${var.registration_email}"
+}
+
 module "infra" {
   source = "../modules/infra"
 
@@ -17,19 +25,17 @@ module "infra" {
   env_name                             = "${var.env_name}"
   region                               = "${var.region}"
   infrastructure_cidr                  = "${var.infrastructure_cidr}"
-  dns_suffix                           = "${var.dns_suffix}"
   internetless                         = "${var.internetless}"
   create_blobstore_service_account_key = "${var.create_blobstore_service_account_key}"
   internal_access_source_ranges        = ["${var.control_plane_cidr}"]
+  root_domain                          = "${module.acme_cert.root_domain}"
 }
 
-module "acme_cert" {
-  source              = "../modules/acme_cert"
-  project             = "${var.project}"
-  service_account_key = "${var.service_account_key}"
-  common_name         = "${var.env_name}.${var.dns_suffix}"
-  registration_email  = "${var.registration_email}"
-  sans                = ["uaa.${var.env_name}.${var.dns_suffix}", "credhub.${var.env_name}.${var.dns_suffix}"]
+module "add_ns_to_dns_zone" {
+  source              = "../modules/add_ns_to_dns_zone"
+  top_level_zone_name = "${var.top_level_zone_name}"
+  zone_name           = "${module.infra.dns_zone_name}"
+  name_servers        = "${module.infra.dns_zone_name_servers}"
 }
 
 module "ops_manager" {

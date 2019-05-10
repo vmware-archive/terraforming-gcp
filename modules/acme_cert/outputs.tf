@@ -18,3 +18,7 @@ output "ca_cert_url" {
 output "issuer_pem" {
   value = "${acme_certificate.certificate.issuer_pem}"
 }
+
+output "root_domain" {
+  value = "${acme_certificate.certificate.common_name}"
+}

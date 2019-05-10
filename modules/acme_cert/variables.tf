@@ -6,14 +6,10 @@ variable "project" {
   type = "string"
 }
 
-variable "common_name" {
-  type = "string"
-}
-
 variable "registration_email" {
   type = "string"
 }
 
-variable "sans" {
-  type = "list"
+variable "root_domain" {
+  type = "string"
 }
