@@ -165,6 +165,7 @@ jobs:
         ACTION: add
       input_mapping:
         env-state: env-state-gcp
+      timeout: 60m
     - task: configure-director
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
@@ -263,6 +264,7 @@ jobs:
         ACTION: add
       input_mapping:
         env-state: env-state-gcp
+      timeout: 60m
     - task: configure-director
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
