@@ -34,7 +34,7 @@ module "infra" {
 module "add_ns_to_dns_zone" {
   source              = "../modules/add_ns_to_dns_zone"
   top_level_zone_name = "${var.top_level_zone_name}"
-  zone_name           = "${module.infra.dns_zone_name}"
+  zone_name           = "${module.infra.dns_zone_dns_name}"
   name_servers        = "${module.infra.dns_zone_name_servers}"
 }
 

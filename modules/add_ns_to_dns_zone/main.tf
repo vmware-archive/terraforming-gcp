@@ -1,6 +1,6 @@
 resource "google_dns_record_set" "name_servers" {
   count = "${var.top_level_zone_name == "" ? 0 : 1}"
-  name  = "${var.zone_name}."
+  name  = "${var.zone_name}"
   type  = "NS"
   ttl   = 60
 
