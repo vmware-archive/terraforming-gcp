@@ -11,7 +11,13 @@ network-properties:
     name: {{index .azs 0}}
 product-properties:
   .properties.root_domain:
-    value: {{.dns_zone_name}}
+    value: {{.control_plane_root_domain}}
+  .properties.tls:
+    value:
+      cert_pem: {{printf "%q" .control_plane_cert}}
+      private_key_pem: {{printf "%q" .control_plane_key}}
+  .properties.uaa_ca_cert:
+    value: {{printf "%q" .control_plane_lb_ca_cert}}
 resource-config:
   web:
     elb_names:
