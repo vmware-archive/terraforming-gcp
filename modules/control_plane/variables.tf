@@ -34,6 +34,10 @@ variable "lb_cert_pem" {
   type = "string"
 }
 
+variable "lb_issuer_cert" {
+  type = "string"
+}
+
 variable "lb_private_key_pem" {
   type = "string"
 }

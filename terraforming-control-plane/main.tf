@@ -73,6 +73,7 @@ module "control_plane" {
   dns_zone_name     = "${module.infra.dns_zone_name}"
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
 
+  lb_issuer_cert     = "${module.acme_cert.issuer_pem}"
   lb_cert_pem        = "${module.acme_cert.cert_pem}"
   lb_private_key_pem = "${module.acme_cert.private_key_pem}"
 }
