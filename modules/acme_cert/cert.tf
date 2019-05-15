@@ -26,8 +26,9 @@ resource "acme_certificate" "certificate" {
     provider = "gcloud"
 
     config {
-      GCE_PROJECT         = "${var.project}"
-      GCE_SERVICE_ACCOUNT = "${var.service_account_key}"
+      GCE_PROJECT             = "${var.project}"
+      GCE_SERVICE_ACCOUNT     = "${var.service_account_key}"
+      GCE_PROPAGATION_TIMEOUT = "${240}"
     }
   }
 }
