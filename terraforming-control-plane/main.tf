@@ -10,14 +10,6 @@ terraform {
   required_version = "< 0.12.0"
 }
 
-module "acme_cert" {
-  source              = "../modules/acme_cert"
-  project             = "${var.project}"
-  service_account_key = "${var.service_account_key}"
-  root_domain         = "${var.env_name}.${var.dns_suffix}"
-  registration_email  = "${var.registration_email}"
-}
-
 module "infra" {
   source = "../modules/infra"
 
@@ -28,7 +20,7 @@ module "infra" {
   internetless                         = "${var.internetless}"
   create_blobstore_service_account_key = "${var.create_blobstore_service_account_key}"
   internal_access_source_ranges        = ["${var.control_plane_cidr}"]
-  root_domain                          = "${module.acme_cert.root_domain}"
+  root_domain                          = "${var.env_name}.${var.dns_suffix}"
 }
 
 module "add_ns_to_dns_zone" {
@@ -73,9 +65,9 @@ module "control_plane" {
   dns_zone_name     = "${module.infra.dns_zone_name}"
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
 
-  lb_issuer_cert     = "${module.acme_cert.issuer_pem}"
-  lb_cert_pem        = "${module.acme_cert.cert_pem}"
-  lb_private_key_pem = "${module.acme_cert.private_key_pem}"
+  lb_cert_pem        = "${var.tls_wildcard_certificate}"
+  lb_issuer_cert     = "${var.tls_ca_certificate}"
+  lb_private_key_pem = "${var.tls_private_key}"
 }
 
 # Optional

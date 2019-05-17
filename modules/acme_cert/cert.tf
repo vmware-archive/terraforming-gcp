@@ -28,7 +28,9 @@ resource "acme_certificate" "certificate" {
     config {
       GCE_PROJECT             = "${var.project}"
       GCE_SERVICE_ACCOUNT     = "${var.service_account_key}"
-      GCE_PROPAGATION_TIMEOUT = "${240}"
+      GCE_PROPAGATION_TIMEOUT = "240"
+      GCE_DEBUG               = "true"
+      GCE_POLLING_INTERVAL    = "60"
     }
   }
 }

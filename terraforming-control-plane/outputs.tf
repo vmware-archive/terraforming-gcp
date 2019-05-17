@@ -164,5 +164,5 @@ output "credhub_domain" {
 }
 
 output "control_plane_lb_ca_cert" {
-  value = "${module.acme_cert.issuer_pem}"
+  value = "${var.tls_ca_certificate}"
 }

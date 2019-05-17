@@ -20,6 +20,18 @@ variable "zones" {
   type = "list"
 }
 
+variable "tls_wildcard_certificate" {
+  description = "Public certificate used for tls connections to UAA and Credhub."
+}
+
+variable "tls_ca_certificate" {
+  description = "CA certificate used for tls wildcard certificate."
+}
+
+variable "tls_private_key" {
+  description = "Private key used for tls wildcard certificate."
+}
+
 variable "opsman_image_url" {
   type        = "string"
   description = "Location of ops manager image on google cloud storage"
