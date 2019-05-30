@@ -136,6 +136,7 @@ resource "google_compute_firewall" "cf-isoseg-egress" {
       "8853",  # bosh-dns.health.server.port
       "8889",  # bbs.diego.bbs.listen_addr
       "8891",  # locket.diego.locket.listen_addr
+      "9000",  # loggr-syslog-binding-cache.external_port
       "9022",  # cloud_controller_ng.cc.external_port
       "9023",  # cloud_controller_ng.cc.tls_port
       "9090",  # cc_uploader.http_port
