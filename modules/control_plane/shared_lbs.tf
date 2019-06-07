@@ -1,7 +1,7 @@
 locals {
   uaa_lb_name              = "${var.env_name}-uaa-lb"
   credhub_lb_name          = "${var.env_name}-credhub-lb"
-  uaa_healthcheck_port     = "8080"
+  uaa_healthcheck_port     = "8443"
   credhub_healthcheck_port = "8844"
   google_healthcheck_ips   = ["130.211.0.0/22", "35.191.0.0/16"]
   dns_name                 = "${replace(var.dns_zone_dns_name, "/\\.$/", "")}"
@@ -145,7 +145,7 @@ resource "google_compute_https_health_check" "credhub_lb" {
 resource "google_compute_health_check" "uaa_lb" {
   name = "${var.env_name}-uaa-health-check"
 
-  http_health_check = {
+  https_health_check = {
     request_path = "/healthz"
     port         = "${local.uaa_healthcheck_port}"
   }
