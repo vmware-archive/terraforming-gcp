@@ -48,7 +48,7 @@ resource "google_compute_backend_service" "credhub_backend_service" {
     group = "${google_compute_instance_group.credhub_lb.2.self_link}"
   }
 
-  health_checks = ["${google_compute_https_health_check.credhub_lb.self_link}"]
+  health_checks = ["${google_compute_health_check.credhub_lb.self_link}"]
 }
 
 resource "google_compute_instance_group" "uaa_lb" {
@@ -136,10 +136,13 @@ resource "google_compute_global_forwarding_rule" "credhub_https" {
   port_range = "443"
 }
 
-resource "google_compute_https_health_check" "credhub_lb" {
-  name         = "${var.env_name}-credhub-health-check"
-  port         = "${local.credhub_healthcheck_port}"
-  request_path = "/health"
+resource "google_compute_health_check" "credhub_lb" {
+  name = "${var.env_name}-credhub-health-check"
+
+  http_health_check = {
+    request_path = "/health"
+    port         = "${local.credhub_healthcheck_port}"
+  }
 }
 
 resource "google_compute_health_check" "uaa_lb" {
