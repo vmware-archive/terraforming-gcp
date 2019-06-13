@@ -2,7 +2,7 @@ locals {
   uaa_lb_name              = "${var.env_name}-uaa-lb"
   credhub_lb_name          = "${var.env_name}-credhub-lb"
   uaa_healthcheck_port     = "8443"
-  credhub_healthcheck_port = "8844"
+  credhub_healthcheck_port = "8845"
   google_healthcheck_ips   = ["130.211.0.0/22", "35.191.0.0/16"]
   dns_name                 = "${replace(var.dns_zone_dns_name, "/\\.$/", "")}"
 }
