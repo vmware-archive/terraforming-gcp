@@ -25,3 +25,10 @@ resource "google_storage_bucket" "resources" {
   force_destroy = true
   count         = "${var.create_gcs_buckets ? 1 : 0}"
 }
+
+resource "google_storage_bucket" "backup" {
+  name          = "${var.project}-${var.env_name}-backup"
+  location      = "${var.buckets_location}"
+  force_destroy = true
+  count         = "${var.create_gcs_buckets ? 1 : 0}"
+}
