@@ -69,6 +69,7 @@ resources:
       region: us-east1
       zones: ["us-east1-b", "us-east1-c",  "us-east1-d"]
       dns_suffix: gcp.infrastructure.cf-app.com
+      top_level_zone_name: ((terraforming-gcp-root-zone-name))
       isolation_segment: true
       service_account_key: ((cf_infra_gcp_service_account_key))
       ssl_cert: ((terraforming-gcp.certificate))
