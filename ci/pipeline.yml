@@ -13,14 +13,6 @@ resource_types:
     tag: latest-final
 
 shared:
-- params: &modify-terraforming-dns-params
-    GCP_DNS_PROJECT_ID: ((cf_infra_gcp_project_id))
-    GCP_DNS_SERVICE_ACCOUNT_EMAIL: ((cf_infra_gcp_service_account_email))
-    GCP_DNS_SERVICE_ACCOUNT_KEY: ((cf_infra_gcp_service_account_key))
-    GCP_DNS_ZONE_NAME: infrastructure
-    GCP_DNS_SUFFIX: gcp.infrastructure.cf-app.com
-    GCP_DNS_RECORD_TTL: 60
-
 - params: &om-creds
     OM_USERNAME: ((om.username))
     OM_PASSWORD: ((om.password))
@@ -128,7 +120,7 @@ jobs:
   serial: true
   public: false
   plan:
-  - aggregate:
+  - in_parallel:
     - get: after-midnight
       trigger: true
     - get: terraforming
@@ -158,14 +150,8 @@ jobs:
         terraform_source: terraforming/terraforming-pas
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
-    - task: add-dns
-      file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
-      params:
-        <<: *modify-terraforming-dns-params
-        ACTION: add
-      input_mapping:
-        env-state: env-state-gcp
-      timeout: 60m
+        override_files:
+        - terraforming/ci/dns-override/gcp_dns_root_zone_override.tf
     - task: configure-director
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
@@ -208,29 +194,23 @@ jobs:
           OPSMAN_URL_SUFFIX: gcp.infrastructure.cf-app.com
         input_mapping:
           environment: env-state-gcp
-      - aggregate:
-        - task: remove-dns
-          file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
-          params:
-            <<: *modify-terraforming-dns-params
-            ACTION: remove
-          input_mapping:
-            env-state: env-state-gcp
-        - put: env-state-gcp
-          params:
-            terraform_source: terraforming/terraforming-pas
-            delete_on_failure: true
-            env_name_file: env-state-gcp/name
-            action: destroy
-            var_files: [tfvars/terraform.yml]
-          get_params:
-            action: destroy
+      - put: env-state-gcp
+        params:
+          terraform_source: terraforming/terraforming-pas
+          delete_on_failure: true
+          env_name_file: env-state-gcp/name
+          action: destroy
+          var_files: [tfvars/terraform.yml]
+          override_files:
+          - terraforming/ci/dns-override/gcp_dns_root_zone_override.tf
+        get_params:
+          action: destroy
 
 - name: deploy-pks
   serial: true
   public: false
   plan:
-  - aggregate:
+  - in_parallel:
     - get: after-midnight
       trigger: true
     - get: terraforming
@@ -257,14 +237,8 @@ jobs:
         terraform_source: terraforming/terraforming-pks
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
-    - task: add-dns
-      file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
-      params:
-        <<: *modify-terraforming-dns-params
-        ACTION: add
-      input_mapping:
-        env-state: env-state-gcp
-      timeout: 60m
+        override_files:
+        - terraforming/ci/dns-override/gcp_dns_root_zone_override.tf
     - task: configure-director
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
@@ -307,28 +281,22 @@ jobs:
           OPSMAN_URL_SUFFIX: gcp.infrastructure.cf-app.com
         input_mapping:
           environment: env-state-gcp
-      - aggregate:
-        - task: remove-dns
-          file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
-          params:
-            <<: *modify-terraforming-dns-params
-            ACTION: remove
-          input_mapping:
-            env-state: env-state-gcp
-        - put: env-state-gcp
-          params:
-            terraform_source: terraforming/terraforming-pks
-            env_name_file: env-state-gcp/name
-            delete_on_failure: true
-            action: destroy
-            var_files: [tfvars/terraform.yml]
-          get_params:
-            action: destroy
+      - put: env-state-gcp
+        params:
+          terraform_source: terraforming/terraforming-pks
+          env_name_file: env-state-gcp/name
+          delete_on_failure: true
+          action: destroy
+          var_files: [tfvars/terraform.yml]
+          override_files:
+          - terraforming/ci/dns-override/gcp_dns_root_zone_override.tf
+        get_params:
+          action: destroy
 
 - name: publish
   serial: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: terraforming
       passed:
       - deploy-pas
