@@ -1,5 +1,5 @@
 resource "google_dns_record_set" "name_servers" {
-  name = "${var.env_name}.${var.dns_suffix}"
+  name = "${var.env_name}.${var.dns_suffix}."
   type = "NS"
   ttl  = 60
 
