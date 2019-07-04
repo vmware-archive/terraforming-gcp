@@ -30,6 +30,10 @@ output "resources_bucket" {
   value = "${element(concat(google_storage_bucket.resources.*.name, list("")), 0)}"
 }
 
+output "backup_bucket" {
+  value = "${element(concat(google_storage_bucket.backup.*.name, list("")), 0)}"
+}
+
 output "ws_router_pool" {
   value = "${module.websocket.name}"
 }
