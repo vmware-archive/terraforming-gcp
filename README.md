@@ -30,7 +30,7 @@ brew install terraform
 
 ## Deploying Ops Manager
 
-*Note:* If you're using Platform Automation, be sure to skip this step as explained [here](/README.md#ops-manager-optional). If you create your Ops Manager here, you will not be able to manage it with [Platform Automation](docs.pivotal.io/platform-automation).
+*Note:* If you're using Platform Automation, be sure to skip this step as explained [here](/README.md#ops-manager-optional). If you create your Ops Manager here, you will not be able to manage it with [Platform Automation](https://docs.pivotal.io/platform-automation).
 
 Depending if you're deploying PAS, PKS or Control Plane you need to perform the following steps:
 
