@@ -1,5 +1,5 @@
 resource "google_dns_record_set" "ops-manager-dns" {
-  name = "pcf.${var.dns_zone_dns_name}"
+  name = "ops-manager.${var.dns_zone_dns_name}"
   type = "A"
   ttl  = 300
 
