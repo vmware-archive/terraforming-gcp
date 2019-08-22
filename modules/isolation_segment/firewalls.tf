@@ -125,9 +125,9 @@ resource "google_compute_firewall" "cf-isoseg-egress" {
       "4103",  # silk-controller.listen_port
       "4222",  # nats.nats.port
       "4443",  # blobstore.blobstore.tls.port
-      "8080",  # blobstore.blobstore.port, file_server.diego.file_server.listen_addr (PAS only)
+      "8080",  # blobstore.blobstore.port, file_server.diego.file_server.listen_addr (diego_brain instance group, PAS)
       "8082",  # reverse_log_proxy_port
-      "8084",  # file_server.diego.file_server.listen_addr (8080 is PAS)
+      "8084",  # file_server.diego.file_server.listen_addr (control instance group, SF PAS)
       "8300",  # default consul server port
       "8301",  # default consul serf lan port
       "8302",  # default consul serf wan port
