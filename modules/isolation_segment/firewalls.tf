@@ -132,6 +132,7 @@ resource "google_compute_firewall" "cf-isoseg-egress" {
       "8301",  # default consul serf lan port
       "8302",  # default consul serf wan port
       "8443",  # uaa.ssl.port
+      "8447",  # file_server.https_listen_addr
       "8844",  # credhub.port
       "8853",  # bosh-dns.health.server.port
       "8889",  # bbs.diego.bbs.listen_addr
