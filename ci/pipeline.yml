@@ -116,6 +116,16 @@ resources:
     product_version: ^\d+\.\d+\.\d+
     sort_by: semver
 
+- name: tile-ci
+  type: git
+  source:
+    branch: master
+    paths:
+    - ci/*
+    - config/*
+    private_key: ((control-plane-tile-repo.private_key))
+    uri: git@github.com:pivotal/control-plane-tile.git
+
 jobs:
 - name: deploy-pas
   serial: true
@@ -139,6 +149,8 @@ jobs:
       params:
         globs:
         - '*gcp*.yml'
+    - get: cp-ci
+      resource: tile-ci
   - do:
     - task: opsman-url
       file: ci/scripts/terraforming/latest-opsman/task.yml
@@ -153,6 +165,13 @@ jobs:
         var_files: [tfvars/terraform.yml]
         override_files:
         - terraforming/ci/dns-override/gcp_dns_root_zone_override.tf
+    - task: configure-authentication
+      file: cp-ci/ci/tasks/configure-authentication/task.yml
+      params:
+        OM_PASSWORD: ((om.password))
+        OM_USERNAME: ((om.username))
+      input_mapping:
+        env-state: env-state-gcp
     - task: configure-director
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
@@ -226,6 +245,8 @@ jobs:
       params:
         globs:
         - '*gcp*.yml'
+    - get: cp-ci
+      resource: tile-ci
   - do:
     - task: opsman-url
       file: ci/scripts/terraforming/latest-opsman/task.yml
@@ -240,6 +261,13 @@ jobs:
         var_files: [tfvars/terraform.yml]
         override_files:
         - terraforming/ci/dns-override/gcp_dns_root_zone_override.tf
+    - task: configure-authentication
+      file: cp-ci/ci/tasks/configure-authentication/task.yml
+      params:
+        OM_PASSWORD: ((om.password))
+        OM_USERNAME: ((om.username))
+      input_mapping:
+        env-state: env-state-gcp
     - task: configure-director
       file: ci/scripts/terraforming/configure-director/task.yml
       params:
