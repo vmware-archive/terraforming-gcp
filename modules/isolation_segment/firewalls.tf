@@ -116,9 +116,6 @@ resource "google_compute_firewall" "cf-isoseg-egress" {
     protocol = "tcp"
 
     ports = [
-      "4222",  # bosh.nats.port
-      "25250", # bosh.blobstore.port
-      "25777", # bosh.registry.port
       "3000",  # routing-api.routing_api.port
       "3457",  # loggregator_agent.listening_port
       "4003",  # vxlan-policy-agent.policy_server.internal_listen_port
@@ -126,7 +123,7 @@ resource "google_compute_firewall" "cf-isoseg-egress" {
       "4222",  # nats.nats.port
       "4443",  # blobstore.blobstore.tls.port
       "8080",  # blobstore.blobstore.port, file_server.diego.file_server.listen_addr (diego_brain instance group, PAS)
-      "8082",  # reverse_log_proxy_port
+      "8082",  # reverse_log_proxy.egress.port
       "8084",  # file_server.diego.file_server.listen_addr (control instance group, SF PAS)
       "8300",  # default consul server port
       "8301",  # default consul serf lan port
@@ -142,6 +139,8 @@ resource "google_compute_firewall" "cf-isoseg-egress" {
       "9023",  # cloud_controller_ng.cc.tls_port
       "9090",  # cc_uploader.http_port
       "9091",  # cc_uploader.https_port
+      "25250", # bosh.blobstore.port
+      "25777", # bosh.registry.port
     ]
   }
 
