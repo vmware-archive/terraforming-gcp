@@ -17,10 +17,10 @@ module "infra" {
   env_name                             = "${var.env_name}"
   region                               = "${var.region}"
   infrastructure_cidr                  = "${var.infrastructure_cidr}"
-  dns_suffix                           = "${var.dns_suffix}"
   internetless                         = "${var.internetless}"
   create_blobstore_service_account_key = "${var.create_blobstore_service_account_key}"
   internal_access_source_ranges        = ["${var.pas_cidr}", "${var.services_cidr}"]
+  root_domain                          = "${var.env_name}.${var.dns_suffix}"
 }
 
 module "ops_manager" {
@@ -32,7 +32,6 @@ module "ops_manager" {
 
   opsman_storage_bucket_count = "${var.opsman_storage_bucket_count}"
 
-  vm_count                           = "${var.opsman_image_url == "" ? 0 : 1}"
   opsman_machine_type                = "${var.opsman_machine_type}"
   opsman_image_url                   = "${var.opsman_image_url}"
   optional_opsman_image_url          = "${var.optional_opsman_image_url}"

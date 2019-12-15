@@ -20,6 +20,18 @@ variable "zones" {
   type = "list"
 }
 
+variable "tls_wildcard_certificate" {
+  description = "Public certificate used for tls connections to UAA and Credhub."
+}
+
+variable "tls_ca_certificate" {
+  description = "CA certificate used for tls wildcard certificate."
+}
+
+variable "tls_private_key" {
+  description = "Private key used for tls wildcard certificate."
+}
+
 variable "opsman_image_url" {
   type        = "string"
   description = "Location of ops manager image on google cloud storage"
@@ -64,10 +76,6 @@ variable "internetless" {
 // * OpsMan Options *
 // ******************/
 
-variable "opsman_vm" {
-  default = true
-}
-
 variable "opsman_storage_bucket_count" {
   type        = "string"
   description = "Optional configuration of a Google Storage Bucket for BOSH's blobstore"
@@ -88,6 +96,11 @@ variable "control_plane_cidr" {
   type        = "string"
   description = "cidr for control plane subnet"
   default     = "10.0.12.0/24"
+}
+
+variable "top_level_zone_name" {
+  description = "When provided, the NS records created for the dns zone will be added to this top level zone"
+  default     = ""
 }
 
 ///********************************

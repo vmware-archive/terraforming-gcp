@@ -2,6 +2,14 @@ output "load_balancer_name" {
   value = "${module.plane-lb.name}"
 }
 
+output "uaa_load_balancer_name" {
+  value = "${google_compute_backend_service.uaa_backend_service.name}"
+}
+
+output "credhub_load_balancer_name" {
+  value = "${google_compute_backend_service.credhub_backend_service.name}"
+}
+
 output "subnet_name" {
   value = "${google_compute_subnetwork.control-plane.name}"
 }
@@ -16,4 +24,12 @@ output "subnet_cidrs" {
 
 output "domain" {
   value = "${replace(google_dns_record_set.control-plane.name, "/\\.$/", "")}"
+}
+
+output "uaa_domain" {
+  value = "${replace(google_dns_record_set.uaa.name, "/\\.$/", "")}"
+}
+
+output "credhub_domain" {
+  value = "${replace(google_dns_record_set.credhub.name, "/\\.$/", "")}"
 }

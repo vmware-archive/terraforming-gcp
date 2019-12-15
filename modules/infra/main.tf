@@ -13,7 +13,7 @@ resource "google_compute_subnetwork" "infrastructure" {
 
 resource "google_dns_managed_zone" "default" {
   name        = "${var.env_name}-zone"
-  dns_name    = "${var.env_name}.${var.dns_suffix}."
+  dns_name    = "${var.root_domain}."
   description = "DNS zone for the ${var.env_name} environment"
 }
 

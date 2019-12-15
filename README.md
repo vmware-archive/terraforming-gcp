@@ -28,7 +28,12 @@ brew install Caskroom/cask/google-cloud-sdk
 brew install terraform
 ```
 
-## Deploying Ops Manager
+## Are you using Platform Automation?
+Be sure to skip the creation of the Ops Manager VM. Do not include the vars listed [here](/README.md#ops-manager-optional). If you create your Ops Manager using terraform, you will not be able to manage it with [Platform Automation](https://docs.pivotal.io/platform-automation).
+
+Deployment of the infrastructure is still required.
+
+## Deploying Infrastructure
 
 Depending if you're deploying PAS, PKS or Control Plane you need to perform the following steps:
 

@@ -39,12 +39,19 @@ product-properties:
   .properties.cloud_provider.gcp.network:
     value: {{.network_name}}
   .properties.cloud_provider.gcp.master_service_account:
-    value: {{.pks_master_node_service_account_key}}
+    value: {{.pks_master_node_service_account_email}}
   .properties.cloud_provider.gcp.worker_service_account:
-    value: {{.pks_worker_node_service_account_key}}
+    value: {{.pks_worker_node_service_account_email}}
+  .properties.oidc_selector:
+    value: disabled
   .properties.telemetry_selector:
     value: disabled
+  .properties.telemetry_installation_purpose_selector:
+    value: not_provided
 resource-config:
   pivotal-container-service:
     elb_names:
     - tcp:{{.pks_lb_backend_name}}
+errand-config:
+  smoke-tests:
+    post-deploy-state: true

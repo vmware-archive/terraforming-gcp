@@ -17,10 +17,17 @@ module "infra" {
   env_name                             = "${var.env_name}"
   region                               = "${var.region}"
   infrastructure_cidr                  = "${var.infrastructure_cidr}"
-  dns_suffix                           = "${var.dns_suffix}"
   internetless                         = "${var.internetless}"
   create_blobstore_service_account_key = "${var.create_blobstore_service_account_key}"
   internal_access_source_ranges        = ["${var.control_plane_cidr}"]
+  root_domain                          = "${var.env_name}.${var.dns_suffix}"
+}
+
+module "add_ns_to_dns_zone" {
+  source              = "../modules/add_ns_to_dns_zone"
+  top_level_zone_name = "${var.top_level_zone_name}"
+  zone_name           = "${module.infra.dns_zone_dns_name}"
+  name_servers        = "${module.infra.dns_zone_name_servers}"
 }
 
 module "ops_manager" {
@@ -30,7 +37,6 @@ module "ops_manager" {
   env_name = "${var.env_name}"
   zones    = "${var.zones}"
 
-  vm_count                           = "${var.opsman_vm ? 1 : 0}"
   opsman_storage_bucket_count        = "${var.opsman_storage_bucket_count}"
   create_iam_service_account_members = "${var.create_iam_service_account_members}"
   opsman_machine_type                = "${var.opsman_machine_type}"
@@ -58,6 +64,10 @@ module "control_plane" {
   network           = "${module.infra.network}"
   dns_zone_name     = "${module.infra.dns_zone_name}"
   dns_zone_dns_name = "${module.infra.dns_zone_dns_name}"
+
+  lb_cert_pem        = "${var.tls_wildcard_certificate}"
+  lb_issuer_cert     = "${var.tls_ca_certificate}"
+  lb_private_key_pem = "${var.tls_private_key}"
 }
 
 # Optional

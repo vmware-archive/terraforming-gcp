@@ -27,10 +27,6 @@ output "dns_managed_zone" {
   value = "${module.infra.dns_zone_name}"
 }
 
-output "dns_zone_name" {
-  value = "${replace(module.infra.dns_zone_dns_name, "/\\.$/", "")}"
-}
-
 output "env_dns_zone_name_servers" {
   value = "${module.infra.dns_zone_name_servers}"
 }
@@ -127,12 +123,24 @@ output "opsman_sql_db_name" {
 
 # Control Plane
 
+output "control_plane_root_domain" {
+  value = "${var.env_name}.${var.dns_suffix}"
+}
+
 output "control_plane_domain" {
   value = "${module.control_plane.domain}"
 }
 
 output "control_plane_lb_name" {
   value = "${module.control_plane.load_balancer_name}"
+}
+
+output "control_plane_uaa_lb_name" {
+  value = "${module.control_plane.uaa_load_balancer_name}"
+}
+
+output "control_plane_credhub_lb_name" {
+  value = "${module.control_plane.credhub_load_balancer_name}"
 }
 
 output "control_plane_subnet_name" {
@@ -147,11 +155,14 @@ output "control_plane_subnet_cidr" {
   value = "${module.control_plane.subnet_cidrs}"
 }
 
-#DEPRECATED
-output "control_plane_subnet_cidrs" {
-  value = ["${module.control_plane.subnet_cidrs}"]
+output "uaa_domain" {
+  value = "${module.control_plane.uaa_domain}"
 }
 
-output "infrastructure_subnet_cidrs" {
-  value = "${module.infra.subnet_cidrs}"
+output "credhub_domain" {
+  value = "${module.control_plane.credhub_domain}"
+}
+
+output "control_plane_lb_ca_cert" {
+  value = "${var.tls_ca_certificate}"
 }

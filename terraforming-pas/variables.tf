@@ -194,10 +194,3 @@ variable "jumpbox_init_script" {
   description = "Path to the script for initiliazing the jumpbox vm."
   default     = ""
 }
-
-/*******************************
- * Deprecated, Delete After Next Release *
- *******************************/
-variable "opsman_vm" {
-  default = true
-}

@@ -160,6 +160,10 @@ output "resources_bucket" {
   value = "${module.pas.resources_bucket}"
 }
 
+output "backup_bucket" {
+  value = "${module.pas.backup_bucket}"
+}
+
 output "pas_subnet_gateway" {
   value = "${module.pas.pas_subnet_gateway}"
 }
