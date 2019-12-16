@@ -1,4 +1,4 @@
-# Terraforming GCP [![build-status](https://infra.ci.cf-app.com/api/v1/teams/main/pipelines/terraforming-gcp/jobs/deploy-pas/badge)](https://infra.ci.cf-app.com/teams/main/pipelines/terraforming-gcp)
+# Terraforming GCP
 
 ## How Does One Use This?
 
