@@ -123,13 +123,11 @@ resource "google_compute_firewall" "cf-isoseg-egress" {
       "4003",  # vxlan-policy-agent.policy_server.internal_listen_port
       "4103",  # silk-controller.listen_port
       "4222",  # nats.nats.port
-      "4443",  # blobstore.blobstore.tls.port
-      "8080",  # blobstore.blobstore.port, file_server.diego.file_server.listen_addr (diego_brain instance group, PAS)
+      "4443",  # capi.blobstore.tls.port
+      "8080",  # capi.blobstore.port, file_server.diego.file_server.listen_addr (diego_brain instance group, PAS)
       "8082",  # reverse_log_proxy.egress.port
+      "8083",  # log-cache.log-cache-cf-auth-proxy.proxy_port
       "8084",  # file_server.diego.file_server.listen_addr (control instance group, SF PAS)
-      "8300",  # default consul server port
-      "8301",  # default consul serf lan port
-      "8302",  # default consul serf wan port
       "8443",  # uaa.ssl.port
       "8447",  # file_server.https_listen_addr
       "8844",  # credhub.port
@@ -143,16 +141,6 @@ resource "google_compute_firewall" "cf-isoseg-egress" {
       "9091",  # cc_uploader.https_port
       "25250", # bosh.blobstore.port
       "25777", # bosh.registry.port
-    ]
-  }
-
-  allow {
-    protocol = "udp"
-
-    ports = [
-      "8301", # default consul serf lan port
-      "8302", # default consul serf wan port
-      "8600", # default consul dns
     ]
   }
 }
