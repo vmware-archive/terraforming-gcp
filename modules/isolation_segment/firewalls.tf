@@ -5,11 +5,11 @@
 
 These firewall rules are intended to help
 keep this doc up-to-date:
-https://docs.pivotal.io/pivotalcf/2-3/adminguide/routing-is.html#config-firewall
+https://docs.pivotal.io/pivotalcf/adminguide/routing-is.html#config-firewall
 
 If you need to add any new ports to the allowed list, please submit a PR to the
 docs repo to let customers know about the new port:
-https://github.com/cloudfoundry/docs-cf-admin/blob/4.5/routing-is.html.md.erb
+https://github.com/cloudfoundry/docs-cf-admin/blob/master/routing-is.html.md.erb
 
 Also let the PAS RelEng team know so that they can add this as a breaking change to the PAS release notes
 
