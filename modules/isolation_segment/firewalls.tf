@@ -121,7 +121,6 @@ resource "google_compute_firewall" "cf-isoseg-egress" {
     ports = [
       "3000",  # routing-api.routing_api.port
       "3001",  # routing-api.routing_api.mtls_port
-      "3457",  # loggregator_agent.listening_port
       "4003",  # vxlan-policy-agent.policy_server.internal_listen_port
       "4103",  # silk-controller.listen_port
       "4222",  # nats.nats.port
