@@ -11,6 +11,8 @@ If you need to add any new ports to the allowed list, please submit a PR to the
 docs repo to let customers know about the new port:
 https://github.com/cloudfoundry/docs-cf-admin/blob/master/routing-is.html.md.erb
 
+And submit a PR to https://github.com/pivotal/pcats/blob/master/ist_firewalls/firewalls.go so the Releng pipeline will test it.
+
 Also let the PAS RelEng team know so that they can add this as a breaking change to the PAS release notes
 
 Thanks!
