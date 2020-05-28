@@ -124,6 +124,7 @@ resource "google_compute_firewall" "cf-isoseg-egress" {
       "4003",  # vxlan-policy-agent.policy_server.internal_listen_port
       "4103",  # silk-controller.listen_port
       "4222",  # nats.nats.port
+      "4224",  # nats.tls.port
       "4443",  # capi.blobstore.tls.port
       "8080",  # capi.blobstore.port, file_server.diego.file_server.listen_addr (diego_brain instance group, PAS)
       "8082",  # reverse_log_proxy.egress.port
