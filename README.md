@@ -1,3 +1,9 @@
+# DEPRECATION
+
+This repo is going to be archived.
+The terraform templates that _should_ be used for deploying an Ops Manager, PAS and/or PKS, can be found at https://github.com/pivotal/paving
+No PRs or Issues will be responded to here.
+
 # Terraforming GCP
 
 ## How Does One Use This?
