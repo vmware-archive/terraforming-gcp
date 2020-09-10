@@ -34,7 +34,7 @@ module "ops_manager" {
 
   opsman_machine_type                = "${var.opsman_machine_type}"
   opsman_image                       = "${var.opsman_image}"
-  optional_opsman_image_url          = "${var.optional_opsman_image_url}"
+  optional_opsman_image              = "${var.optional_opsman_image}"
   create_iam_service_account_members = "${var.create_iam_service_account_members}"
 
   pcf_network_name = "${module.infra.network}"
