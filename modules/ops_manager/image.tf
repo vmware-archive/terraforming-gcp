@@ -6,7 +6,9 @@ resource "google_compute_image" "ops-manager-image" {
     create = "20m"
   }
 
-  source_image = "projects/pivotal-ops-manager-images/global/images/ops-manager-2-10-build-48"
+  raw_disk {
+    source = "${var.optional_opsman_image_url}"
+  }
 }
 
 resource "google_compute_image" "optional-ops-manager-image" {
@@ -17,5 +19,7 @@ resource "google_compute_image" "optional-ops-manager-image" {
     create = "20m"
   }
 
-  source_image = "projects/pivotal-ops-manager-images/global/images/ops-manager-2-10-build-48"
+  raw_disk {
+    source = "${var.optional_opsman_image_url}"
+  }
 }
