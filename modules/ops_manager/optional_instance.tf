@@ -11,7 +11,7 @@ resource "google_compute_instance" "optional-ops-manager" {
 
   boot_disk {
     initialize_params {
-      image = "projects/pivotal-ops-manager-images/global/images/ops-manager-2-10-build-48"
+      image = "projects/pivotal-ops-manager-images/global/images/${var.opsman_image}"
       size  = 150
     }
   }

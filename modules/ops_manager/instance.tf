@@ -3,7 +3,7 @@ resource "google_compute_instance" "ops-manager" {
   machine_type = "${var.opsman_machine_type}"
   zone         = "${element(var.zones, 1)}"
   tags         = ["${var.env_name}-ops-manager-external"]
-  count        = "${var.opsman_image_url == "" ? 0 : 1}"
+  count        = "${var.opsman_image == "" ? 0 : 1}"
 
   timeouts {
     create = "${var.ops_man_image_creation_timeout}"
@@ -11,7 +11,7 @@ resource "google_compute_instance" "ops-manager" {
 
   boot_disk {
     initialize_params {
-      image = "projects/pivotal-ops-manager-images/global/images/ops-manager-2-10-build-48"
+      image = "projects/pivotal-ops-manager-images/global/images/${var.opsman_image}"
       type  = "pd-ssd"
       size  = 150
     }

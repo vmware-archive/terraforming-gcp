@@ -12,7 +12,7 @@ variable "zones" {
 
 variable "opsman_machine_type" {}
 variable "opsman_storage_bucket_count" {}
-variable "opsman_image_url" {}
+variable "opsman_image" {}
 
 variable "optional_opsman_image_url" {
   default = ""
