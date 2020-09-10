@@ -11,7 +11,7 @@ resource "google_compute_instance" "ops-manager" {
 
   boot_disk {
     initialize_params {
-      image = "${google_compute_image.ops-manager-image.self_link}"
+      image = "projects/pivotal-ops-manager-images/global/images/ops-manager-2-10-build-48"
       type  = "pd-ssd"
       size  = 150
     }
