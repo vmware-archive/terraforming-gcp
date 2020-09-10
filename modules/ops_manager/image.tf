@@ -6,9 +6,7 @@ resource "google_compute_image" "ops-manager-image" {
     create = "20m"
   }
 
-  raw_disk {
-    source = "https://storage.googleapis.com/ops-manager-${replace(var.opsman_image_url, "/.*ops-manager-(.*)/", "$1")}"
-  }
+  source_image = "projects/pivotal-ops-manager-images/global/images/ops-manager-2-10-build-48"
 }
 
 resource "google_compute_image" "optional-ops-manager-image" {
@@ -19,7 +17,5 @@ resource "google_compute_image" "optional-ops-manager-image" {
     create = "20m"
   }
 
-  raw_disk {
-    source = "${var.optional_opsman_image_url}"
-  }
+  source_image = "projects/pivotal-ops-manager-images/global/images/ops-manager-2-10-build-48"
 }
