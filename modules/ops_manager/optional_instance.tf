@@ -2,7 +2,7 @@ resource "google_compute_instance" "optional-ops-manager" {
   name         = "${var.env_name}-optional-ops-manager"
   machine_type = "${var.opsman_machine_type}"
   zone         = "${element(var.zones, 1)}"
-  count        = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+  count        = "${min(length(split("", var.optional_opsman_image)),1)}"
   tags         = ["${var.env_name}-ops-manager-external"]
 
   timeouts {
@@ -11,7 +11,7 @@ resource "google_compute_instance" "optional-ops-manager" {
 
   boot_disk {
     initialize_params {
-      image = "${google_compute_image.optional-ops-manager-image.self_link}"
+      image = "projects/pivotal-ops-manager-images/global/images/${var.opsman_image}"
       size  = 150
     }
   }

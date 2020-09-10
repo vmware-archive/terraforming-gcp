@@ -42,14 +42,14 @@ variable "zones" {
   type = "list"
 }
 
-variable "opsman_image_url" {
+variable "opsman_image" {
   type        = "string"
-  description = "Location of ops manager image on google cloud storage"
+  description = "Name of ops manager image"
 }
 
-variable "optional_opsman_image_url" {
+variable "optional_opsman_image" {
   type        = "string"
-  description = "Location of ops manager image (to be used for optional extra instance) on google cloud storage"
+  description = "Name of ops manager image (to be used for optional extra instance)"
   default     = ""
 }
 

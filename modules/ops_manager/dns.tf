@@ -12,7 +12,7 @@ resource "google_dns_record_set" "optional-ops-manager-dns" {
   name  = "pcf-optional.${var.dns_zone_dns_name}"
   type  = "A"
   ttl   = 300
-  count = "${min(length(split("", var.optional_opsman_image_url)),1)}"
+  count = "${min(length(split("", var.optional_opsman_image)),1)}"
 
   managed_zone = "${var.dns_zone_name}"
 
