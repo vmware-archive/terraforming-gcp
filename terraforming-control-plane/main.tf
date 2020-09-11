@@ -40,8 +40,8 @@ module "ops_manager" {
   opsman_storage_bucket_count        = "${var.opsman_storage_bucket_count}"
   create_iam_service_account_members = "${var.create_iam_service_account_members}"
   opsman_machine_type                = "${var.opsman_machine_type}"
-  opsman_image_url                   = "${var.opsman_image_url}"
-  optional_opsman_image_url          = "${var.optional_opsman_image_url}"
+  opsman_image                       = "${var.opsman_image}"
+  optional_opsman_image              = "${var.optional_opsman_image}"
 
   pcf_network_name  = "${module.infra.network}"
   subnet            = "${module.infra.subnet}"
