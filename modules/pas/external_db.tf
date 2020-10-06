@@ -134,7 +134,6 @@ resource "google_sql_user" "pas" {
   name     = "${random_id.pas_db_username.b64}"
   password = "${random_id.pas_db_password.b64}"
   instance = "${var.sql_instance}"
-  host     = "${var.pas_sql_db_host}"
 
   count = "${local.external_db_count}"
 }
