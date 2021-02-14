@@ -11,7 +11,7 @@ output "apps_domain" {
 }
 
 output "tcp_domain" {
-  value = "${replace(google_dns_record_set.tcp-dns.name, "/\\.$/", "")}"
+  value = "${replace(element(concat(google_dns_record_set.tcp-dns.*.name, list("")), 0), "/\\.$/", "")}"
 }
 
 output "buildpacks_bucket" {

@@ -40,6 +40,8 @@ variable "zones" {
 
 variable "create_gcs_buckets" {}
 
+variable "create_tcp_router" {}
+
 variable "buckets_location" {}
 
 variable "ssl_certificate" {

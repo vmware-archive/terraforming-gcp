@@ -1,17 +1,20 @@
+locals {
+  count_regional = "${(!var.global && var.count > 0 ) ? 1 : 0}"
+}
 resource "google_compute_address" "lb" {
-  name = "${var.env_name}-${var.name}-address"
+  name = "${var.name}-address"
 
-  count = "${var.count}"
+  count = "${local.count_regional}"
 }
 
 resource "google_compute_forwarding_rule" "lb" {
-  name        = "${var.env_name}-${var.name}-lb-${count.index}"
+  name        = "${var.name}-lb-${count.index}"
   ip_address  = "${google_compute_address.lb.address}"
   target      = "${google_compute_target_pool.lb.self_link}"
   port_range  = "${element(var.forwarding_rule_ports, count.index)}"
   ip_protocol = "TCP"
 
-  count = "${var.count > 0 ? length(var.forwarding_rule_ports) : 0}"
+  count = "${local.count_regional > 0 ? length(var.forwarding_rule_ports) : 0}"
 }
 
 resource "google_compute_target_pool" "lb" {
@@ -19,5 +22,5 @@ resource "google_compute_target_pool" "lb" {
 
   health_checks = ["${google_compute_http_health_check.lb.*.name}"]
 
-  count = "${var.count}"
+  count = "${local.count_regional}"
 }
