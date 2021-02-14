@@ -54,6 +54,10 @@ output "tcp_router_pool" {
   value = "${module.tcprouter.name}"
 }
 
+output "mesh_router_pool" {
+  value = "${module.mesh-router.name}"
+}
+
 output "pas_subnet_gateway" {
   value = "${google_compute_subnetwork.pas.gateway_address}"
 }

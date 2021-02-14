@@ -84,3 +84,25 @@ module "tcprouter" {
   health_check_healthy_threshold   = 10
   health_check_unhealthy_threshold = 2
 }
+
+module "mesh-router" {
+  source = "../load_balancer"
+
+  env_name = "${var.env_name}"
+  name     = "meshrouter"
+
+  global  = false
+  network = "${var.network}"
+  count   = "1"
+
+  ports                 = ["80", "443"]
+  lb_name               = "${var.env_name}-cf-mesh"
+  forwarding_rule_ports = ["80", "443"]
+
+  health_check                     = true
+  health_check_port                = "8002"
+  health_check_interval            = 5
+  health_check_timeout             = 3
+  health_check_healthy_threshold   = 3
+  health_check_unhealthy_threshold = 3
+}
